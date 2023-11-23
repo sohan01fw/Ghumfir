@@ -1,18 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Trips from './trip/pages/Trips';
+import MainNavigation from './shared/components/Navigation/MainNavigation';
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-    <div>
-      <h2>Hello World !</h2>
-    </div>
-    </>
-  )
+  <Router>
+    
+    <MainNavigation />
+    <Routes>          
+    <Route path='/' exact Component={Trips}>
+    </Route>
+    </Routes>
+  </Router>    
+  );
 }
 
 export default App
