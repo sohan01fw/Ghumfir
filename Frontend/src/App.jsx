@@ -9,7 +9,7 @@ function App() {
       <Router>
         {/*   <MainNavigation /> */}
         <Routes>
-          <Route path="/" exact Component={Trips} />
+          <Route path="/" exact element={<Trips />} />
           <Route path="/about" exact element={<About />} />
         </Routes>
       </Router>
