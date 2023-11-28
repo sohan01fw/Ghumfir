@@ -1,7 +1,10 @@
-import React from "react";
 
 const Trips = () => {
-  return <div>Trips</div>;
+  return (
+    <div>
+    <h1>hello</h1>
+  </div>
+  );
 };
 
 export default Trips;

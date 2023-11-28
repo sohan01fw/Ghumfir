@@ -7,11 +7,14 @@ function App() {
   return (
     <>
       <Router>
-        {/*   <MainNavigation /> */}
-        <Routes>
+          <MainNavigation />
+
+      <main>
+      <Routes>
           <Route path="/" exact element={<Trips />} />
           <Route path="/about" exact element={<About />} />
         </Routes>
+      </main>
       </Router>
     </>
   );
