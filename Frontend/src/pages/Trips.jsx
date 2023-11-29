@@ -79,8 +79,8 @@ const Trips = () => {
   };
 
   return (
-    <div className="trips">
-      <form onSubmit={handleSubmit}>
+    // <div className="trips">
+      <form onSubmit={handleSubmit} className="trips-form">
         <label>
           Destination:
           <input
@@ -94,12 +94,12 @@ const Trips = () => {
             onBlur={validateDestination}
           />
           {errors.destination && (
-            <div className="form-invalid">{errors.destination}</div>
+            <div className="error-message">{errors.destination}</div>
           )}
         </label>
         <br />
 
-        <label>
+        <label className="date-label">
           Start Date:
           <DatePicker
             selected={startDate}
@@ -114,12 +114,12 @@ const Trips = () => {
             placeholderText="Select Start Date"
           />
           {errors.startDate && (
-            <div className="form-invalid">{errors.startDate}</div>
+            <div className="error-message">{errors.startDate}</div>
           )}
         </label>
         <br />
 
-        <label>
+        <label className="date-label">
           End Date:
           <DatePicker
             selected={endDate}
@@ -133,17 +133,17 @@ const Trips = () => {
             placeholderText="Select End Date"
           />
           {errors.endDate && (
-            <div className="form-invalid">{errors.endDate}</div>
+            <div className="error-message">{errors.endDate}</div>
           )}
         </label>
         <br />
         {errors.dateRange && (
-          <div className="form-invalid">{errors.dateRange}</div>
+          <div className="error-message">{errors.dateRange}</div>
         )}
 
         <button type="submit">Plan Trip</button>
       </form>
-    </div>
+    // </div>
   );
 };
 
