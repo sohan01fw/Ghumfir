@@ -1,0 +1,11 @@
+.trips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(232, 232, 232);
+}
+
+.form-invalid {
+    color: red;
+}
