@@ -1,8 +1,6 @@
-import React from "react";
 import GoogleMapReact from "google-map-react";
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
-export default function googleMap() {
+export default function GoogleMap() {
   const defaultProps = {
     center: {
       address: "1600 Amphitheatre Parkway, Mountain View, california.",
@@ -21,7 +19,6 @@ export default function googleMap() {
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
       >
-        <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" />
       </GoogleMapReact>
     </div>
   );

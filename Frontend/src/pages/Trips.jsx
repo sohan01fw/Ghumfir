@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // import FormInput from "../Components/FormInput/FormInput";
 
 import "./Trips.css";
+// import GoogleMap from "../Components/map/GoogleMap";
 const Trips = () => {
   //state for form inputs
   const [destination, setDestination] = useState("");
@@ -141,7 +142,7 @@ const Trips = () => {
           <div className="error-message">{errors.dateRange}</div>
         )}
 
-        <button type="submit">Plan Trip</button>
+        <button type="submit" >Plan Trip</button>
       </form>
     // </div>
   );
