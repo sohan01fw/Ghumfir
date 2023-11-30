@@ -11,6 +11,10 @@ const NavLinks = () => {
       <li>
         <NavLink to="/about"> About </NavLink>
       </li>
+      <li>
+        <NavLink to="/tripDetails"> Trip Details </NavLink>
+      </li>
+
       {/* <li>
         <NavLink to="/contact"> Contact </NavLink>
       </li> */}
