@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "\"Travel planner and itinerary web app\"",
   "main": "index.ts",
+  
   "scripts": {
     "start": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,6 +27,7 @@
     "@types/node": "^20.10.1",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "tslib": "^2.6.2",
     "typescript": "^5.3.2"
   }
