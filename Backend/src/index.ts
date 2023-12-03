@@ -20,11 +20,13 @@ app.use(compression());
 
 require("dotenv").config();
 const port = process.env.PORT;
-
+//handling db connection
+require("../src/Db/dbConn.ts");
 //Handeling routes using express middleware
 app.use(TripRouter);
+
 app.get("/", (req: Request, res: Response) => {
-  console.log("Hello World!");
+  res.send("Hello World!");
 });
 
 app.listen(port, () => {
