@@ -1,19 +1,18 @@
-/* .trips {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: rgb(232, 232, 232);
-} */
-/* TripPlannerForm.css */
+.trips {
+  width: 100%;
+}
 
 form {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* margin: 1rem; */
+    padding: 1rem;
+    /* border: 1px solid #ccc; */
+    /* border-radius: 1px solid #333; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
   }
   
   label {
@@ -26,10 +25,16 @@ form {
     padding: 8px;
     margin-bottom: 10px;
     box-sizing: border-box;
+    border-radius: .25rem;
   }
-  
+
+  /* .date-input {
+    display: flex;
+    justify-content: center;
+  } */
   .date-label {
     display: block;
+    margin-right: 1rem;
     margin-bottom: 10px;
     font-weight: bold;
   }
@@ -41,7 +46,7 @@ form {
   
   button {
     padding: 12px 24px; 
-    background-color: #4caf50;
+    background-color: #2980b9;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -49,5 +54,5 @@ form {
   }
   
   button:hover {
-    background-color: #45a049;
+    background-color: #5bc0de;
   }
