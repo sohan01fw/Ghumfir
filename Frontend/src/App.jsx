@@ -5,28 +5,23 @@ import About from "./pages/About";
 // import GoogleMap from "./Components/map/GoogleMap";
 import TripDetails from "./pages/TripDetails";
 import { TripFormProvider } from "./Contexts/TripFormContext";
-// import Footer from "./Components/Footer/Footer";
+import Footer from "./Components/Footer/Footer";
 
 function App() {
   return (
     <>
-    <TripFormProvider>
-
-
-      <Router>
+      <TripFormProvider>
+        <Router>
           <MainNavigation />
-
-      <main>
-      <Routes>
-          <Route path="/" exact element={<Trips />} />
-          <Route path="/about" exact element={<About />} />
-          <Route path="/tripDetails" exact element={<TripDetails />} />
-
-        </Routes>
-      </main>
-      </Router>
-
-      {/* <Footer /> */}
+          <main>
+            <Routes>
+              <Route path="/" exact element={<Trips />} />
+              <Route path="/about" exact element={<About />} />
+              <Route path="/tripDetails" exact element={<TripDetails />} />
+            </Routes>
+          </main>
+          <Footer />
+        </Router>
       </TripFormProvider>
     </>
   );

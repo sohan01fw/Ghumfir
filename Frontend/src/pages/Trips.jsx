@@ -85,8 +85,10 @@ const Trips = () => {
     }
 
   return (
-    <form onSubmit={handleSubmit} className="trips-form">
-      <label>
+    <div className="trips">
+      <form onSubmit={handleSubmit} className="trips-form">
+    <div className="destination-input">
+    <label>
         Destination:
         <input
           type="text"
@@ -101,9 +103,12 @@ const Trips = () => {
           <div className="error-message">{errors.destination}</div>
         )}
       </label>
+    </div>
       <br />
 
-      <label className="date-label">
+
+   <div className="date-input">
+   <label className="date-label">
         Start Date:
         <DatePicker
           selected={startDate}
@@ -139,6 +144,7 @@ const Trips = () => {
           <div className="error-message">{errors.endDate}</div>
         )}
       </label>
+   </div>
       <br />
       {errors.dateRange && (
         <div className="error-message">{errors.dateRange}</div>
@@ -147,6 +153,7 @@ const Trips = () => {
    <button type="submit" onClick={() => console.log('Button Clicked')}>Plan Trip</button>
 
     </form>
+    </div>
   );
 };
 
