@@ -8,10 +8,8 @@ import compression from "compression";
 //cors
 import cors from "cors";
 import { TripRouter } from "./routes/tripPlanRoute.ts";
-import { authRouter } from "./routes/auth.ts";
-import logger from "morgan";
-import session from "express-session";
-import path from "path";
+/* import logger from "morgan"; */
+import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 
@@ -24,25 +22,21 @@ app.use(compression());
 
 require("dotenv").config();
 const port = process.env.PORT;
+
 //handling db connection
-require("../src/Db/dbConn.ts");
+require("./Db/dbConn.ts");
 //Handeling routes using express middleware
 app.use(TripRouter);
-//auth router mw
-app.use(authRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
-app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
 
+// Initialize Passport
+
+app.get("*", (req, res) => {
+  res.status(404).send("Not Found");
+});
 app.listen(port, () => {
   console.log(`app listening on port http://localhost:${port}`);
 });
