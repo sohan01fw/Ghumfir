@@ -7,9 +7,10 @@ import cookieParser from "cookie-parser";
 import compression from "compression";
 //cors
 import cors from "cors";
-import { TripRouter } from "./routes/tripPlanRoute.ts";
 /* import logger from "morgan"; */
 import { v4 as uuidv4 } from "uuid";
+import { TripRouter } from "./routes/tripPlanRoute.ts";
+import { UserRouter } from "./routes/UserRoute.ts";
 
 const app = express();
 
@@ -27,16 +28,16 @@ const port = process.env.PORT;
 require("./Db/dbConn.ts");
 //Handeling routes using express middleware
 app.use(TripRouter);
-
+app.use(UserRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
 // Initialize Passport
 
-app.get("*", (req, res) => {
+/* app.get("*", (req, res) => {
   res.status(404).send("Not Found");
-});
+}); */
 app.listen(port, () => {
   console.log(`app listening on port http://localhost:${port}`);
 });
