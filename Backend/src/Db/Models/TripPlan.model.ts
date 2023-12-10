@@ -1,11 +1,6 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
+import { TripPlan } from "../../../types";
 
-interface TripPlan {
-  userId: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-}
 const tripPlanSchema = new Schema<TripPlan>({
   userId: {
     type: String,
@@ -24,6 +19,6 @@ const tripPlanSchema = new Schema<TripPlan>({
   },
 });
 
-const UserTripPlanModel = model<TripPlan>("UserTripPlan", tripPlanSchema);
-
-module.exports = UserTripPlanModel;
+export const UserTripPlanModel =
+  mongoose.models.UserTripPlan ||
+  mongoose.model<TripPlan>("UserTripPlans", tripPlanSchema);
