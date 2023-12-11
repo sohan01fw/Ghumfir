@@ -17,12 +17,12 @@ const UserSchema = new mongoose.Schema<User>(
       type: String,
       reqired: true,
     },
-    /* TripPlans: [
+    itineraries: [
       {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "UserTripPlans",
       },
-    ], */
+    ],
   },
   { timestamps: true }
 );
