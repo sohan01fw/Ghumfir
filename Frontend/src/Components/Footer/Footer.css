@@ -1,14 +1,22 @@
-/* Footer Styles */
-footer {
-    background-color: #f5f5f5;
+
+/* footer {
+     background-color: red;
     color: #333;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
     padding: 20px 0;
-    position: fixed;
-    bottom: 0;
+    margin-top: auto;
     width: 100%;
-  }
+  } */
   
+  footer {
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
+  }
+
   .footer-content {
     display: flex;
     justify-content: space-between;

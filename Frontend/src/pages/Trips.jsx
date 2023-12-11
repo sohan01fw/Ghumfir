@@ -8,10 +8,7 @@ import "./Trips.css";
 import { useTripForm } from "../Contexts/TripFormContext";
 
 const Trips = () => {
-
-  const{ setTripData }= useTripForm();
-
- 
+  const { setTripData } = useTripForm();
 
   const navigate = useNavigate();
 
@@ -48,11 +45,11 @@ const Trips = () => {
 
     if (startDate && endDate && startDate > endDate) {
       validationErrors.dateRange = "End date must be after start date";
-    }else {
+    } else {
       validationErrors.dateRange = "";
     }
 
-    setErrors((prevErrors) => ({ ...prevErrors,...validationErrors }));
+    setErrors((prevErrors) => ({ ...prevErrors, ...validationErrors }));
   };
 
   //function to handle form submission
@@ -63,8 +60,6 @@ const Trips = () => {
     //validate the form data
     validateDestination();
     validateDates();
-
-    
 
     if (
       !errors.destination &&
@@ -81,78 +76,73 @@ const Trips = () => {
     } else {
       console.log("Form validation failed");
     }
+  };
 
-    }
 
   return (
     <div className="trips">
+      <h2>Plan a New Trip</h2>
       <form onSubmit={handleSubmit} className="trips-form">
-    <div className="destination-input">
-    <label>
-        Destination:
-        <input
-          type="text"
-          value={destination}
-          onChange={(e) => {
-            setDestination(e.target.value);
-            setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
-          }}
-          onBlur={validateDestination}
-        />
-        {errors.destination && (
-          <div className="error-message">{errors.destination}</div>
+        <div className="destination-input">
+          <label className="destination-label">Destination:</label>
+          <input
+            type="text"
+            value={destination}
+            onChange={(e) => {
+              setDestination(e.target.value);
+              setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
+            }}
+            onBlur={validateDestination}
+            placeholder="e.g Kathmandu, Lumbini"
+          />
+          {errors.destination && (
+            <div className="error-message">{errors.destination}</div>
+          )}
+        </div>
+        <br />
+
+        <div className="date-input">
+            <label className="date-label">Start Date:</label>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => {
+                setStartDate(date);
+                setErrors((prevErrors) => ({ ...prevErrors, startDate: "" }));
+              }}
+              onBlur={validateDates}
+              dateFormat="MM/dd/yyyy"
+              isClearable
+              placeholderText="Select Start Date"
+              showTimeInput = {false}
+            />
+            {errors.startDate && (
+              <div className="error-message">{errors.startDate}</div>
+            )}
+          <label className="date-label">End Date:</label>
+          <DatePicker
+            selected={endDate}
+            onChange={(date) => {
+              setEndDate(date);
+              setErrors((prevErrors) => ({ ...prevErrors, endDate: "" }));
+            }}
+            onBlur={validateDates}
+            dateFormat="MM/dd/yyyy"
+            isClearable
+            placeholderText="Select End Date"
+          />
+          {errors.endDate && (
+            <div className="error-message">{errors.endDate}</div>
+          )}
+        </div>
+        <br />
+        {errors.dateRange && (
+          <div className="error-message">{errors.dateRange}</div>
         )}
-      </label>
-    </div>
-      <br />
 
-
-   <div className="date-input">
-   <label className="date-label">
-        Start Date:
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => {
-            setStartDate(date);
-            setErrors((prevErrors) => ({ ...prevErrors, startDate: "" }));
-          }}
-          onBlur={validateDates}
-          dateFormat="MM/dd/yyyy"
-          isClearable
-          placeholderText="Select Start Date"
-        />
-        {errors.startDate && (
-          <div className="error-message">{errors.startDate}</div>
-        )}
-      </label>
-      <br />
-
-      <label className="date-label">
-        End Date:
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => {
-            setEndDate(date);
-            setErrors((prevErrors) => ({ ...prevErrors, endDate: "" }));
-          }}
-          onBlur={validateDates}
-          dateFormat="MM/dd/yyyy"
-          isClearable
-          placeholderText="Select End Date"
-        />
-        {errors.endDate && (
-          <div className="error-message">{errors.endDate}</div>
-        )}
-      </label>
-   </div>
-      <br />
-      {errors.dateRange && (
-        <div className="error-message">{errors.dateRange}</div>
-      )}
-
-   <button type="submit" onClick={() => console.log('Button Clicked')}>Plan Trip</button>
-
-    </form>
+        <button type="submit" onClick={() => console.log("Button Clicked")}>
+          Plan Trip
+        </button>
+      </form>
     </div>
   );
 };
