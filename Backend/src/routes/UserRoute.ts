@@ -1,6 +1,6 @@
-import UserController from "../Controllers/UserController.ts";
+import UserCreate from "../Controllers/UserController";
 import express from "express";
 
 export const UserRouter = express.Router();
 
-UserRouter.post("/user", UserController);
+UserRouter.post("/user", UserCreate);
