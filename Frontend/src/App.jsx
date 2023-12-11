@@ -6,11 +6,12 @@ import About from "./pages/About";
 import TripDetails from "./pages/TripDetails";
 import { TripFormProvider } from "./Contexts/TripFormContext";
 import Footer from "./Components/Footer/Footer";
-import AddBlog from "./pages/addBlog";
+import Auth from "./pages/Auth";
+import Blog from "./pages/Blog";
 
 function App() {
   return (
-    <>
+    <div className="app-container">
       <TripFormProvider>
         <Router>
           <MainNavigation />
@@ -19,13 +20,15 @@ function App() {
               <Route path="/" exact element={<Trips />} />
               <Route path="/about" exact element={<About />} />
               <Route path="/tripDetails" exact element={<TripDetails />} />
-              <Route path="/addBlog" exact element={<AddBlog />} />
+              <Route path="/Blog" exact element={<Blog />} />
+              <Route path="/auth" element={<Auth />} />
             </Routes>
           </main>
           <Footer />
         </Router>
+      
       </TripFormProvider>
-    </>
+      </div>
   );
 }
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import './AddBlog.css';
+import './Blog.css';
 
-const AddBlog = () => {
+const Blog = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
@@ -36,7 +36,7 @@ const AddBlog = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='blog-form'>
       <label>
         Title:
         <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -57,4 +57,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default Blog;

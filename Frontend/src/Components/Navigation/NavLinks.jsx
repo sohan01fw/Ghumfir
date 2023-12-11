@@ -15,7 +15,10 @@ const NavLinks = () => {
         <NavLink to="/tripDetails"> Trip Details </NavLink>
       </li>
       <li>
-        <NavLink to="/addBlog"> Add Blog </NavLink>
+        <NavLink to="/Blog"> Blog </NavLink>
+      </li>
+      <li>
+        <NavLink to="/auth"> Authenticate </NavLink>
       </li>
 
       {/* <li>
