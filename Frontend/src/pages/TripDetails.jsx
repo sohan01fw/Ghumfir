@@ -1,44 +1,65 @@
 // TripDetails.js
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-// import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { useTripForm } from '../Contexts/TripFormContext';
+import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "react-datepicker/dist/react-datepicker.css";
+import { useTripForm } from "../Contexts/TripFormContext";
+
+import './TripDetails.css';
+import SideBar from "../Components/Navigation/SideBar";
 
 const TripDetails = () => {
   const { tripData, setTripData } = useTripForm();
   const navigate = useNavigate();
-  const [newPlace, setNewPlace] = useState('');
+  const [newPlace, setNewPlace] = useState("");
   const [selectedDay, setSelectedDay] = useState(1);
 
   const getDaysArray = (start, end) => {
     const daysArray = [];
-    for (let currentDate = start; currentDate <= end; currentDate.setDate(currentDate.getDate() + 1)) {
+    for (
+      let currentDate = start;
+      currentDate <= end;
+      currentDate.setDate(currentDate.getDate() + 1)
+    ) {
       daysArray.push(new Date(currentDate));
     }
     return daysArray;
   };
 
-  const daysBetween = getDaysArray(new Date(tripData.startDate), new Date(tripData.endDate));
+  const daysBetween = getDaysArray(
+    new Date(tripData.startDate),
+    new Date(tripData.endDate)
+  );
 
   const handleAddPlace = () => {
-    if (newPlace.trim() !== '') {
+    if (newPlace.trim() !== "") {
       setTripData((prevData) => {
         const updatedItinerary = [...prevData.itinerary];
         const dayIndex = selectedDay - 1;
-        updatedItinerary[dayIndex] = [...(updatedItinerary[dayIndex] || []), newPlace];
+        updatedItinerary[dayIndex] = [
+          ...(updatedItinerary[dayIndex] || []),
+          newPlace,
+        ];
         return {
           ...prevData,
           itinerary: updatedItinerary,
         };
       });
 
-      setNewPlace('');
+      setNewPlace("");
     }
   };
 
   return (
-    <>
+    <div className="trip-details">
+      <SideBar />
+      <div className="content">
+      <Routes>
+        <Route path = "/places" element = {<PlacesToVisit />}></Route>
+        <Route path = "/itineraries" element = {<Itineraries />}></Route>
+        <Route path = "/budget" element = {<Budget />}></Route>
+      </Routes>
+      </div>
       <div>
         <h2>Trip Details</h2>
         <p>Destination: {tripData.destination}</p>
@@ -50,14 +71,20 @@ const TripDetails = () => {
         <div key={index}>
           <h3>{`Day ${index + 1} - ${day.toDateString()}`}</h3>
           <ul>
-          {tripData.itinerary && tripData.itinerary[index] && tripData.itinerary[index].map((place, placeIndex) => (
-              <li key={placeIndex}>{place}</li>
-            ))}
+            {tripData.itinerary &&
+              tripData.itinerary[index] &&
+              tripData.itinerary[index].map((place, placeIndex) => (
+                <li key={placeIndex}>{place}</li>
+              ))}
           </ul>
           <form>
             <label>
               Places to Visit:
-              <input type="text" value={newPlace} onChange={(e) => setNewPlace(e.target.value)} />
+              <input
+                type="text"
+                value={newPlace}
+                onChange={(e) => setNewPlace(e.target.value)}
+              />
               <button type="button" onClick={handleAddPlace}>
                 Add
               </button>
@@ -66,8 +93,8 @@ const TripDetails = () => {
         </div>
       ))}
 
-      <button onClick={() => navigate('/')}>Go Back to Trips</button>
-    </>
+      <button onClick={() => navigate("/")}>Go Back to Trips</button>
+    </div>
   );
 };
 
