@@ -1,19 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-const Itineraries = ({ itinerary, selectedDay, handleAddPlace }) => {
+const PlacesToVisit = ({ handleAddPlace }) => {
   const [newPlace, setNewPlace] = useState("");
 
   return (
     <div>
-      <h3>{`Day ${selectedDay} Itinerary`}</h3>
-      <ul>
-        {itinerary.map((place, placeIndex) => (
-          <li key={placeIndex}>{place}</li>
-        ))}
-      </ul>
+      <h2>Places to Visit</h2>
       <form>
         <label>
-          Place to Visit:
+          Places to Visit:
           <input
             type="text"
             value={newPlace}
@@ -28,4 +23,4 @@ const Itineraries = ({ itinerary, selectedDay, handleAddPlace }) => {
   );
 };
 
-export default Itineraries;
+export default PlacesToVisit;

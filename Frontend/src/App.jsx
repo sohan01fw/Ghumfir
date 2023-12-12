@@ -15,15 +15,16 @@ function App() {
       <TripFormProvider>
         <Router>
           <MainNavigation />
-          <main>
-            <Routes>
+          <div className="main-content">
+          <Routes>
               <Route path="/" exact element={<Trips />} />
               <Route path="/about" exact element={<About />} />
               <Route path="/tripDetails" exact element={<TripDetails />} />
               <Route path="/Blog" exact element={<Blog />} />
               <Route path="/auth" element={<Auth />} />
             </Routes>
-          </main>
+          
+          </div>
           <Footer />
         </Router>
       
