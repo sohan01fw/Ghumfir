@@ -11,5 +11,10 @@
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "include": ["src/**/*"]
+  "typeRoots": ["node_modules/@types", "./types"],
+  "include": [
+    "./**/*",
+    "src/**/*",
+    "./types/**/*.{ts,d.ts}" // Include both .ts and .d.ts files
+  ]
 }
