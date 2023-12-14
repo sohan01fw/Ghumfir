@@ -1,6 +1,8 @@
-import UserCreate from "../Controllers/UserController";
+import { UserCreate, handleDeleteUser } from "../Controllers/UserController";
 import express from "express";
 
 export const UserRouter = express.Router();
 
-UserRouter.post("/user", UserCreate);
+UserRouter.route("/").post(UserCreate);
+
+UserRouter.route("/:id").delete(handleDeleteUser);
