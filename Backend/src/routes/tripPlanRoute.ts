@@ -1,6 +1,9 @@
-import createItineries from "../Controllers/ItineriesController";
+import createItineries, {
+  getItineries,
+} from "../Controllers/ItineriesController";
 import express from "express";
 
 export const TripRouter = express.Router();
 
-TripRouter.post("/create-trip", createItineries);
+TripRouter.route("/create-Itineries").post(createItineries);
+TripRouter.route("/").get(getItineries);
