@@ -34,6 +34,7 @@ require("./Db/dbConn.ts");
 //Handeling routes using express middleware
 app.use(TripRouter);
 app.use("/api/user", UserRouter);
+app.use("/api/itineries", TripRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
