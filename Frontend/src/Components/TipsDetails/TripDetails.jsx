@@ -3,10 +3,9 @@ import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { useTripForm } from "../Contexts/TripFormContext";
-
+import { useTripForm } from "../../Contexts/TripFormContext";
 import "./TripDetails.css";
-import SideBar from "../Components/Navigation/SideBar";
+import SideBar from "../Navigation/SideBar";
 import Itineraries from "./Itineraries";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
@@ -71,14 +70,17 @@ const TripDetails = () => {
       <div className="content">
         <PlacesToVisit handleAddPlace={handleAddPlace} />
         {daysBetween.map((day, index) => (
-  <Itineraries
-    key={index}
-    itinerary={tripData.itinerary && tripData.itinerary[index] ? tripData.itinerary[index] : []}
-    selectedDay={index + 1}
-    handleAddPlace={handleAddPlace}
-  />
-))}
-
+          <Itineraries
+            key={index}
+            itinerary={
+              tripData.itinerary && tripData.itinerary[index]
+                ? tripData.itinerary[index]
+                : []
+            }
+            selectedDay={index + 1}
+            handleAddPlace={handleAddPlace}
+          />
+        ))}
 
         <Budget />
 

@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
-import { useTripForm } from "../Contexts/TripFormContext";
+import { useTripForm } from "../../Contexts/TripFormContext";
 
 const Trips = () => {
   const { setTripData } = useTripForm();
@@ -78,7 +78,6 @@ const Trips = () => {
     }
   };
 
-
   return (
     <div className="trips">
       <h2>Plan a New Trip</h2>
@@ -102,22 +101,22 @@ const Trips = () => {
         <br />
 
         <div className="date-input">
-            <label className="date-label">Start Date:</label>
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => {
-                setStartDate(date);
-                setErrors((prevErrors) => ({ ...prevErrors, startDate: "" }));
-              }}
-              onBlur={validateDates}
-              dateFormat="MM/dd/yyyy"
-              isClearable
-              placeholderText="Select Start Date"
-              showTimeInput = {false}
-            />
-            {errors.startDate && (
-              <div className="error-message">{errors.startDate}</div>
-            )}
+          <label className="date-label">Start Date:</label>
+          <DatePicker
+            selected={startDate}
+            onChange={(date) => {
+              setStartDate(date);
+              setErrors((prevErrors) => ({ ...prevErrors, startDate: "" }));
+            }}
+            onBlur={validateDates}
+            dateFormat="MM/dd/yyyy"
+            isClearable
+            placeholderText="Select Start Date"
+            showTimeInput={false}
+          />
+          {errors.startDate && (
+            <div className="error-message">{errors.startDate}</div>
+          )}
           <label className="date-label">End Date:</label>
           <DatePicker
             selected={endDate}
