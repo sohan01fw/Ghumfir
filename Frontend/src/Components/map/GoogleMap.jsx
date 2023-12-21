@@ -1,4 +1,5 @@
 import GoogleMapReact from "google-map-react";
+import LocationPin from "./LocationPin";
 
 export default function GoogleMap() {
   const defaultProps = {
@@ -9,7 +10,7 @@ export default function GoogleMap() {
     },
     zoom: 10,
   };
-  let key = "AIzaSyB9BxZfImxu-M-Jm81g_wdqSwPYjGxo-YI";
+  let key = import.meta.env.VITE_REACT_APP_GOOGLE_MAP_KEY;
 
   return (
     // Important! Always set the container height explicitly
@@ -18,8 +19,7 @@ export default function GoogleMap() {
         bootstrapURLKeys={{ key: key }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
-      >
-      </GoogleMapReact>
+      ></GoogleMapReact>
     </div>
   );
 }
