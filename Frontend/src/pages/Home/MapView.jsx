@@ -1,10 +1,18 @@
 import React from "react";
-import GoogleMap from "../../Components/map/GoogleMap";
-
+import { useJsApiLoader } from "@react-google-maps/api";
+import GoogleMaps from "../../Components/map/GoogleMaps";
+import InputLocation from "../../Components/map/InputLocation";
 const MapView = () => {
+  let key = import.meta.env.VITE_REACT_APP_GOOGLE_MAP_KEY;
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: key,
+  });
+
   return (
     <div>
-      <GoogleMap />
+      <InputLocation apiKey={key} />
+      <GoogleMaps isLoaded={isLoaded} />
     </div>
   );
 };
