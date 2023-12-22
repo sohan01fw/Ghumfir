@@ -12,7 +12,7 @@ const MapView = () => {
   return (
     <div>
       <InputLocation apiKey={key} />
-      <GoogleMaps isLoaded={isLoaded} />
+      {/* <GoogleMaps isLoaded={isLoaded} /> */}
     </div>
   );
 };
