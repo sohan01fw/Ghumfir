@@ -17,17 +17,14 @@ const TripDetails = () => {
   const [selectedDay, setSelectedDay] = useState(1);
   const [newPlace, setNewPlace] = useState("");
 
-  const {
-    destination,
-    startDate,
-    endDate,
-    itinerary = [],
-  } = tripData || {
-    destination: "",
-    startDate: null,
-    endDate: null,
-    itinerary: [],
-  };
+  const { destination, startDate, endDate, itinerary, placesToVisit } =
+    tripData || {
+      destination: "",
+      startDate: null,
+      endDate: null,
+      itinerary: [],
+      placesToVisit: [],
+    };
 
   const getDaysArray = (start, end) => {
     const daysArray = [];
@@ -46,39 +43,67 @@ const TripDetails = () => {
     new Date(tripData.endDate)
   );
 
-  const handleAddPlace = () => {
+  const handleAddPlace = (newPlace, sectionType) => {
     if (newPlace.trim() !== "") {
       setTripData((prevData) => {
-        const updatedItinerary = [...(prevData.itinerary || [])];
-        const dayIndex = selectedDay - 1;
-        updatedItinerary[dayIndex] = [
-          ...(updatedItinerary[dayIndex] || []),
-          newPlace,
-        ];
-        return {
-          ...prevData,
-          itinerary: updatedItinerary,
-        };
+        if (sectionType === "itinerary") {
+          const updatedItinerary = [...(prevData.itinerary || [])];
+          const dayIndex = selectedDay - 1;
+          updatedItinerary[dayIndex] = [
+            ...(updatedItinerary[dayIndex] || []),
+            newPlace,
+          ];
+          return {
+            ...prevData,
+            itinerary: updatedItinerary,
+          };
+        } else if (sectionType === "placesToVisit") {
+          return {
+            ...prevData,
+            placesToVisit: [...(prevData.placesToVisit || []), newPlace],
+          };
+        }
+        return prevData;
       });
-
       setNewPlace("");
     }
+  };
+
+  const renderPlacesToVisit = () => {
+    const { placesToVisit } = tripData;
+    if (!placesToVisit || placesToVisit.length === 0) {
+      return <p>No Places to visit. </p>;
+    }
+    return (
+      <div>
+        <h2>Places To Visit: </h2>
+        <ul>
+          {placesToVisit.map((place, index) => (
+            <li key={index}>{place}</li>
+          ))}
+        </ul>
+      </div>
+    );
   };
 
   return (
     <div className="trip-details">
       <SideBar />
       <div className="content">
-        <PlacesToVisit handleAddPlace={handleAddPlace} />
+        <PlacesToVisit handleAddPlace={(newPlace)=> handleAddPlace(newPlace, "placesToVisit")} />
+        {renderPlacesToVisit()}
         {daysBetween.map((day, index) => (
-  <Itineraries
-    key={index}
-    itinerary={tripData.itinerary && tripData.itinerary[index] ? tripData.itinerary[index] : []}
-    selectedDay={index + 1}
-    handleAddPlace={handleAddPlace}
-  />
-))}
-
+          <Itineraries
+            key={index}
+            itinerary={
+              tripData.itinerary && tripData.itinerary[index]
+                ? tripData.itinerary[index]
+                : []
+            }
+            selectedDay={index + 1}
+            handleAddPlace={(newPlace) => handleAddPlace(newPlace, "itinerary")}
+          />
+        ))}
 
         <Budget />
 

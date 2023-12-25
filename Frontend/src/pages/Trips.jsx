@@ -139,7 +139,7 @@ const Trips = () => {
           <div className="error-message">{errors.dateRange}</div>
         )}
 
-        <button type="submit" onClick={() => console.log("Button Clicked")}>
+        <button className = "trips-button" type="submit" onClick={() => console.log("Button Clicked")}>
           Plan Trip
         </button>
       </form>
