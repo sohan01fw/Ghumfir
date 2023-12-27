@@ -15,7 +15,12 @@ import { UserRouter } from "./routes/UserRoute.ts";
 const app = express();
 
 //Handeling packages
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:8000",
+    optionsSuccessStatus: 200,
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,7 +33,8 @@ const port = process.env.PORT;
 require("./Db/dbConn.ts");
 //Handeling routes using express middleware
 app.use(TripRouter);
-app.use(UserRouter);
+app.use("/api/user", UserRouter);
+app.use("/api/itineries", TripRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });

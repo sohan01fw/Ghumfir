@@ -1,8 +1,9 @@
 import { UserModel } from "../Db/Models/User.model.ts";
 import { User } from "../../types";
+import { Request, Response } from "express";
 
 //user creation
-export default async function UserCreate(req: any, res: any) {
+export async function UserCreate(req: Request, res: Response) {
   try {
     const { userId, email, name, itineraries }: User = req.body;
     const findUser = false;
@@ -26,3 +27,21 @@ export default async function UserCreate(req: any, res: any) {
     res.status(500).json({ msg: "Error while processing user" });
   }
 }
+//get users
+export async function getUsers(req: Request, res: Response) {
+  try {
+    const { userId } = req.body;
+    const resUsers = await UserModel.findOne({ userId });
+    res.send(resUsers);
+  } catch (error) {
+    res.status(404).json({ msg: "user not found" });
+  }
+}
+/* export async function handleDeleteUser(req: Request, res: Response) {
+  try {
+    const { userId } = req.body;
+    console.log(userId);
+  } catch (error) {
+    res.status(500).json({ msg: "error while deleting user" });
+  }
+} */

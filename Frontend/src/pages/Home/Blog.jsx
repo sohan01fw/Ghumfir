@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import './Blog.css';
+import "./Blog.css";
 
 const Blog = () => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
@@ -15,9 +15,9 @@ const Blog = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('image', image);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("image", image);
 
     // try {
     //   await axios.post('http://localhost:5000/api/blogs', formData, {
@@ -36,15 +36,22 @@ const Blog = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='blog-form'>
+    <form onSubmit={handleSubmit} className="blog-form">
       <label>
         Title:
-        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </label>
       <br />
       <label>
         Content:
-        <textarea value={content} onChange={(e) => setContent(e.target.value)} />
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
       </label>
       <br />
       <label>

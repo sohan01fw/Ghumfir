@@ -3,10 +3,9 @@ import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { useTripForm } from "../Contexts/TripFormContext";
-
+import { useTripForm } from "../../Contexts/TripFormContext";
 import "./TripDetails.css";
-import SideBar from "../Components/Navigation/SideBar";
+import SideBar from "../Navigation/SideBar";
 import Itineraries from "./Itineraries";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
@@ -17,14 +16,17 @@ const TripDetails = () => {
   const [selectedDay, setSelectedDay] = useState(1);
   const [newPlace, setNewPlace] = useState("");
 
-  const { destination, startDate, endDate, itinerary, placesToVisit } =
-    tripData || {
-      destination: "",
-      startDate: null,
-      endDate: null,
-      itinerary: [],
-      placesToVisit: [],
-    };
+  const {
+    destination,
+    startDate,
+    endDate,
+    itinerary = [],
+  } = tripData || {
+    destination: "",
+    startDate: null,
+    endDate: null,
+    itinerary: [],
+  };
 
   const getDaysArray = (start, end) => {
     const daysArray = [];
@@ -43,55 +45,30 @@ const TripDetails = () => {
     new Date(tripData.endDate)
   );
 
-  const handleAddPlace = (newPlace, sectionType) => {
+  const handleAddPlace = () => {
     if (newPlace.trim() !== "") {
       setTripData((prevData) => {
-        if (sectionType === "itinerary") {
-          const updatedItinerary = [...(prevData.itinerary || [])];
-          const dayIndex = selectedDay - 1;
-          updatedItinerary[dayIndex] = [
-            ...(updatedItinerary[dayIndex] || []),
-            newPlace,
-          ];
-          return {
-            ...prevData,
-            itinerary: updatedItinerary,
-          };
-        } else if (sectionType === "placesToVisit") {
-          return {
-            ...prevData,
-            placesToVisit: [...(prevData.placesToVisit || []), newPlace],
-          };
-        }
-        return prevData;
+        const updatedItinerary = [...(prevData.itinerary || [])];
+        const dayIndex = selectedDay - 1;
+        updatedItinerary[dayIndex] = [
+          ...(updatedItinerary[dayIndex] || []),
+          newPlace,
+        ];
+        return {
+          ...prevData,
+          itinerary: updatedItinerary,
+        };
       });
+
       setNewPlace("");
     }
-  };
-
-  const renderPlacesToVisit = () => {
-    const { placesToVisit } = tripData;
-    if (!placesToVisit || placesToVisit.length === 0) {
-      return <p>No Places to visit. </p>;
-    }
-    return (
-      <div>
-        <h2>Places To Visit: </h2>
-        <ul>
-          {placesToVisit.map((place, index) => (
-            <li key={index}>{place}</li>
-          ))}
-        </ul>
-      </div>
-    );
   };
 
   return (
     <div className="trip-details">
       <SideBar />
       <div className="content">
-        <PlacesToVisit handleAddPlace={(newPlace)=> handleAddPlace(newPlace, "placesToVisit")} />
-        {renderPlacesToVisit()}
+        <PlacesToVisit handleAddPlace={handleAddPlace} />
         {daysBetween.map((day, index) => (
           <Itineraries
             key={index}
@@ -101,7 +78,7 @@ const TripDetails = () => {
                 : []
             }
             selectedDay={index + 1}
-            handleAddPlace={(newPlace) => handleAddPlace(newPlace, "itinerary")}
+            handleAddPlace={handleAddPlace}
           />
         ))}
 
