@@ -10,6 +10,7 @@ export const TripFormProvider = ({ children }) => {
     startDate: null,
     endDate: null,
     itinerary: [],
+    placesToVisit : [],
   });
 
   return (

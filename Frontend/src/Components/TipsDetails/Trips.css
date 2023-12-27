@@ -50,7 +50,7 @@
 }
 
 
-.trips button {
+.trips-button {
   background-color: #4caf50;
   color: #fff;
   padding: 10px;
@@ -61,6 +61,6 @@
   transition: background-color 0.3s;
 }
 
-.trips button:hover {
+.trips-button:hover {
   background-color: #45a049;
 }
