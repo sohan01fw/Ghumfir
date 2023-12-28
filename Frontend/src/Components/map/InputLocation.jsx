@@ -3,12 +3,19 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import "./InputLocation.css";
-const InputLocation = () => {
+import { useMemo } from "react";
+const InputLocation = ({ destination }) => {
   const {
     value,
     suggestions: { status, data },
     setValue,
   } = usePlacesAutocomplete();
+
+  useMemo(() => {
+    setValue(destination);
+  }, [destination]);
+
+  //selecting the location to get it's geo-code
   const handleSelect =
     ({ description }) =>
     () => {
@@ -36,14 +43,7 @@ const InputLocation = () => {
 
   return (
     <div>
-      <input
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder="Search Places"
-        className="input-location"
-      />
-
-      {/* Render dropdown  */}
+      {/* Render dropdown location  */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
   );
