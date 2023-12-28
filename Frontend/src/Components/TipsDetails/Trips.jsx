@@ -5,7 +5,9 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
-import { useTripForm } from "../../Contexts/TripFormContext";
+import { useTripForm } from "../../Store/Contexts/TripFormContext";
+import MapLocation, { key } from "../../pages/Home/MapLocation";
+import InputLocation from "../map/InputLocation";
 
 const Trips = () => {
   const { setTripData } = useTripForm();
@@ -18,20 +20,16 @@ const Trips = () => {
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState({});
 
-  //set of hard coded valid destinations
-  const validDestination = ["kathmandu", "pokhara", "lumbini", "mustang"];
-
   //validate function to validate form data
   const validateDestination = () => {
     const validationErrors = {};
-
+    console.log("to check trim", destination.trim());
     if (!destination.trim()) {
       validationErrors.destination = "Destination is required";
-    } else if (!validDestination.includes(destination.trim())) {
-      validationErrors.destination = "Invalid Destination";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...validationErrors }));
-  }; // Validation function for dates
+  };
+  // Validation function for dates
   const validateDates = () => {
     const validationErrors = {};
 
@@ -55,8 +53,6 @@ const Trips = () => {
   //function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("hanlde submit implemented");
-
     //validate the form data
     validateDestination();
     validateDates();
@@ -69,9 +65,9 @@ const Trips = () => {
       endDate &&
       startDate <= endDate
     ) {
-      console.log("Form submitted successfully");
+      //console.log("Form submitted successfully");
       setTripData({ destination, startDate, endDate });
-      console.log("Trip Data:", { destination, startDate, endDate });
+      //console.log("Trip Data:", { destination, startDate, endDate });
       navigate("/tripDetails");
     } else {
       console.log("Form validation failed");
@@ -92,12 +88,13 @@ const Trips = () => {
               setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
             }}
             onBlur={validateDestination}
-            placeholder="e.g Kathmandu, Lumbini"
+            placeholder="e.g pokhara,Kathmandu,Mustang"
           />
           {errors.destination && (
             <div className="error-message">{errors.destination}</div>
           )}
         </div>
+        <InputLocation apiKey={key} destination={destination} />
         <br />
 
         <div className="date-input">
@@ -138,7 +135,7 @@ const Trips = () => {
           <div className="error-message">{errors.dateRange}</div>
         )}
 
-        <button className = "trips-button" type="submit" onClick={() => console.log("Button Clicked")}>
+        <button className="trips-button" type="submit">
           Plan Trip
         </button>
       </form>

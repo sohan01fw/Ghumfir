@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-import { useTripForm } from "../../Contexts/TripFormContext";
+import { useTripForm } from "../../Store/Contexts/TripFormContext";
 import "./TripDetails.css";
 import SideBar from "../Navigation/SideBar";
 import Itineraries from "./Itineraries";
