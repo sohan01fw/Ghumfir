@@ -7,7 +7,6 @@ import Footer from "./Components/Footer/Footer";
 import Auth from "./pages/Auth/Auth";
 import Blog from "./pages/Home/Blog";
 import TripDetails from "./Components/TipsDetails/TripDetails";
-import MapLocation from "./pages/Home/MapLocation";
 
 function App() {
   return (

@@ -1,4 +1,13 @@
-// TripDetails.js
+import React from "react";
+
+const TripDetails = ({ placeData }) => {
+  console.log(placeData);
+  return <div>TripDetails</div>;
+};
+
+export default TripDetails;
+
+/* // TripDetails.js
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -98,3 +107,4 @@ const TripDetails = () => {
 };
 
 export default TripDetails;
+ */

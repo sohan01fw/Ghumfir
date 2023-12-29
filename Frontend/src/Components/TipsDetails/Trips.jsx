@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
 import { useTripForm } from "../../Store/Contexts/TripFormContext";
-import MapLocation, { key } from "../../pages/Home/MapLocation";
+import MapLocation, { key } from "../../lib/Map/MapLocation";
 import InputLocation from "../map/InputLocation";
 
 const Trips = () => {
