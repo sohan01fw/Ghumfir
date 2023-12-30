@@ -1,7 +1,7 @@
 import React from "react";
 
-const TripDetails = ({ placeData }) => {
-  console.log(placeData);
+const TripDetails = ({ destination }) => {
+  console.log(destination);
   return <div>TripDetails</div>;
 };
 
