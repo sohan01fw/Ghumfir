@@ -2,16 +2,15 @@ import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
-import { useTripForm } from "../../Store/Contexts/TripFormContext";
+import { useTripForm } from "../../Store/ItineriesContext";
 import MapLocation, { key } from "../../lib/Map/MapLocation";
 import InputLocation from "../map/InputLocation";
 
 const Trips = () => {
-  const { setTripData } = useTripForm();
-
+  const { itiInfo, postItineriesDetails, Values } = useTripForm();
+  const inputValue = itiInfo.description;
   const navigate = useNavigate();
 
   //state for form inputs
@@ -23,7 +22,6 @@ const Trips = () => {
   //validate function to validate form data
   const validateDestination = () => {
     const validationErrors = {};
-    console.log("to check trim", destination.trim());
     if (!destination.trim()) {
       validationErrors.destination = "Destination is required";
     }
@@ -66,9 +64,9 @@ const Trips = () => {
       startDate <= endDate
     ) {
       //console.log("Form submitted successfully");
-      setTripData({ destination, startDate, endDate });
+      postItineriesDetails({ itiInfo, startDate, endDate });
       //console.log("Trip Data:", { destination, startDate, endDate });
-      navigate("/tripDetails");
+      /*  navigate("/tripDetails"); */
     } else {
       console.log("Form validation failed");
     }
@@ -82,7 +80,7 @@ const Trips = () => {
           <label className="destination-label">Destination:</label>
           <input
             type="text"
-            value={destination}
+            value={Values}
             onChange={(e) => {
               setDestination(e.target.value);
               setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
