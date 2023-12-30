@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Trips from "./Components/TipsDetails/Trips";
 import MainNavigation from "./Components/Navigation/MainNavigation";
 import About from "./pages/Home/About";
-import { TripFormProvider } from "./Store/Contexts/TripFormContext";
+import { TripFormProvider } from "./Store/ItineriesContext";
 import Footer from "./Components/Footer/Footer";
 import Auth from "./pages/Auth/Auth";
 import Blog from "./pages/Home/Blog";
