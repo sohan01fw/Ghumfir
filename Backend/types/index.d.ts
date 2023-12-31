@@ -7,7 +7,14 @@ export type User = {
 
 export type Itineraries = {
   itineraryId: string;
-  location: string;
+  itiInfo: {
+    place_Id: string;
+    place: string;
+    geolocation: {
+      lat: string;
+      lng: string;
+    };
+  };
   startDate: string;
   endDate: string;
 };

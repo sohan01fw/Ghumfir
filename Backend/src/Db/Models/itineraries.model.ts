@@ -1,31 +1,35 @@
 import mongoose, { Schema, model } from "mongoose";
 import { Itineraries } from "../../../types";
 
-const itinerariesSchema = new Schema<Itineraries>({
-  itineraryId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-
-  location: {
-    type: String,
-    required: true,
-  },
-  startDate: {
-    type: String,
-  },
-  endDate: {
-    type: String,
-  },
-});
 const UseritinerariesSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true,
     unique: true,
   },
-  itineraries: [itinerariesSchema], //embed schema
+  itineraries: [
+    {
+      itineraryId: {
+        type: String,
+        required: true,
+        unique: true,
+      },
+      itiInfo: {
+        place_Id: String,
+        place: String,
+        geolocation: {
+          lat: String,
+          lng: String,
+        },
+      },
+      startDate: {
+        type: String,
+      },
+      endDate: {
+        type: String,
+      },
+    },
+  ],
 });
 
 export const UserItineraryModel =

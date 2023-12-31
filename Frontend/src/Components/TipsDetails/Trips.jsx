@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
 import { useTripForm } from "../../Store/ItineriesContext";
 import MapLocation, { key } from "../../lib/Map/MapLocation";
 import InputLocation from "../map/InputLocation";
+import short from "short-uuid";
 
 const Trips = () => {
   const { itiInfo, postItineriesDetails, Values, addPlaceValue } =
@@ -65,7 +66,11 @@ const Trips = () => {
       startDate <= endDate
     ) {
       //console.log("Form submitted successfully");
-      postItineriesDetails({ itiInfo, startDate, endDate });
+      postItineriesDetails({
+        itiInfo,
+        startDate,
+        endDate,
+      });
       //console.log("Trip Data:", { destination, startDate, endDate });
       /*  navigate("/tripDetails"); */
     } else {
