@@ -9,12 +9,13 @@ import MapLocation, { key } from "../../lib/Map/MapLocation";
 import InputLocation from "../map/InputLocation";
 
 const Trips = () => {
-  const { itiInfo, postItineriesDetails, Values } = useTripForm();
+  const { itiInfo, postItineriesDetails, Values, addPlaceValue } =
+    useTripForm();
   const inputValue = itiInfo.description;
   const navigate = useNavigate();
 
   //state for form inputs
-  const [destination, setDestination] = useState("");
+  const [destination, setDestination] = useState();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState({});
@@ -83,6 +84,7 @@ const Trips = () => {
             value={Values}
             onChange={(e) => {
               setDestination(e.target.value);
+              addPlaceValue(e.target.value);
               setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
             }}
             onBlur={validateDestination}
@@ -92,7 +94,7 @@ const Trips = () => {
             <div className="error-message">{errors.destination}</div>
           )}
         </div>
-        <InputLocation apiKey={key} destination={destination} />
+        <InputLocation apiKey={key} destination={Values} />
         <br />
 
         <div className="date-input">

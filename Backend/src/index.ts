@@ -17,7 +17,11 @@ const app = express();
 //Handeling packages
 app.use(
   cors({
-    origin: "http://localhost:8000",
+    origin: function (origin, callback) {
+      const options = ["http://localhost:5173", "http://localhost:3000"];
+      const isAllowed = options.includes(origin);
+      callback(null, isAllowed);
+    },
     optionsSuccessStatus: 200,
   })
 );

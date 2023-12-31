@@ -1,8 +1,8 @@
 // TripFormContext.js
 import { createContext, useContext, useState } from "react";
-
+import axios from "axios";
 export const TripFormContext = createContext();
-
+const url = "http://localhost:8000";
 const useTripForm = () => {
   const context = useContext(TripFormContext);
   if (!context) {
@@ -26,6 +26,14 @@ const TripFormProvider = ({ children }) => {
   //posting itineriesDetails to backend server
   const postItineriesDetails = (itineriesDetails) => {
     console.log("postItineriesDetails", itineriesDetails);
+    axios
+      .post(`${url}/api/itineries/create-Itineries`, itineriesDetails)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   return (
     <TripFormContext.Provider

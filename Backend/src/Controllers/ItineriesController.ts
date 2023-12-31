@@ -9,13 +9,13 @@ export default async function createItineries(req: Request, res: Response) {
   // Your code here
   try {
     const tripDetails = req.body;
-
+    console.log(tripDetails);
     const { itineraryId, userId, location, startDate, endDate } = tripDetails;
-    if (!userId) {
+    /* if (!userId) {
       res.status(401).json({ status: "400", msg: "unauthorized user" });
-    }
+    } */
 
-    const tripSave = await UserItineraryModel.create({
+    /* const tripSave = await UserItineraryModel.create({
       userId: userId,
       itineraries: [
         {
@@ -25,14 +25,14 @@ export default async function createItineries(req: Request, res: Response) {
           endDate: endDate,
         },
       ],
-    });
+    }); */
 
     //for to update user by itinereies id
 
-    const x = await UserModel.findOneAndUpdate(
+    /*  const x = await UserModel.findOneAndUpdate(
       { userId: "skoekfodkse" },
       { $push: { itineraries: itineraryId } }
-    );
+    ); */
 
     res.status(201).json({ status: "201", msg: "userTripplan is created" });
   } catch (error) {
