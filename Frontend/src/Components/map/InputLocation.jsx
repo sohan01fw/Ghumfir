@@ -34,9 +34,9 @@ const InputLocation = ({ destination }) => {
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
         const info = {
-          place_id,
-          geo_code: { lat, lng },
-          description,
+          place_Id: place_id,
+          geolocation: { lat, lng },
+          place: description,
         };
         addItineriesInfo(info);
       });
