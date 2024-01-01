@@ -14,6 +14,7 @@ const Trips = () => {
     useTripForm();
   const inputValue = itiInfo.description;
   const navigate = useNavigate();
+  const itiId = short.generate();
 
   //state for form inputs
   const [destination, setDestination] = useState();
@@ -67,12 +68,12 @@ const Trips = () => {
     ) {
       //console.log("Form submitted successfully");
       postItineriesDetails({
+        itineraryId: itiId,
         itiInfo,
         startDate,
         endDate,
       });
-      //console.log("Trip Data:", { destination, startDate, endDate });
-      /*  navigate("/tripDetails"); */
+      navigate(`/tripDetails/${itiId}`);
     } else {
       console.log("Form validation failed");
     }

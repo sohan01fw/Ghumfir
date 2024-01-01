@@ -1,7 +1,9 @@
 import React from "react";
+import { useTripForm } from "../../Store/ItineriesContext";
 
 const TripDetails = ({ destination }) => {
-  console.log(destination);
+  const { getItineriesDetails } = useTripForm();
+  getItineriesDetails();
   return <div>TripDetails</div>;
 };
 
