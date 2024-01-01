@@ -21,12 +21,8 @@ const UseritinerariesSchema = new mongoose.Schema({
           lat: String,
           lng: String,
         },
-      },
-      startDate: {
-        type: String,
-      },
-      endDate: {
-        type: String,
+        startDate: Date,
+        endDate: Date,
       },
     },
   ],
