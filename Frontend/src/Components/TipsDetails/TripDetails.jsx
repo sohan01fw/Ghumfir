@@ -1,9 +1,25 @@
-import React from "react";
-import { useTripForm } from "../../Store/ItineriesContext";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+const url = "http://localhost:8000";
 
 const TripDetails = ({ destination }) => {
-  const { getItineriesDetails } = useTripForm();
-  getItineriesDetails();
+  const { itiId } = useParams();
+
+  const getdata = async () => {
+    await axios
+      .get(`${url}/api/itineries/${itiId}`)
+      .then((res) => {
+        console.log("response:", res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getdata();
+  }, []);
+
   return <div>TripDetails</div>;
 };
 
@@ -20,6 +36,7 @@ import SideBar from "../Navigation/SideBar";
 import Itineraries from "./Itineraries";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
+import { axios } from 'axios';
 
 const TripDetails = () => {
   const { tripData, setTripData } = useTripForm();

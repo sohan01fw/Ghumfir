@@ -1,7 +1,6 @@
 // TripFormContext.js
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 export const TripFormContext = createContext();
 const url = "http://localhost:8000";
 const useTripForm = () => {
@@ -26,34 +25,21 @@ const TripFormProvider = ({ children }) => {
   };
   //posting itineriesDetails to backend server
   const postItineriesDetails = (itineriesDetails) => {
-    console.log("postItineriesDetails", itineriesDetails);
-    /* axios
+    axios
       .post(`${url}/api/itineries/create-Itineries`, itineriesDetails)
       .then(function (response) {
         console.log(response);
       })
       .catch(function (error) {
         console.log(error);
-      }); */
+      });
   };
-  const getItineriesDetails = () => {
-    const { itiId } = useParams();
-    console.log(itiId);
-    /* axios
-      .post(`${url}/api/itineries/create-Itineries`, itineriesDetails)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); */
-  };
+
   return (
     <TripFormContext.Provider
       value={{
         addPlaceValue,
         addItineriesInfo,
-        getItineriesDetails,
         itiInfo,
         Values,
         postItineriesDetails,
