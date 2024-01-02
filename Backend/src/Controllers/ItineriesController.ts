@@ -59,8 +59,8 @@ export default async function createItineries(req: Request, res: Response) {
                     lat: itiInfo.geolocation.lat,
                     lng: itiInfo.geolocation.lng,
                   },
-                  startDate: "2023-12-31T18:35:55.000Z",
-                  endDate: "2023-10-31T18:35:55.000Z",
+                  startDate: startDate,
+                  endDate: endDate,
                 },
               },
             },
@@ -82,14 +82,18 @@ export default async function createItineries(req: Request, res: Response) {
 }
 
 //get all users itineries
-export async function getItineries(req: Request, res: Response) {
+export async function getItineriesById(req: Request, res: Response) {
   try {
-    const { userId } = req.params;
-    res.send(req.params);
-    /* const getallUserItinery = await UserItineraryModel.findOne({ userId });
-    const extractAllItineries = getallUserItinery.itineraries;
-    res.send(extractAllItineries); */
+    const { id } = req.params;
+
+    const getallUserItinery = await UserItineraryModel.findOne(
+      {
+        itineraries: { $elemMatch: { itineraryId: { $eq: id } } },
+      },
+      { _id: 0, "itineraries.$": 1 }
+    );
+    res.send(getallUserItinery);
   } catch (error) {
-    res.status(404).json({ msg: "User itineries not created yet" });
+    res.status(404).json({ msg: "error while fetching user itineries" });
   }
 }
