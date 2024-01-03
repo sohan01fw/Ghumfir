@@ -9,6 +9,7 @@ const UseritinerariesSchema = new mongoose.Schema({
   },
   itineraries: [
     {
+      user: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
       itineraryId: {
         type: String,
         required: true,
