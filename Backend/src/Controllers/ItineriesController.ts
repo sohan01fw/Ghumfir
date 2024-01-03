@@ -10,7 +10,6 @@ export default async function createItineries(req: Request, res: Response) {
     let userId = "skoekfodkse";
     const { itineraryId, itiInfo, startDate, endDate } =
       tripDetails as Itineraries;
-
     if (!userId) {
       res.status(401).json({ status: "400", msg: "unauthorized user" });
     }
@@ -18,17 +17,19 @@ export default async function createItineries(req: Request, res: Response) {
     const userItinerary = await UserItineraryModel.findOne({ userId });
     if (!userItinerary) {
       try {
-        const tripSave = await new UserItineraryModel({
+        //"user": "6577138a804848196c8ba92f",
+        const tripSave = await UserItineraryModel.create({
           userId: userId,
           itineraries: [
             {
+              user: "6577138a804848196c8ba92f",
               itineraryId: itineraryId,
               itiInfo: {
-                place_Id: itiInfo.place_Id,
-                place: itiInfo.place,
+                place_Id: itiInfo?.place_Id,
+                place: itiInfo?.place,
                 geolocation: {
-                  lat: itiInfo.geolocation.lat,
-                  lng: itiInfo.geolocation.lng,
+                  lat: itiInfo?.geolocation.lat,
+                  lng: itiInfo?.geolocation.lng,
                 },
                 startDate: startDate,
                 endDate: endDate,
@@ -36,9 +37,10 @@ export default async function createItineries(req: Request, res: Response) {
             },
           ],
         });
-        await tripSave.save();
+        console.log(tripSave);
         res.status(201).json({ status: "201", msg: "userTripplan is created" });
       } catch (error) {
+        console.log(error);
         res
           .status(400)
           .json({ status: "400", msg: "error while create trip plan" });
@@ -86,14 +88,14 @@ export async function getItineriesById(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
-    const getallUserItinery = await UserItineraryModel.findOne(
-      {
-        itineraries: { $elemMatch: { itineraryId: { $eq: id } } },
-      },
+    const result = await UserItineraryModel.findOne(
+      { userId: "skoekfodkse", "itineraries.itineraryId": id },
       { _id: 0, "itineraries.$": 1 }
-    );
-    res.send(getallUserItinery);
+    ).populate("itineraries.user", "name email");
+
+    res.send(result);
   } catch (error) {
+    console.log(error);
     res.status(404).json({ msg: "error while fetching user itineries" });
   }
 }
