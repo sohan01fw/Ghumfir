@@ -2,8 +2,15 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 const url = "http://localhost:8000";
+import SideBar from "../Navigation/SideBar";
+import PlacesToVisit from "./PlacesToVisit";
+import Budget from "./Budget";
+
+import "./TripDetails.css";
+import OverView from "./Overview";
 
 const TripDetails = ({ destination }) => {
+  console.log(destination);
   const { itiId } = useParams();
 
   const getdata = async () => {
@@ -20,10 +27,39 @@ const TripDetails = ({ destination }) => {
     getdata();
   }, []);
 
-  return <div>TripDetails</div>;
+  return (
+      <div className="trip-details">
+        <SideBar itiId = {itiId} />
+        <div className="content">
+          <OverView destination= {destination} />
+          <PlacesToVisit />
+          <Budget />
+        </div>
+      </div>
+  );
 };
 
 export default TripDetails;
+
+// import "react-datepicker/dist/react-datepicker.css";
+// import "./TripDetails.css";
+// import SideBar from "../Navigation/SideBar";
+// import PlacesToVisit from "./PlacesToVisit";
+// import Budget from "./Budget";
+
+// const TripDetails = () => {
+//   return (
+//     <div className="trip-details">
+//       <SideBar />
+//       <div className="content">
+//         <PlacesToVisit />
+//         <Budget />
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default TripDetails;
 
 /* // TripDetails.js
 import { Routes, Route } from "react-router-dom";

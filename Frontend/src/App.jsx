@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Trips from "./Components/TipsDetails/Trips";
 import MainNavigation from "./Components/Navigation/MainNavigation";
 import About from "./pages/Home/About";
@@ -11,11 +11,17 @@ import { useParams } from "react-router-dom";
 
 function App() {
   let { itiId } = useParams();
+  // const location = useLocation();
+
+  // const isTripDetailsPage = location.pathname.includes("/tripDetails");
   return (
     <div className="app-container">
+      
       <TripFormProvider>
-        <Router>
-          <MainNavigation />
+
+        {/* <Router> */}
+        {/* {!isTripDetailsPage && <MainNavigation /> } */}
+         <MainNavigation />
           <div className="main-content">
             <Routes>
               <Route path="/" exact element={<Trips />} />
@@ -30,7 +36,7 @@ function App() {
             </Routes>
           </div>
           <Footer />
-        </Router>
+        {/* </Router> */}
       </TripFormProvider>
     </div>
   );
