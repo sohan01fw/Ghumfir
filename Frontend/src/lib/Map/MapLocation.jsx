@@ -11,7 +11,11 @@ const MapLocation = () => {
     googleMapsApiKey: key,
   });
 
-  return <div>{/* <GoogleMaps isLoaded={isLoaded} /> */}</div>;
+  return (
+    <div>
+      <GoogleMaps isLoaded={isLoaded} />
+    </div>
+  );
 };
 
 export default MapLocation;
