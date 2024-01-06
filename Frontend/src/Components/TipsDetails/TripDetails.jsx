@@ -5,6 +5,7 @@ const url = "http://localhost:8000";
 import SideBar from "../Navigation/SideBar";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
+import MainNavigation from "../Navigation/MainNavigation";
 
 import "./TripDetails.css";
 import OverView from "./Overview";
@@ -29,11 +30,15 @@ const TripDetails = ({ destination }) => {
 
   return (
       <div className="trip-details">
-        <SideBar itiId = {itiId} />
+        <MainNavigation />
         <div className="content">
+        <SideBar itiId = {itiId} />
           <OverView destination= {destination} />
           <PlacesToVisit />
           <Budget />
+        </div>
+        <div className="map">
+          <h1>Map goes here</h1>
         </div>
       </div>
   );

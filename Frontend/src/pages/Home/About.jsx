@@ -1,8 +1,10 @@
+import MainNavigation from '../../Components/Navigation/MainNavigation';
 import './About.css';
 
 const About = () => {
   return (
     <div className="about-container">
+      <MainNavigation />
       <h2>About Us</h2>
       <p>
         Welcome to Ghumfir - Your Ultimate Travel Companion. We are passionate about providing

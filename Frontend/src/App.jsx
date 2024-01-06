@@ -21,7 +21,7 @@ function App() {
 
         {/* <Router> */}
         {/* {!isTripDetailsPage && <MainNavigation /> } */}
-         <MainNavigation />
+         {/* <MainNavigation /> */}
           <div className="main-content">
             <Routes>
               <Route path="/" exact element={<Trips />} />

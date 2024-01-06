@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import "./Blog.css";
+import MainNavigation from "../../Components/Navigation/MainNavigation";
 
 const Blog = () => {
   const [title, setTitle] = useState("");
@@ -36,7 +37,9 @@ const Blog = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="blog-form">
+    <div className="blog">
+      <MainNavigation />
+        <form onSubmit={handleSubmit} className="blog-form">
       <label>
         Title:
         <input
@@ -61,6 +64,7 @@ const Blog = () => {
       <br />
       <button type="submit">Submit Blog</button>
     </form>
+    </div>
   );
 };
 

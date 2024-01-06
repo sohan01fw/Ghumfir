@@ -29,81 +29,81 @@
 
 // export default PlacesToVisit;
 
+// PlacesToVisit.jsx
+import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import './PlacesToVisit.css';
+
 const PlacesToVisit = () => {
+  const [locations, setLocations] = useState([]);
+  const [newLocation, setNewLocation] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleInputChange = (e) => {
+    setNewLocation(e.target.value);
+  };
+
+  const handleAddLocation = () => {
+    if (newLocation.trim() !== '') {
+      const newLocationInfo = {
+        id: Date.now(),
+        name: newLocation,
+        description: 'A wonderful place to visit! lorem ipsum lajflkjals jfalsjfla yadf alakflajsf ',
+        image: 'https://via.placeholder.com/200',
+      };
+
+      setLocations([...locations, newLocationInfo]);
+      setNewLocation('');
+    }
+  };
+
+  const handleDeleteLocation = (id) => {
+    setLocations(locations.filter((location) => location.id !== id));
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
-    <div className="placesToVisit" id="placesToVisit">
-      <h2>Places To Visit</h2>
-      <input type="text" placeholder="Add a Place" />
-      <h3>Recommended Places</h3>
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut!
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut!
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut!
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut!
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut!
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi labore
-      ullam modi praesentium inventore repudiandae quas, fugiat saepe non
-      architecto placeat earum sapiente minima error? Sequi eligendi tempora
-      atque ut!
+    <div className={`places-to-visit ${isDropdownOpen ? 'open' : ''}`} id = "placesToVisit">
+      <div className="dropdown-header" onClick={toggleDropdown}>
+        <h2>Places To Visit</h2>
+        <FontAwesomeIcon icon={isDropdownOpen ? faAngleUp : faAngleDown} />
+      </div>
+      <div className="dropdown-content">
+        <div className="add-place-section">
+          <h3>Add a Place</h3>
+          <div className="input-section">
+            <input
+              type="text"
+              placeholder="Location Name"
+              value={newLocation}
+              onChange={handleInputChange}
+            />
+            <button onClick={handleAddLocation}>Add Location</button>
+          </div>
+        </div>
+        <div className="location-list">
+          {locations.map((location) => (
+            <div className="location-item" key={location.id}>
+              <div className="location-item-info">
+                <h3>{location.name}</h3>
+                <p>{location.description}</p>
+              </div>
+              <div className="location-item-img">
+                {location.image && <img src={location.image} alt={location.name} />}
+              </div>
+              <div className="delete">
+                <button onClick={() => handleDeleteLocation(location.id)}>
+                  <FontAwesomeIcon icon={faTrash} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

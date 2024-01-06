@@ -1,0 +1,84 @@
+.places-to-visit {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-top: none;
+  }
+  
+  .places-to-visit.open .dropdown-content {
+    display: block;
+  }
+  
+  .add-place-section {
+    margin-bottom: 20px;
+  }
+  
+  .input-section {
+    display: flex;
+  }
+  
+  .input-section input {
+    flex: 1;
+    padding: 8px;
+    margin-right: 8px;
+  }
+  
+  .input-section button {
+    padding: 8px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .location-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .location-item {
+    border: 1px solid #ddd;
+    margin: 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .location-item-info {
+    flex: 2;
+  }
+  
+  .location-item-img img {
+    width: 100px;
+    height: auto;
+  }
+  
+  .delete button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  /* FontAwesome Icons */
+  svg.fa-angle-down,
+  svg.fa-angle-up {
+    margin-left: 5px;
+  }
+  
+  

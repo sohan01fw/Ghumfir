@@ -8,6 +8,7 @@ import { useTripForm } from "../../Store/ItineriesContext";
 import MapLocation, { key } from "../../lib/Map/MapLocation";
 import InputLocation from "../map/InputLocation";
 import short from "short-uuid";
+import MainNavigation from "../Navigation/MainNavigation";
 
 const Trips = () => {
   const { itiInfo, postItineriesDetails, Values, addPlaceValue } =
@@ -81,6 +82,7 @@ const Trips = () => {
 
   return (
     <div className="trips">
+      <MainNavigation />
       <h2>Plan a New Trip</h2>
       <form onSubmit={handleSubmit} className="trips-form">
         <div className="destination-input">

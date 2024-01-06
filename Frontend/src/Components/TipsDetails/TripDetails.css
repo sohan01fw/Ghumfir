@@ -7,8 +7,15 @@
 
 .content {
     flex: 1;
+    flex-direction: column;
     margin-left: 200px;
     padding: 20px;
+    box-shadow: 5px 0 10px rgba(0,0,0,0.1);
+
+}
+
+.map{
+    flex: 0 0 40%;
 }
 .placesToVisit {
     background-color: red;
