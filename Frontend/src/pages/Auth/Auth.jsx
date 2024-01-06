@@ -4,6 +4,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 
 import "./Auth.css";
+import MainNavigation from "../../Components/Navigation/MainNavigation";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,6 +15,7 @@ const Auth = () => {
 
   return (
     <div className="auth-container">
+      <MainNavigation />
       {isLogin ? <Login /> : <SignUp />}
       <p>
         {isLogin ? "Don't have an account? " : "Already have an account? "}
