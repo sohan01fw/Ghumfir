@@ -67,7 +67,7 @@ const PlacesToVisit = () => {
   };
 
   return (
-    <div className={`places-to-visit ${isDropdownOpen ? 'open' : ''}`}>
+    <div className={`places-to-visit ${isDropdownOpen ? 'open' : ''}`} id = "placesToVisit">
       <div className="dropdown-header" onClick={toggleDropdown}>
         <h2>Places To Visit</h2>
         <FontAwesomeIcon icon={isDropdownOpen ? faAngleUp : faAngleDown} />
