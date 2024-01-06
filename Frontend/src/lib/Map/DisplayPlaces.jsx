@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const DisplayPlaces = () => {
   const [placeDetails, setplaceDetails] = useState([]);
 
-  /*  //displaying the place details
+  //displaying the place details
   const displayPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
       document.createElement("div")
@@ -53,17 +53,17 @@ const DisplayPlaces = () => {
   useEffect(() => {
     displayPlaceDetails();
   }, []);
-  console.log(placeDetails); */
+  console.log(placeDetails);
   return (
     <div>
       <div>
-        {/* {placeDetails.map((data, index) => {
-      return (
-        <div key={index}>
-          <h3>{data.name && data.name}</h3>
-        </div>
-      );
-    })} */}
+        {placeDetails.map((data, index) => {
+          return (
+            <div key={index}>
+              <h3>{data.name && data.name}</h3>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

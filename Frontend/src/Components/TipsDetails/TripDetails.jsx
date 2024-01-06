@@ -9,6 +9,7 @@ import MainNavigation from "../Navigation/MainNavigation";
 
 import "./TripDetails.css";
 import OverView from "./Overview";
+import MapLocation from "../../lib/Map/MapLocation";
 
 const TripDetails = ({ destination }) => {
   console.log(destination);
@@ -29,18 +30,20 @@ const TripDetails = ({ destination }) => {
   }, []);
 
   return (
-      <div className="trip-details">
-        <MainNavigation />
-        <div className="content">
-        <SideBar itiId = {itiId} />
-          <OverView destination= {destination} />
-          <PlacesToVisit />
-          <Budget />
-        </div>
-        <div className="map">
-          <h1>Map goes here</h1>
-        </div>
+    <div className="trip-details">
+      <MainNavigation />
+      <div className="content">
+        <SideBar itiId={itiId} />
+        <OverView destination={destination} />
+        <PlacesToVisit />
+        <Budget />
       </div>
+      <div className="map">
+        <h1>
+          <MapLocation />
+        </h1>
+      </div>
+    </div>
   );
 };
 
