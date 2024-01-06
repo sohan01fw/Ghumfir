@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 //user creation
 export async function UserCreate(req: Request, res: Response) {
   try {
-    const { userId, email, name, itineraries }: User = req.body;
+    const { userId, email, name }: User = req.body;
     const findUser = false;
 
     if (!findUser) {
@@ -14,7 +14,6 @@ export async function UserCreate(req: Request, res: Response) {
           userId,
           email,
           name,
-          itineraries,
         });
         await saveUser.save();
         res.status(201).json({ msg: "Created new user" });

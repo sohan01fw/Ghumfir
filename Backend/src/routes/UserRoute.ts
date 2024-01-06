@@ -5,6 +5,6 @@ export const UserRouter = express.Router();
 
 UserRouter.route("/").get(getUsers);
 
-UserRouter.route("/user").post(UserCreate);
+UserRouter.route("/createuser").post(UserCreate);
 /* UserRouter.route("/:id").delete(handleDeleteUser);
  */
