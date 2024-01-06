@@ -1,12 +1,8 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 import { Itineraries } from "../../../types";
 
 const UseritinerariesSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
+  userId: { type: String, ref: "Users" },
   itineraries: [
     {
       user: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },

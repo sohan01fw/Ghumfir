@@ -17,12 +17,6 @@ const UserSchema = new mongoose.Schema<User>(
       type: String,
       reqired: true,
     },
-    itineraries: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "UserTripPlans",
-      },
-    ],
   },
   { timestamps: true }
 );

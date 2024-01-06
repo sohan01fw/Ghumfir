@@ -22,7 +22,7 @@ export default async function createItineries(req: Request, res: Response) {
           userId: userId,
           itineraries: [
             {
-              user: "6577138a804848196c8ba92f",
+              user: "6599500b1f406337e260b6cb",
               itineraryId: itineraryId,
               itiInfo: {
                 place_Id: itiInfo?.place_Id,
