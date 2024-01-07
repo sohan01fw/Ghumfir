@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 export type User = {
   userId: string;
   email: string;
@@ -30,12 +32,15 @@ type userReviews = {
 };
 
 export type AllItiDetails = {
-  address: string;
-  business_status: string;
-  name: string;
-  photos: Array<itiPic>;
-  place_id: string;
-  rating: number;
-  reviews: Array<userReviews>;
-  user_total_rating: number;
+  user: ObjectId;
+  ItiDetails: {
+    address: string;
+    business_status: string;
+    name: string;
+    photos: Array<itiPic>;
+    place_id: string;
+    rating: number;
+    reviews: Array<userReviews>;
+    user_total_rating: number;
+  };
 };
