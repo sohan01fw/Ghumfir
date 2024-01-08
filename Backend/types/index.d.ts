@@ -32,15 +32,12 @@ type userReviews = {
 };
 
 export type AllItiDetails = {
-  user: ObjectId;
-  ItiDetails: {
-    address: string;
-    business_status: string;
-    name: string;
-    photos: Array<itiPic>;
-    place_id: string;
-    rating: number;
-    reviews: Array<userReviews>;
-    user_total_rating: number;
-  };
+  address: string;
+  business_status: string;
+  name: string;
+  photos: Array<itiPic>;
+  place_id: string;
+  rating: number;
+  reviews: Array<userReviews>;
+  user_total_rating: number;
 };
