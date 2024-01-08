@@ -18,6 +18,10 @@ const UseritinerariesSchema = new mongoose.Schema({
           lat: String,
           lng: String,
         },
+        ItiDetails: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "AllItiDetails",
+        },
         startDate: Date,
         endDate: Date,
       },

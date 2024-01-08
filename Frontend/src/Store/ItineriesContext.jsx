@@ -34,6 +34,17 @@ const TripFormProvider = ({ children }) => {
         console.log(error);
       });
   };
+  //Get all Details of place details from backend server
+  const postAndGetAllDetails = (allItiDetails) => {
+    axios
+      .post(`${url}/api/itineries/insertAllItiDetails`, allItiDetails)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   return (
     <TripFormContext.Provider
@@ -43,6 +54,7 @@ const TripFormProvider = ({ children }) => {
         itiInfo,
         Values,
         postItineriesDetails,
+        postAndGetAllDetails,
       }}
     >
       {children}
