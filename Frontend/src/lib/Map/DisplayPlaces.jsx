@@ -57,23 +57,26 @@ const DisplayPlaces = () => {
       }
     );
   };
-  useEffect(() => {
-    displayPlaceDetails();
-  }, []);
 
+  const insertPlaceDetails = () => {
+    axios
+      .post(
+        `${url}/api/place-details/insertAllItiDetails/${itiId}`,
+        placeDetails
+      )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   useEffect(() => {
-    if (cIti) {
-      console.log(cIti);
-      axios
-        .post(`${url}/api/itineries/insertAllItiDetails/${itiId}`, placeDetails)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
+    console.log("is it running! second");
+    displayPlaceDetails();
+    insertPlaceDetails();
   }, [cIti]);
+  console.log("it is first");
 
   return (
     <div>

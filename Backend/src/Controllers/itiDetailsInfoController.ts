@@ -6,26 +6,39 @@ import { UserItineraryModel } from "../Db/Models/itineraries.model";
 export async function insertAllItiDetails(req: Request, res: Response) {
   try {
     const xData = req.body;
-    const xParams = req.params;
-    const findUserIti = await UserItineraryModel.findOne({
-      itineraryId: xParams.itiId,
-    });
 
-    if (findUserIti) {
-      // Save the mapped data to MongoDB
-      const result = await allItiDetailsModel.create({
-        ItiDetails: xData,
+    const xParams = req.params;
+    if (xData.length !== 0) {
+      console.log(xData.length);
+      const findUserIti = await UserItineraryModel.findOne({
+        userId: "skoekfodkse",
       });
 
-      if (result) {
-        console.log(result._id);
-        const pushAllItiId = await UserItineraryModel.findOneAndUpdate(
-          { itineraryId: xParams.itiId },
-          { $set: { ItiDetails: result._id } }
-        );
-        console.log("allItiId:", pushAllItiId);
+      if (findUserIti) {
+        // Save the mapped data to MongoDB
+        const result = await allItiDetailsModel.create({
+          ItiDetails: xData,
+        });
+
+        if (result) {
+          console.log(result._id);
+          try {
+            const pushAllItiId = await UserItineraryModel.findOneAndUpdate(
+              {
+                userId: "skoekfodkse",
+                "itineraries.itineraryId": xParams.itiId,
+              },
+              { itiInfo: { ItiDetails: result._id } },
+              { new: true, upsert: true }
+            );
+            console.log("allItiId:", pushAllItiId);
+          } catch (error) {
+            console.log(error);
+            throw new Error("Error while inserting id to userItinerary model");
+          }
+        }
+        res.json({ result: result });
       }
-      res.json({ result: result });
     }
   } catch (error) {
     throw new Error("Error while inserting many itineraries");

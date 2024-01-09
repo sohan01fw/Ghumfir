@@ -11,6 +11,7 @@ import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
 import { TripRouter } from "./routes/tripPlanRoute.ts";
 import { UserRouter } from "./routes/UserRoute.ts";
+import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";
 
 const app = express();
 
@@ -39,6 +40,7 @@ require("./Db/dbConn.ts");
 app.use(TripRouter);
 app.use("/api/user", UserRouter);
 app.use("/api/itineries", TripRouter);
+app.use("/api/place-details", placeDetailsRoute);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });

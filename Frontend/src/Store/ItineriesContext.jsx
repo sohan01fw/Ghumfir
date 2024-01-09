@@ -17,6 +17,7 @@ const TripFormProvider = ({ children }) => {
   const [itiInfo, setitiInfo] = useState({});
   const [Values, setValues] = useState();
   const [cIti, setCIti] = useState();
+  const [resData, setResData] = useState();
 
   const addPlaceValue = (value) => {
     setValues(value);
@@ -30,7 +31,7 @@ const TripFormProvider = ({ children }) => {
     axios
       .post(`${url}/api/itineries/create-Itineries`, itineriesDetails)
       .then(function (response) {
-        console.log(response);
+        setResData(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -52,6 +53,7 @@ const TripFormProvider = ({ children }) => {
         /*     postAndGetAllDetails, */
         cIti,
         setCIti,
+        resData,
       }}
     >
       {children}

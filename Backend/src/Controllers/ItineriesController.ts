@@ -38,7 +38,7 @@ export default async function createItineries(req: Request, res: Response) {
             },
           ],
         });
-        console.log(tripSave);
+
         res.status(201).json({ status: "201", msg: "userTripplan is created" });
       } catch (error) {
         console.log(error);
@@ -68,7 +68,8 @@ export default async function createItineries(req: Request, res: Response) {
                 },
               },
             },
-          }
+          },
+          { new: true, upsert: true }
         );
         res.status(201).json({ status: "201", msg: "userTripplan is updated" });
       } catch (error) {
