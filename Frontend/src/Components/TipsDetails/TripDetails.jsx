@@ -6,19 +6,21 @@ import SideBar from "../Navigation/SideBar";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
 import MainNavigation from "../Navigation/MainNavigation";
-
 import "./TripDetails.css";
 import OverView from "./Overview";
 import MapLocation from "../../lib/Map/MapLocation";
+import { useTripForm } from "../../Store/ItineriesContext";
 
 const TripDetails = ({ destination }) => {
-  console.log(destination);
+  /* console.log(destination); */
   const { itiId } = useParams();
+  const { setCIti } = useTripForm();
 
   const getdata = async () => {
     await axios
       .get(`${url}/api/itineries/${itiId}`)
       .then((res) => {
+        /* setCIti(res.data); */
         console.log("response:", res.data);
       })
       .catch((err) => {

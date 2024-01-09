@@ -22,6 +22,7 @@ const UseritinerariesSchema = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: "AllItiDetails",
         },
+
         startDate: Date,
         endDate: Date,
       },

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useTripForm } from "../../Store/ItineriesContext";
-
+import { useParams } from "react-router-dom";
+import axios from "axios";
+const url = "http://localhost:8000";
 const DisplayPlaces = () => {
   const [placeDetails, setplaceDetails] = useState([]);
-  const { postAndGetAllDetails } = useTripForm();
+  const { cIti } = useTripForm();
+  const { itiId } = useParams();
   //displaying the place details
   const displayPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
@@ -58,7 +61,20 @@ const DisplayPlaces = () => {
     displayPlaceDetails();
   }, []);
 
-  postAndGetAllDetails(placeDetails);
+  useEffect(() => {
+    if (cIti) {
+      console.log(cIti);
+      axios
+        .post(`${url}/api/itineries/insertAllItiDetails/${itiId}`, placeDetails)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  }, [cIti]);
+
   return (
     <div>
       hey it's started

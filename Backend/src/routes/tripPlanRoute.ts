@@ -9,4 +9,4 @@ export const TripRouter = express.Router();
 TripRouter.route("/create-Itineries").post(createItineries);
 TripRouter.route("/:id").get(getItineriesById);
 //inserting all itiDetails in db
-TripRouter.route("/insertAllItiDetails").post(insertAllItiDetails);
+//TripRouter.route("/insertAllItiDetails/:itiId").post(insertAllItiDetails);
