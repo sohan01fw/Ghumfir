@@ -14,14 +14,14 @@ import { useTripForm } from "../../Store/ItineriesContext";
 const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
-  const { setCIti } = useTripForm();
+  const { setCIti, resData } = useTripForm();
 
   const getdata = async () => {
     await axios
       .get(`${url}/api/itineries/${itiId}`)
       .then((res) => {
-        /* setCIti(res.data); */
-        console.log("response:", res.data);
+        setCIti(res.data);
+        /*  console.log("response:", res.data); */
       })
       .catch((err) => {
         console.log(err);
@@ -29,7 +29,7 @@ const TripDetails = ({ destination }) => {
   };
   useEffect(() => {
     getdata();
-  }, []);
+  }, [resData]);
 
   return (
     <div className="trip-details">
