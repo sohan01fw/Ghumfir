@@ -1,0 +1,47 @@
+/* Overview.css */
+
+.overview {
+    display: flex;
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .overview-image {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .overview-image img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .overview-info {
+    flex: 2;
+  }
+  
+  .overview-info h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .overview-details {
+    display: flex;
+    align-items: center;
+  }
+  
+  .overview-details h5 {
+    margin-right: 20px;
+    font-size: 16px;
+  }
+  
+  .user-logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  

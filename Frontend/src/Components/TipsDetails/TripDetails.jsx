@@ -9,9 +9,9 @@ import MainNavigation from "../Navigation/MainNavigation";
 
 import "./TripDetails.css";
 import OverView from "./Overview";
+import Notes from "./Notes";
 
 const TripDetails = ({ destination }) => {
-  console.log(destination);
   const { itiId } = useParams();
 
   const getdata = async () => {
@@ -29,18 +29,19 @@ const TripDetails = ({ destination }) => {
   }, []);
 
   return (
-      <div className="trip-details">
-        <MainNavigation />
-        <div className="content">
-        <SideBar itiId = {itiId} />
-          <OverView destination= {destination} />
-          <PlacesToVisit />
-          <Budget />
-        </div>
-        <div className="map">
-          <h1>Map goes here</h1>
-        </div>
+    <div className="trip-details">
+      <MainNavigation />
+      <div className="content">
+        <SideBar itiId={itiId} />
+        <OverView destination={destination} />
+        <Notes />
+        <PlacesToVisit />
+        <Budget />
       </div>
+      <div className="map">
+        <h1>Map goes here</h1>
+      </div>
+    </div>
   );
 };
 

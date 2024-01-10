@@ -38,7 +38,7 @@ import './PlacesToVisit.css';
 const PlacesToVisit = () => {
   const [locations, setLocations] = useState([]);
   const [newLocation, setNewLocation] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
   const handleInputChange = (e) => {
     setNewLocation(e.target.value);
