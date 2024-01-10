@@ -28,16 +28,17 @@ export async function insertAllItiDetails(req: Request, res: Response) {
                 userId: "skoekfodkse",
                 "itineraries.itineraryId": xParams.itiId,
               },
-              { itiInfo: { ItiDetails: result._id } },
-              { new: true, upsert: true }
+              { $set: { "itineraries.$.itiInfo.ItiDetails": result._id } },
+              //to get the sepecific data.
+              { _id: 0, "itineraries.$": 1 }
             );
-            console.log("allItiId:", pushAllItiId);
+            res.send("successfully send");
           } catch (error) {
             console.log(error);
             throw new Error("Error while inserting id to userItinerary model");
           }
         }
-        res.json({ result: result });
+        /*  res.json({ result: result }); */
       }
     }
   } catch (error) {
