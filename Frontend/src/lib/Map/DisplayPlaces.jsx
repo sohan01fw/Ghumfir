@@ -7,6 +7,7 @@ const DisplayPlaces = () => {
   const [placeDetails, setplaceDetails] = useState([]);
   const { cIti } = useTripForm();
   const { itiId } = useParams();
+  const [checkState, setcheckState] = useState(true);
   //displaying the place details
   const displayPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
@@ -65,18 +66,27 @@ const DisplayPlaces = () => {
         placeDetails
       )
       .then(function (response) {
-        console.log(response);
+        if (response.data) {
+          setcheckState(!checkState);
+        }
       })
       .catch(function (error) {
         console.log(error);
       });
   };
   useEffect(() => {
-    console.log("is it running! second");
-    displayPlaceDetails();
-    insertPlaceDetails();
+    checkState &&
+      (cIti
+        ? displayPlaceDetails()
+        : console.log("no created Itineraries found"));
   }, [cIti]);
-  console.log("it is first");
+
+  useEffect(() => {
+    checkState &&
+      (placeDetails
+        ? insertPlaceDetails()
+        : console.log("no Data in placeDetails"));
+  }, [placeDetails]);
 
   return (
     <div>
