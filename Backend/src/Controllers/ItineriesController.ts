@@ -10,7 +10,6 @@ export default async function createItineries(req: Request, res: Response) {
     let userId = "skoekfodkse";
     const { itineraryId, itiInfo, startDate, endDate } =
       tripDetails as Itineraries;
-
     if (!userId) {
       res.status(401).json({ status: "400", msg: "unauthorized user" });
     }
@@ -18,27 +17,31 @@ export default async function createItineries(req: Request, res: Response) {
     const userItinerary = await UserItineraryModel.findOne({ userId });
     if (!userItinerary) {
       try {
-        const tripSave = await new UserItineraryModel({
+        //"user": "6577138a804848196c8ba92f",
+        const tripSave = await UserItineraryModel.create({
           userId: userId,
           itineraries: [
             {
+              user: "6599500b1f406337e260b6cb",
               itineraryId: itineraryId,
               itiInfo: {
-                place_Id: itiInfo.place_Id,
-                place: itiInfo.place,
+                place_Id: itiInfo?.place_Id,
+                place: itiInfo?.place,
                 geolocation: {
-                  lat: itiInfo.geolocation.lat,
-                  lng: itiInfo.geolocation.lng,
+                  lat: itiInfo?.geolocation.lat,
+                  lng: itiInfo?.geolocation.lng,
                 },
+                ItiDetails: null,
                 startDate: startDate,
                 endDate: endDate,
               },
             },
           ],
         });
-        await tripSave.save();
+
         res.status(201).json({ status: "201", msg: "userTripplan is created" });
       } catch (error) {
+        console.log(error);
         res
           .status(400)
           .json({ status: "400", msg: "error while create trip plan" });
@@ -51,6 +54,7 @@ export default async function createItineries(req: Request, res: Response) {
           {
             $push: {
               itineraries: {
+                user: "6599500b1f406337e260b6cb",
                 itineraryId: itineraryId,
                 itiInfo: {
                   place_Id: itiInfo.place_Id,
@@ -59,12 +63,14 @@ export default async function createItineries(req: Request, res: Response) {
                     lat: itiInfo.geolocation.lat,
                     lng: itiInfo.geolocation.lng,
                   },
+                  ItiDetails: null,
                   startDate: startDate,
                   endDate: endDate,
                 },
               },
             },
-          }
+          },
+          { new: true, upsert: true }
         );
         res.status(201).json({ status: "201", msg: "userTripplan is updated" });
       } catch (error) {
@@ -86,14 +92,16 @@ export async function getItineriesById(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
-    const getallUserItinery = await UserItineraryModel.findOne(
-      {
-        itineraries: { $elemMatch: { itineraryId: { $eq: id } } },
-      },
+    const result = await UserItineraryModel.findOne(
+      { userId: "skoekfodkse", "itineraries.itineraryId": id },
       { _id: 0, "itineraries.$": 1 }
-    );
-    res.send(getallUserItinery);
+    )
+      .populate("itineraries.user", "name email")
+      .populate("itineraries.itiInfo.ItiDetails");
+
+    res.send(result);
   } catch (error) {
+    console.log(error);
     res.status(404).json({ msg: "error while fetching user itineries" });
   }
 }

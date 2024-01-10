@@ -1,6 +1,7 @@
 // TripFormContext.js
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 export const TripFormContext = createContext();
 const url = "http://localhost:8000";
 const useTripForm = () => {
@@ -15,6 +16,8 @@ const useTripForm = () => {
 const TripFormProvider = ({ children }) => {
   const [itiInfo, setitiInfo] = useState({});
   const [Values, setValues] = useState();
+  const [cIti, setCIti] = useState();
+  const [resData, setResData] = useState();
 
   const addPlaceValue = (value) => {
     setValues(value);
@@ -28,12 +31,16 @@ const TripFormProvider = ({ children }) => {
     axios
       .post(`${url}/api/itineries/create-Itineries`, itineriesDetails)
       .then(function (response) {
-        console.log(response);
+        setResData(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+  //Get all Details of place details from backend server
+  /*  const postAndGetAllDetails = (allItiDetails) => {
+   
+  }; */
 
   return (
     <TripFormContext.Provider
@@ -43,6 +50,10 @@ const TripFormProvider = ({ children }) => {
         itiInfo,
         Values,
         postItineriesDetails,
+        /*     postAndGetAllDetails, */
+        cIti,
+        setCIti,
+        resData,
       }}
     >
       {children}

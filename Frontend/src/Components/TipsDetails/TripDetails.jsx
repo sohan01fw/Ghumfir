@@ -6,19 +6,26 @@ import SideBar from "../Navigation/SideBar";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
 import MainNavigation from "../Navigation/MainNavigation";
-
 import "./TripDetails.css";
 import OverView from "./Overview";
 import Notes from "./Notes";
+import MapLocation from "../../lib/Map/MapLocation";
+import { useTripForm } from "../../Store/ItineriesContext";
 
 const TripDetails = ({ destination }) => {
+  /* console.log(destination); */
   const { itiId } = useParams();
+  const { setCIti, resData } = useTripForm();
 
   const getdata = async () => {
     await axios
       .get(`${url}/api/itineries/${itiId}`)
       .then((res) => {
-        console.log("response:", res.data);
+        if (res.data) {
+          setCIti(res.data);
+        }
+
+        /*  console.log("response:", res.data); */
       })
       .catch((err) => {
         console.log(err);
@@ -26,7 +33,7 @@ const TripDetails = ({ destination }) => {
   };
   useEffect(() => {
     getdata();
-  }, []);
+  }, [resData]);
 
   return (
     <div className="trip-details">
@@ -41,6 +48,7 @@ const TripDetails = ({ destination }) => {
       <div className="map">
         <h1>Map goes here</h1>
       </div>
+
     </div>
   );
 };
