@@ -54,6 +54,7 @@ export default async function createItineries(req: Request, res: Response) {
           {
             $push: {
               itineraries: {
+                user: "6599500b1f406337e260b6cb",
                 itineraryId: itineraryId,
                 itiInfo: {
                   place_Id: itiInfo.place_Id,
