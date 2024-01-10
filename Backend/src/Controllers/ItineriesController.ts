@@ -95,7 +95,9 @@ export async function getItineriesById(req: Request, res: Response) {
     const result = await UserItineraryModel.findOne(
       { userId: "skoekfodkse", "itineraries.itineraryId": id },
       { _id: 0, "itineraries.$": 1 }
-    ).populate("itineraries.user", "name email");
+    )
+      .populate("itineraries.user", "name email")
+      .populate("itineraries.itiInfo.ItiDetails");
 
     res.send(result);
   } catch (error) {
