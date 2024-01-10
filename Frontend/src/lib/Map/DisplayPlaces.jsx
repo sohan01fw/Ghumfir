@@ -87,7 +87,7 @@ const DisplayPlaces = () => {
         ? insertPlaceDetails()
         : console.log("no Data in placeDetails"));
   }, [placeDetails]);
-
+  console.log("This is getItiData", cIti);
   return (
     <div>
       hey it's started
