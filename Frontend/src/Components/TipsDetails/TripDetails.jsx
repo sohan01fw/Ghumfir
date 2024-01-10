@@ -8,6 +8,7 @@ import Budget from "./Budget";
 import MainNavigation from "../Navigation/MainNavigation";
 import "./TripDetails.css";
 import OverView from "./Overview";
+import Notes from "./Notes";
 import MapLocation from "../../lib/Map/MapLocation";
 import { useTripForm } from "../../Store/ItineriesContext";
 
@@ -40,14 +41,14 @@ const TripDetails = ({ destination }) => {
       <div className="content">
         <SideBar itiId={itiId} />
         <OverView destination={destination} />
+        <Notes />
         <PlacesToVisit />
         <Budget />
       </div>
       <div className="map">
-        <h1>
-          <MapLocation />
-        </h1>
+        <h1>Map goes here</h1>
       </div>
+
     </div>
   );
 };

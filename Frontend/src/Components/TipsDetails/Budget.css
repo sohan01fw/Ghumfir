@@ -1,0 +1,30 @@
+.budget {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-top: none;
+  }
+  
+  .budget.open .dropdown-content {
+    display: block;
+  }
+  
+  svg.fa-angle-down,
+  svg.fa-angle-up {
+    margin-left: 5px;
+  }
+  
