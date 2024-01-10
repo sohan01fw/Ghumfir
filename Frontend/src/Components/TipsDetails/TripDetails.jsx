@@ -20,7 +20,10 @@ const TripDetails = ({ destination }) => {
     await axios
       .get(`${url}/api/itineries/${itiId}`)
       .then((res) => {
-        setCIti(res.data);
+        if (res.data) {
+          setCIti(res.data);
+        }
+
         /*  console.log("response:", res.data); */
       })
       .catch((err) => {
