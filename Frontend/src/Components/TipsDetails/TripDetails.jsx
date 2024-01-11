@@ -6,10 +6,11 @@ import SideBar from "../Navigation/SideBar";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
 import MainNavigation from "../Navigation/MainNavigation";
-
-import "./TripDetails.css";
 import OverView from "./Overview";
 import Notes from "./Notes";
+
+import "./TripDetails.css";
+
 
 const TripDetails = ({ destination }) => {
   const { itiId } = useParams();
@@ -31,15 +32,17 @@ const TripDetails = ({ destination }) => {
   return (
     <div className="trip-details">
       <MainNavigation />
+      <SideBar itiId={itiId} />
+
       <div className="content">
-        <SideBar itiId={itiId} />
         <OverView destination={destination} />
         <Notes />
         <PlacesToVisit />
         <Budget />
       </div>
       <div className="map">
-        <h1>Map goes here</h1>
+        {/* <h1>Map goes here</h1> */}
+        <MainNavigation />
       </div>
     </div>
   );

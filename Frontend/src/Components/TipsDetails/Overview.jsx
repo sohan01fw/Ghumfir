@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ghumfirLogo from '../../../../Assets/Ghumfir Logo.png'
+import ghumfirLogo from '../../../../Assets/Ghumfir_Logo.png';
 
 import './Overview.css';
 
 const OverView = ({ destination }) => {
   const [imageUrl, setImageUrl] = useState("");
-  console.log(destination);
   const sample_dest = "pokhara"
 
   useEffect(() => {
