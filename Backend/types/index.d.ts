@@ -1,8 +1,9 @@
+import { ObjectId } from "mongodb";
+
 export type User = {
   userId: string;
   email: string;
   name: string;
-  itineraries: Array<Itineraries>;
 };
 
 export type Itineraries = {
@@ -17,4 +18,28 @@ export type Itineraries = {
   };
   startDate: string;
   endDate: string;
+};
+
+type itiPic = {
+  url: string;
+  height: number;
+  width: number;
+};
+type userReviews = {
+  author: string;
+  author_url: string;
+  text: string;
+};
+
+export type AllItiDetails = {
+  ItiDetails: Array<{
+    address: string;
+    business_status: string;
+    name: string;
+    photos: Array<itiPic>;
+    place_id: string;
+    rating: number;
+    reviews: Array<userReviews>;
+    user_total_rating: number;
+  }>;
 };

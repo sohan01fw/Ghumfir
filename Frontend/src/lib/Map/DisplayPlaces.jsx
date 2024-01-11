@@ -1,9 +1,14 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useTripForm } from "../../Store/ItineriesContext";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+const url = "http://localhost:8000";
 const DisplayPlaces = () => {
   const [placeDetails, setplaceDetails] = useState([]);
-
-  /*  //displaying the place details
+  const { cIti } = useTripForm();
+  const { itiId } = useParams();
+  const [checkState, setcheckState] = useState(true);
+  //displaying the place details
   const displayPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
       document.createElement("div")
@@ -26,45 +31,75 @@ const DisplayPlaces = () => {
         exclude: ["restaurant", "lodging"], // You can exclude places from your results
       },
       (results, status) => {
-        // Now you can iterate through the results to get details about each nearby place
-        results.forEach((result) => {
-          // Use the place ID to fetch details
-          service.getDetails(
-            { placeId: result.place_id },
-            (detailResult, detailStatus) => {
-              const places = {
-                business_status: detailResult.business_status,
-                address: detailResult.formatted_address,
-                name: detailResult.name,
-                photos: detailResult.photos,
-                place_id: detailResult.place_id,
-                rating: detailResult.rating,
-                user_total_rating: detailResult.user_ratings_total,
-                reviews: detailResult.reviews,
-              };
+        let promise = results.map((result) => {
+          return new Promise((resolve) => {
+            service.getDetails(
+              { placeId: result.place_id },
+              (detailResult, detailStatus) => {
+                const places = {
+                  business_status: detailResult.business_status,
+                  address: detailResult.formatted_address,
+                  name: detailResult.name,
+                  photos: detailResult.photos,
+                  place_id: detailResult.place_id,
+                  rating: detailResult.rating,
+                  user_total_rating: detailResult.user_ratings_total,
+                  reviews: detailResult.reviews,
+                };
 
-              setplaceDetails((prevState) => [...prevState, places]);
-            }
-          );
+                resolve(places);
+              }
+            );
+          });
+        });
+        Promise.all(promise).then((results) => {
+          setplaceDetails(results);
         });
       }
     );
   };
+
+  const insertPlaceDetails = () => {
+    axios
+      .post(
+        `${url}/api/place-details/insertAllItiDetails/${itiId}`,
+        placeDetails
+      )
+      .then(function (response) {
+        if (response.data) {
+          setcheckState(!checkState);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   useEffect(() => {
-    displayPlaceDetails();
-  }, []);
-  console.log(placeDetails); */
+    checkState &&
+      (cIti
+        ? displayPlaceDetails()
+        : console.log("no created Itineraries found"));
+  }, [cIti]);
+
+  useEffect(() => {
+    checkState &&
+      (placeDetails
+        ? insertPlaceDetails()
+        : console.log("no Data in placeDetails"));
+  }, [placeDetails]);
+  console.log("This is getItiData", cIti);
   return (
     <div>
-      <div>
-        {/* {placeDetails.map((data, index) => {
-      return (
-        <div key={index}>
-          <h3>{data.name && data.name}</h3>
-        </div>
-      );
-    })} */}
-      </div>
+      hey it's started
+      {/*  <div>
+        {placeDetails.map((data, index) => {
+          return (
+            <div key={index}>
+            </div>
+          );   <h3>{data.name && data.name}</h3>
+           
+        })}
+      </div> */}
     </div>
   );
 };

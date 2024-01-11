@@ -30,31 +30,38 @@
 // export default PlacesToVisit;
 
 // PlacesToVisit.jsx
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import './PlacesToVisit.css';
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faAngleDown,
+  faAngleUp,
+} from "@fortawesome/free-solid-svg-icons";
+import "./PlacesToVisit.css";
+import DisplayPlaces from "../../lib/Map/DisplayPlaces";
 
 const PlacesToVisit = () => {
   const [locations, setLocations] = useState([]);
   const [newLocation, setNewLocation] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
+
   const handleInputChange = (e) => {
     setNewLocation(e.target.value);
   };
 
   const handleAddLocation = () => {
-    if (newLocation.trim() !== '') {
+    if (newLocation.trim() !== "") {
       const newLocationInfo = {
         id: Date.now(),
         name: newLocation,
-        description: 'A wonderful place to visit! lorem ipsum lajflkjals jfalsjfla yadf alakflajsf ',
-        image: 'https://via.placeholder.com/200',
+        description:
+          "A wonderful place to visit! lorem ipsum lajflkjals jfalsjfla yadf alakflajsf ",
+        image: "https://via.placeholder.com/200",
       };
 
       setLocations([...locations, newLocationInfo]);
-      setNewLocation('');
+      setNewLocation("");
     }
   };
 
@@ -67,12 +74,17 @@ const PlacesToVisit = () => {
   };
 
   return (
-    <div className={`places-to-visit ${isDropdownOpen ? 'open' : ''}`} id = "placesToVisit">
+    <div
+      className={`places-to-visit ${isDropdownOpen ? "open" : ""}`}
+      id="placesToVisit"
+    >
       <div className="dropdown-header" onClick={toggleDropdown}>
         <h2>Places To Visit</h2>
         <FontAwesomeIcon icon={isDropdownOpen ? faAngleUp : faAngleDown} />
       </div>
-      <div className="dropdown-content">
+      <DisplayPlaces />
+
+      {/* <div className="dropdown-content">
         <div className="add-place-section">
           <h3>Add a Place</h3>
           <div className="input-section">
@@ -103,7 +115,7 @@ const PlacesToVisit = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
