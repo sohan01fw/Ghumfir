@@ -15,7 +15,7 @@ import { useTripForm } from "../../Store/ItineriesContext";
 const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
-  const { setCIti, resData } = useTripForm();
+  const { setCIti, resData, setGeoLocation } = useTripForm();
 
   const getdata = async () => {
     await axios
@@ -24,7 +24,9 @@ const TripDetails = ({ destination }) => {
         if (res.data) {
           setCIti(res.data);
         }
-
+        res.data.itineraries.map((data) => {
+          setGeoLocation(data.itiInfo.geolocation);
+        });
         /*  console.log("response:", res.data); */
       })
       .catch((err) => {
@@ -47,8 +49,8 @@ const TripDetails = ({ destination }) => {
       </div>
       <div className="map">
         <h1>Map goes here</h1>
+        <MapLocation />
       </div>
-
     </div>
   );
 };
