@@ -5,7 +5,7 @@ import axios from "axios";
 const url = "http://localhost:8000";
 const DisplayPlaces = () => {
   const [placeDetails, setplaceDetails] = useState([]);
-  const { cIti } = useTripForm();
+  const { cIti, geoLocations } = useTripForm();
   const { itiId } = useParams();
   const [checkState, setcheckState] = useState(true);
   //displaying the place details
@@ -16,7 +16,10 @@ const DisplayPlaces = () => {
 
     service.nearbySearch(
       {
-        location: { lat: 28.2095831, lng: 83.9855674 },
+        location: {
+          lat: parseFloat(geoLocations?.lat),
+          lng: parseFloat(geoLocations?.lng),
+        },
         radius: 5000, // You can adjust the radius as needed
         type: [
           "natural_feature",
@@ -87,7 +90,23 @@ const DisplayPlaces = () => {
         ? insertPlaceDetails()
         : console.log("no Data in placeDetails"));
   }, [placeDetails]);
-  console.log("This is getItiData", cIti);
+  const getAllPlacesData = async () => {
+    await axios
+      .get(`${url}/api/itineries/${itiId}`)
+      .then((res) => {
+        console.log("alldatares =>", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (checkState === false) {
+      getAllPlacesData();
+    }
+  }, [checkState]);
+
   return (
     <div>
       hey it's started
