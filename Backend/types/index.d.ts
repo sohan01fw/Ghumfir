@@ -32,6 +32,7 @@ type userReviews = {
 };
 
 export type AllItiDetails = {
+  itineraryId: string;
   ItiDetails: Array<{
     address: string;
     business_status: string;

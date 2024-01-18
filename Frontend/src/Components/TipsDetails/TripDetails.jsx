@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 const url = "http://localhost:8000";
@@ -16,6 +16,7 @@ const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
   const { setCIti, resData, setGeoLocation } = useTripForm();
+  const [itiData, setItiData] = useState([]);
 
   const getdata = async () => {
     await axios
@@ -23,10 +24,12 @@ const TripDetails = ({ destination }) => {
       .then((res) => {
         if (res.data) {
           setCIti(res.data);
+
+          res?.data?.itineraries?.map((data) => {
+            setGeoLocation(data?.itiInfo?.geolocation);
+          });
         }
-        res.data.itineraries.map((data) => {
-          setGeoLocation(data.itiInfo.geolocation);
-        });
+
         /*  console.log("response:", res.data); */
       })
       .catch((err) => {
