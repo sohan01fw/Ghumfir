@@ -4,7 +4,7 @@ import { useTripForm } from "../../Store/ItineriesContext";
 
 const GoogleMaps = ({ isLoaded }) => {
   const { geoLocations } = useTripForm();
-
+  console.log(geoLocations);
   const containerStyle = {
     width: "100%",
     height: "100vh",

@@ -8,6 +8,7 @@ const DisplayPlaces = () => {
   const { cIti, geoLocations } = useTripForm();
   const { itiId } = useParams();
   const [checkState, setcheckState] = useState(true);
+
   //displaying the place details
   const displayPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
@@ -69,32 +70,37 @@ const DisplayPlaces = () => {
         placeDetails
       )
       .then(function (response) {
-        if (response.data) {
-          setcheckState(!checkState);
-        }
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
   useEffect(() => {
-    checkState &&
-      (cIti
+    if (checkState) {
+      cIti
         ? displayPlaceDetails()
-        : console.log("no created Itineraries found"));
+        : console.log("no created Itineraries found");
+    }
   }, [cIti]);
 
   useEffect(() => {
-    checkState &&
-      (placeDetails
+    if (checkState) {
+      placeDetails
         ? insertPlaceDetails()
-        : console.log("no Data in placeDetails"));
+        : console.log("no Data in placeDetails");
+    }
   }, [placeDetails]);
   const getAllPlacesData = async () => {
     await axios
       .get(`${url}/api/itineries/${itiId}`)
       .then((res) => {
         console.log("alldatares =>", res);
+        res?.data?.itineraries?.map((data) => {
+          if (data?.itineraryId === itiId) {
+            setcheckState(!checkState);
+          }
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -102,10 +108,8 @@ const DisplayPlaces = () => {
   };
 
   useEffect(() => {
-    if (checkState === false) {
-      getAllPlacesData();
-    }
-  }, [checkState]);
+    getAllPlacesData();
+  }, []);
 
   return (
     <div>

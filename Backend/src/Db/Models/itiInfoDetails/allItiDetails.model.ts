@@ -4,6 +4,10 @@ import { AllItiDetails } from "../../../../types";
 const { Schema } = mongoose;
 
 const allItiDetailSchema = new Schema<AllItiDetails>({
+  itineraryId: {
+    type: String,
+    required: true,
+  },
   ItiDetails: [
     {
       address: {

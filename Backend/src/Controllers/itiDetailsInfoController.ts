@@ -9,17 +9,19 @@ export async function insertAllItiDetails(req: Request, res: Response) {
 
     const xParams = req.params;
     if (xData.length !== 0) {
-      console.log(xData.length);
       const findUserIti = await UserItineraryModel.findOne({
         userId: "skoekfodkse",
       });
-
-      if (findUserIti) {
+      // check the dupilcate of data.
+      const findItiDup = await allItiDetailsModel.findOne({
+        itineraryId: xParams.itiId,
+      });
+      if (findUserIti && !findItiDup) {
         // Save the mapped data to MongoDB
         const result = await allItiDetailsModel.create({
+          itineraryId: xParams.itiId,
           ItiDetails: xData,
         });
-
         if (result) {
           console.log(result._id);
           try {
@@ -42,6 +44,7 @@ export async function insertAllItiDetails(req: Request, res: Response) {
       }
     }
   } catch (error) {
+    console.log(error);
     throw new Error("Error while inserting many itineraries");
   }
 }
