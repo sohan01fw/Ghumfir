@@ -23,15 +23,18 @@ const DisplayPlaces = () => {
         },
         radius: 5000, // You can adjust the radius as needed
         type: [
-          "natural_feature",
+          /* "natural_feature",
           "Nature & Parks",
           "Nature & Wildlife Areas",
           "Sights & Landmarks",
-          "Caverns & Caves",
+         
           "Waterfalls",
-          "Lake",
+          "Lake", */
+          "Temple",
+          "Caverns & Caves",
+          "Things to do",
         ], // You can specify the type of places you want
-        keyword: "tourist attraction", // You can add a keyword to narrow down your results
+        keyword: "Things to do", // You can add a keyword to narrow down your results
         exclude: ["restaurant", "lodging"], // You can exclude places from your results
       },
       (results, status) => {
@@ -62,7 +65,7 @@ const DisplayPlaces = () => {
       }
     );
   };
-
+  displayPlaceDetails();
   const insertPlaceDetails = () => {
     axios
       .post(
