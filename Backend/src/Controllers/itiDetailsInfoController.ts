@@ -40,7 +40,6 @@ export async function insertAllItiDetails(req: Request, res: Response) {
             throw new Error("Error while inserting id to userItinerary model");
           }
         }
-        /*  res.json({ result: result }); */
       }
     }
   } catch (error) {

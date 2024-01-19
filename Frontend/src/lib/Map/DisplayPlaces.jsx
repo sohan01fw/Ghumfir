@@ -8,6 +8,7 @@ const DisplayPlaces = () => {
   const { cIti, geoLocations } = useTripForm();
   const { itiId } = useParams();
   const [checkState, setcheckState] = useState(true);
+  console.log(geoLocations);
 
   //displaying the place details
   const displayPlaceDetails = () => {
@@ -38,6 +39,7 @@ const DisplayPlaces = () => {
         exclude: ["restaurant", "lodging"], // You can exclude places from your results
       },
       (results, status) => {
+        console.log("results", results);
         let promise = results.map((result) => {
           return new Promise((resolve) => {
             service.getDetails(
@@ -47,7 +49,12 @@ const DisplayPlaces = () => {
                   business_status: detailResult.business_status,
                   address: detailResult.formatted_address,
                   name: detailResult.name,
+
                   photos: detailResult.photos,
+                  /*    url: detailResult.photos?.[0].getUrl,
+                    height: detailResult.photos?.[0].height,
+                    width: detailResult.photos?.[0].width, */
+
                   place_id: detailResult.place_id,
                   rating: detailResult.rating,
                   user_total_rating: detailResult.user_ratings_total,
@@ -65,7 +72,7 @@ const DisplayPlaces = () => {
       }
     );
   };
-  displayPlaceDetails();
+
   const insertPlaceDetails = () => {
     axios
       .post(
