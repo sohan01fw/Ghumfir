@@ -16,19 +16,15 @@ const allItiDetailSchema = new Schema<AllItiDetails>({
       },
       business_status: String,
       name: String,
-      photos: [
-        {
-          url: String,
-          height: String,
-          width: String,
-        },
-      ],
+      photos: [{}],
       place_id: String,
       rating: Number,
       reviews: [
         {
-          author: String,
-          author_url: String,
+          author_name: String,
+          author_pic_url: String,
+          text: String,
+          rating: Number,
         },
       ],
       user_total_rating: Number,

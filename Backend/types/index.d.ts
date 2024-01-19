@@ -20,15 +20,12 @@ export type Itineraries = {
   endDate: string;
 };
 
-type itiPic = {
-  url: string;
-  height: number;
-  width: number;
-};
+type itiPic = {};
 type userReviews = {
-  author: string;
-  author_url: string;
+  author_name: string;
+  author_pic_url: string;
   text: string;
+  rating: Number;
 };
 
 export type AllItiDetails = {
