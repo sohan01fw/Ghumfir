@@ -7,11 +7,11 @@ const DisplayPlaces = () => {
   const [placeDetails, setplaceDetails] = useState([]);
   const { cIti, geoLocations } = useTripForm();
   const { itiId } = useParams();
-  const [checkState, setcheckState] = useState(true);
-  console.log(geoLocations);
+  const [checkState, setcheckState] = useState(false);
+  const [afterINsert, setafterINsert] = useState(false);
 
   //displaying the place details
-  const displayPlaceDetails = () => {
+  const getPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
       document.createElement("div")
     );
@@ -39,7 +39,6 @@ const DisplayPlaces = () => {
         exclude: ["restaurant", "lodging"], // You can exclude places from your results
       },
       (results, status) => {
-        console.log("results", results);
         let promise = results.map((result) => {
           return new Promise((resolve) => {
             service.getDetails(
@@ -50,10 +49,11 @@ const DisplayPlaces = () => {
                   address: detailResult.formatted_address,
                   name: detailResult.name,
 
-                  photos: detailResult.photos,
-                  /*    url: detailResult.photos?.[0].getUrl,
+                  photos: {
+                    url: detailResult.photos?.[0].getUrl(),
                     height: detailResult.photos?.[0].height,
-                    width: detailResult.photos?.[0].width, */
+                    width: detailResult.photos?.[0].width,
+                  },
 
                   place_id: detailResult.place_id,
                   rating: detailResult.rating,
@@ -80,19 +80,21 @@ const DisplayPlaces = () => {
         placeDetails
       )
       .then(function (response) {
-        console.log(response);
+        if (response?.status === 200) {
+          setcheckState(!checkState);
+        }
       })
       .catch(function (error) {
         console.log(error);
       });
   };
-  useEffect(() => {
+  /*  useEffect(() => {
     if (checkState) {
       cIti
-        ? displayPlaceDetails()
+        ? getPlaceDetails()
         : console.log("no created Itineraries found");
     }
-  }, [cIti]);
+  }, [cIti,checkState]);
 
   useEffect(() => {
     if (checkState) {
@@ -100,17 +102,26 @@ const DisplayPlaces = () => {
         ? insertPlaceDetails()
         : console.log("no Data in placeDetails");
     }
-  }, [placeDetails]);
+  }, [placeDetails,checkState]); */
+
   const getAllPlacesData = async () => {
     await axios
       .get(`${url}/api/itineries/${itiId}`)
       .then((res) => {
-        console.log("alldatares =>", res);
-        res?.data?.itineraries?.map((data) => {
-          if (data?.itineraryId === itiId) {
-            setcheckState(!checkState);
+        if (
+          res.data === "" ||
+          res?.data?.itineraries[0]?.itiInfo?.ItiDetails === null
+        ) {
+          if (cIti) {
+            getPlaceDetails();
           }
-        });
+
+          if (placeDetails) {
+            insertPlaceDetails();
+          }
+        } else {
+          console.log("data=><", res);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -118,8 +129,15 @@ const DisplayPlaces = () => {
   };
 
   useEffect(() => {
+    if (checkState) {
+      getAllPlacesData();
+    }
+  }, [checkState]);
+  //get data
+
+  useEffect(() => {
     getAllPlacesData();
-  }, []);
+  }, [cIti, placeDetails]);
 
   return (
     <div>
