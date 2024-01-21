@@ -1,25 +1,28 @@
-import { ObjectId } from "mongodb";
-
 export type User = {
   userId: string;
   email: string;
   name: string;
+  itineraries: Array<Itineraries>;
 };
 
 export type Itineraries = {
-  itineraryId: string;
-  itiInfo: {
-    place_Id: string;
-    place: string;
-    geolocation: {
-      lat: string;
-      lng: string;
+  userId: String;
+  itineraries: Array<{
+    itineraryId: string;
+    itiInfo: {
+      place_Id: string;
+      place: string;
+      geolocation: {
+        lat: string;
+        lng: string;
+      };
+      ItiDetails: string;
     };
-  };
-  startDate: string;
-  endDate: string;
+    startDate: string;
+    endDate: string;
+  }>;
 };
-
+//it's for all details model
 type itiPic = {
   url: string;
   height: string;

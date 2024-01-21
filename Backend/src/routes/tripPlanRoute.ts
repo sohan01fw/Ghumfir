@@ -1,4 +1,5 @@
 import createItineries, {
+  getAllItineries,
   getItineriesById,
 } from "../Controllers/ItineriesController";
 import express from "express";
@@ -6,4 +7,5 @@ import express from "express";
 export const TripRouter = express.Router();
 
 TripRouter.route("/create-Itineries").post(createItineries);
-TripRouter.route("/:id").get(getItineriesById);
+TripRouter.route("/itiId/:id").get(getItineriesById);
+TripRouter.route("/getAllIti").get(getAllItineries);

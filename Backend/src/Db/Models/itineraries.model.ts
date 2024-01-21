@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Itineraries } from "../../../types";
 
-const UseritinerariesSchema = new mongoose.Schema({
+const UseritinerariesSchema = new mongoose.Schema<Itineraries>({
   userId: { type: String, ref: "Users" },
   itineraries: [
     {
