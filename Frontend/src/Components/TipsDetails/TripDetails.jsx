@@ -20,7 +20,7 @@ const TripDetails = ({ destination }) => {
 
   const getdata = async () => {
     await axios
-      .get(`${url}/api/itineries/${itiId}`)
+      .get(`${url}/api/itineries/itiId/${itiId}`)
       .then((res) => {
         if (res.data) {
           setCIti(res.data);

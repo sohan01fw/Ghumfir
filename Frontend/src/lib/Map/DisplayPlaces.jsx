@@ -106,7 +106,7 @@ const DisplayPlaces = () => {
 
   const getAllPlacesData = async () => {
     await axios
-      .get(`${url}/api/itineries/${itiId}`)
+      .get(`${url}/api/itineries/itiId/${itiId}`)
       .then((res) => {
         if (
           res.data === "" ||
