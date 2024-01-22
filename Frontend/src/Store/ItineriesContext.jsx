@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 export const TripFormContext = createContext();
-const url = "http://localhost:8000";
+export const url = "http://localhost:8000";
 const useTripForm = () => {
   const context = useContext(TripFormContext);
   if (!context) {
