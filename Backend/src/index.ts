@@ -8,7 +8,6 @@ import compression from "compression";
 //cors
 import cors from "cors";
 /* import logger from "morgan"; */
-import { v4 as uuidv4 } from "uuid";
 import { TripRouter } from "./routes/tripPlanRoute.ts";
 import { UserRouter } from "./routes/UserRoute.ts";
 import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";

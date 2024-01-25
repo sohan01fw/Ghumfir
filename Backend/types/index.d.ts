@@ -1,7 +1,8 @@
 export type User = {
   userId: string;
   email: string;
-  name: string;
+  name?: string;
+  password: string;
   itineraries: Array<Itineraries>;
 };
 
