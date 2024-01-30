@@ -1,22 +1,31 @@
 import { UserModel } from "../Db/Models/User.model.ts";
 import { User } from "../../types";
 import { Request, Response } from "express";
+import { STATUS_CODES } from "http";
 
 //user creation
-export async function UserCreate(req: Request, res: Response) {
+export async function Register(req: Request, res: Response) {
   try {
-    const { userId, email, name }: User = req.body;
-    const findUser = false;
-
-    if (!findUser) {
+    const { email, name, password }: User = req.body;
+    if (!email || !name || !password) {
+      res.json({
+        msg: "Email or name or password is empty",
+        STATUS_CODES: 204,
+      });
+    }
+    const findUser = await UserModel.findOne({
+      $or: [{ email }, { name }],
+    });
+    console.log(findUser);
+    if (findUser === null) {
+      console.log("ok it is null");
       try {
-        const saveUser = new UserModel({
-          userId,
-          email,
-          name,
+        const saveUser = await UserModel.create({
+          email: email,
+          name: name,
+          password: password,
         });
-        await saveUser.save();
-        res.status(201).json({ msg: "Created new user" });
+        res.status(201).json({ msg: "Created new user", Data: saveUser });
       } catch (error) {
         res.status(401).json({ msg: "Error while creating user" });
       }
@@ -27,7 +36,7 @@ export async function UserCreate(req: Request, res: Response) {
   }
 }
 //get users
-export async function getUsers(req: Request, res: Response) {
+/* export async function getUsers(req: Request, res: Response) {
   try {
     const { userId } = req.body;
     const resUsers = await UserModel.findOne({ userId });
@@ -35,7 +44,7 @@ export async function getUsers(req: Request, res: Response) {
   } catch (error) {
     res.status(404).json({ msg: "user not found" });
   }
-}
+} */
 /* export async function handleDeleteUser(req: Request, res: Response) {
   try {
     const { userId } = req.body;
