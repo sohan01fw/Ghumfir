@@ -1,9 +1,11 @@
+import { Types } from "mongoose";
+
 export type User = {
   userId: string;
   email: string;
   name?: string;
   password: string;
-  itineraries: Array<Itineraries>;
+  refreshToken: string;
 };
 
 export type Itineraries = {
@@ -17,7 +19,7 @@ export type Itineraries = {
         lat: string;
         lng: string;
       };
-      ItiDetails: string;
+      ItiDetails: Types.ObjectId;
     };
     startDate: string;
     endDate: string;
