@@ -11,7 +11,7 @@ import cors from "cors";
 import { TripRouter } from "./routes/tripPlanRoute.ts";
 import { UserRouter } from "./routes/UserRoute.ts";
 import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";
-import { generateToken } from "../utils/generateToken.ts";
+import { generateToken } from "./utils/generateToken.ts";
 
 const app = express();
 require("dotenv").config();
