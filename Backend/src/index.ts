@@ -11,9 +11,11 @@ import cors from "cors";
 import { TripRouter } from "./routes/tripPlanRoute.ts";
 import { UserRouter } from "./routes/UserRoute.ts";
 import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";
+import { generateToken } from "../utils/generateToken.ts";
 
 const app = express();
-
+require("dotenv").config();
+const port = process.env.PORT;
 //Handeling packages
 app.use(
   cors({
@@ -29,9 +31,6 @@ app.use(cookieParser());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(compression());
-
-require("dotenv").config();
-const port = process.env.PORT;
 
 //handling db connection
 require("./Db/dbConn.ts");
