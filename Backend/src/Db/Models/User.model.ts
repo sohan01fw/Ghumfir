@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { User } from "../../../types";
 import bcrypt from "bcrypt";
+import { hashedAnything } from "../../../utils/hashedAnything";
 const UserSchema = new mongoose.Schema<User>(
   {
     email: {
@@ -37,8 +38,8 @@ UserSchema.pre("save", async function (next) {
     return next();
   }
   try {
-    let hashValue = await bcrypt.hash(this.password, 10);
-    this.password = hashValue;
+    let value = await hashedAnything(this.password);
+    this.password = value;
     next();
   } catch (error) {
     throw new Error(error);
