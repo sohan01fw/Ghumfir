@@ -1,7 +1,6 @@
 import { UserModel } from "../Db/Models/User.model.ts";
 import { User } from "../../types";
 import { Request, Response } from "express";
-import { STATUS_CODES } from "http";
 
 //user creation
 export async function Register(req: Request, res: Response) {
@@ -18,7 +17,6 @@ export async function Register(req: Request, res: Response) {
     });
     console.log(findUser);
     if (findUser === null) {
-      console.log("ok it is null");
       try {
         const saveUser = await UserModel.create({
           email: email,
@@ -27,6 +25,7 @@ export async function Register(req: Request, res: Response) {
         });
         res.status(201).json({ msg: "Created new user", Data: saveUser });
       } catch (error) {
+        console.log(error);
         res.status(401).json({ msg: "Error while creating user" });
       }
     }

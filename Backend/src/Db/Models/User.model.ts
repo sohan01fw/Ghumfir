@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { User } from "../../../types";
 import bcrypt from "bcrypt";
 import { hashedAnything } from "../../utils/hashedAnything";
-import { generateToken } from "utils/generateToken";
+import { generateToken } from "../../utils/generateToken.ts";
 const UserSchema = new mongoose.Schema<User>(
   {
     email: {
@@ -65,7 +65,13 @@ UserSchema.methods.generateAccessToken = async function () {
 };
 
 //for Refresh token
-UserSchema.methods.generateRefreshToken = async function () {};
+UserSchema.methods.generateRefreshToken = async function () {
+  return generateToken(
+    { _id: this._id },
+    process.env.REFRESH_TOKEN_KEY,
+    process.env.REFRESH_TOKEN_EXPIRY
+  );
+};
 
 export const UserModel =
   mongoose.models.Users || mongoose.model<User>("Test", UserSchema);
