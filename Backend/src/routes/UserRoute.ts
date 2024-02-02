@@ -1,10 +1,10 @@
-import { Register } from "../Controllers/UserController";
+import { LoginUser, RegisterUser } from "../Controllers/UserController";
 import express from "express";
 
 export const UserRouter = express.Router();
 
 /* UserRouter.route("/").get(getUsers);
  */
-UserRouter.route("/register").post(Register);
-/* UserRouter.route("/:id").delete(handleDeleteUser);
- */
+UserRouter.route("/register").post(RegisterUser);
+
+UserRouter.route("/login").post(LoginUser);
