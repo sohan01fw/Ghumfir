@@ -32,11 +32,28 @@ export async function RegisterUser(req: Request, res: Response) {
     res.status(500).json({ msg: "Error while processing user" });
   }
 }
+//for login user
+const getRefreshTokenAndAccessToken = async (userId: string) => {
+  const findUser = await UserModel.findById({ _id: userId });
+  if (!findUser) {
+    throw new Error("no user found");
+  }
+  const AccessToken = await findUser.generateAccessToken();
+  const RefreshToken = await findUser.generateRefreshToken();
+
+  await UserModel.findByIdAndUpdate(
+    { _id: userId },
+    {
+      $set: { refreshToken: RefreshToken },
+    },
+    { new: true }
+  );
+  return { AccessToken, RefreshToken };
+};
 
 export async function LoginUser(req: Request, res: Response) {
   const { email, name, password } = req.body;
-
-  if (!email || !name) {
+  if (!email && !name) {
     throw new Error("Email or name must be provided to login");
   }
   if (!password) {
@@ -46,13 +63,25 @@ export async function LoginUser(req: Request, res: Response) {
   //check user in db
   const user = await UserModel.findOne({
     $or: [{ email: email }, { name: name }],
-  }).select("-password -refreshToken");
+  });
   if (!user) {
     throw new Error("user doesn't exists");
   }
   //check whether the password correct or not
   let checkUser = await user.isPasswordCorrect(password);
-  if (!checkUser) {
+  if (checkUser) {
     throw new Error("password is incorrect");
   }
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+  let id = user._id.toString();
+  const { RefreshToken, AccessToken } = await getRefreshTokenAndAccessToken(id);
+  user.password = undefined;
+  res
+    .status(200)
+    .cookie("_rt", RefreshToken, options)
+    .cookie("_at", AccessToken, options)
+    .json({ msg: "successfully logged in", data: user });
 }

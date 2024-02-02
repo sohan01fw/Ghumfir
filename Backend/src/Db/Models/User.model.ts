@@ -26,7 +26,6 @@ const UserSchema = new mongoose.Schema<User>(
       lowercase: true,
       trim: true,
       unique: true,
-      select: false,
     },
     refreshToken: {
       type: String,
@@ -49,7 +48,7 @@ UserSchema.pre("save", async function (next) {
 });
 //compare a hash and normal password
 UserSchema.methods.isPasswordCorrect = async function (password: string) {
-  return await bcrypt.compare(password, this.passwrod);
+  return await bcrypt.compare(password, this.password);
 };
 //generate Access token and refresh token;
 //for Access token
