@@ -72,16 +72,28 @@ export async function LoginUser(req: Request, res: Response) {
   if (checkUser) {
     throw new Error("password is incorrect");
   }
-  const options = {
-    httpOnly: true,
-    secure: true,
-  };
+  const options = {};
   let id = user._id.toString();
   const { RefreshToken, AccessToken } = await getRefreshTokenAndAccessToken(id);
   user.password = undefined;
+  user.refreshToken = undefined;
   res
     .status(200)
-    .cookie("_rt", RefreshToken, options)
-    .cookie("_at", AccessToken, options)
+    .cookie("_rt", RefreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    })
+    .cookie("_at", AccessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+    })
     .json({ msg: "successfully logged in", data: user });
+}
+
+export async function LogOut(req: Request, res: Response) {
+  console.log(req.cookies);
 }
