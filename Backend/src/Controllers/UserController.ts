@@ -81,19 +81,36 @@ export async function LoginUser(req: Request, res: Response) {
     .status(200)
     .cookie("_rt", RefreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "strict",
+      path: "/",
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     })
     .cookie("_at", AccessToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "strict",
+      path: "/",
       expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
     })
     .json({ msg: "successfully logged in", data: user });
 }
 
 export async function LogOut(req: Request, res: Response) {
-  console.log(req.cookies);
+  try {
+    await UserModel.findByIdAndUpdate(
+      { _id: req.user._id },
+      {
+        $set: { refreshToken: undefined },
+      },
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .clearCookie("_at")
+      .json({ msg: "successfully logout the user", data: {} });
+  } catch (error) {
+    throw new Error("failed to logout the user");
+  }
 }

@@ -15,6 +15,7 @@ import { myMiddleware } from "./Middleware/userMiddleware.ts";
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
+app.use(cookieParser());
 //Handeling packages
 app.use(
   cors({
@@ -23,10 +24,12 @@ app.use(
       const isAllowed = options.includes(origin);
       callback(null, isAllowed);
     },
-    optionsSuccessStatus: 200,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Allow cookies to be sent with requests
+    optionsSuccessStatus: 204,
   })
 );
-app.use(cookieParser());
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(compression());
@@ -35,14 +38,15 @@ app.use(compression());
 require("./Db/dbConn.ts");
 
 //Handeling routes using express middleware
-app.use(TripRouter);
 app.use("/api/user", UserRouter);
+app.use(TripRouter);
 app.use("/api/itineries", TripRouter);
 app.use("/api/place-details", placeDetailsRoute);
 
 app.get("/", myMiddleware, (req: Request, res: Response) => {
   res.send("Hello World!");
 });
+
 // Initialize Passport
 
 /* app.get("*", (req, res) => {
