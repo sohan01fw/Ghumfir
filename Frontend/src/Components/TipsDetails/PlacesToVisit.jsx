@@ -40,8 +40,8 @@ import {
 import "./PlacesToVisit.css";
 import DisplayPlaces from "../../lib/Map/DisplayPlaces";
 
-const PlacesToVisit = () => {
-  const [locations, setLocations] = useState([]);
+const PlacesToVisit = ({locations, handleAddLocation, handleDeleteLocation}) => {
+  // const [locations, setLocations] = useState([]);
   const [newLocation, setNewLocation] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
 
@@ -50,24 +50,23 @@ const PlacesToVisit = () => {
     setNewLocation(e.target.value);
   };
 
-  const handleAddLocation = () => {
-    if (newLocation.trim() !== "") {
-      const newLocationInfo = {
-        id: Date.now(),
-        name: newLocation,
-        description:
-          "A wonderful place to visit! lorem ipsum lajflkjals jfalsjfla yadf alakflajsf ",
-        image: "https://via.placeholder.com/200",
-      };
+  // const handleAddLocation = (newLocationInfo) => {
+  //   if (newLocation.trim() !== "") {
+  //     // const newLocationInfo = {
+  //     //   // id: Date.now(),
+  //     //   // name: newLocation,
+  //     //   // description:
+  //     //   //   "A wonderful place to visit! lorem ipsum lajflkjals jfalsjfla yadf alakflajsf ",
+  //     //   // image: "https://via.placeholder.com/200",
+  //     // };
+  //     setLocations([...locations, newLocationInfo]);
 
-      setLocations([...locations, newLocationInfo]);
-      setNewLocation("");
-    }
-  };
 
-  const handleDeleteLocation = (id) => {
-    setLocations(locations.filter((location) => location.id !== id));
-  };
+  //     // setLocations([...locations, newLocationInfo]);
+  //     setNewLocation("");
+  //   }
+  // };
+
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -82,9 +81,8 @@ const PlacesToVisit = () => {
         <h2>Places To Visit</h2>
         <FontAwesomeIcon icon={isDropdownOpen ? faAngleUp : faAngleDown} />
       </div>
-      <DisplayPlaces />
 
-      {/* <div className="dropdown-content">
+      <div className="dropdown-content">
         <div className="add-place-section">
           <h3>Add a Place</h3>
           <div className="input-section">
@@ -96,6 +94,10 @@ const PlacesToVisit = () => {
             />
             <button onClick={handleAddLocation}>Add Location</button>
           </div>
+    <div>
+    <DisplayPlaces handleAddLocation = {handleAddLocation} handleDeleteLocation={handleDeleteLocation} />
+
+    </div>
         </div>
         <div className="location-list">
           {locations.map((location) => (
@@ -115,7 +117,7 @@ const PlacesToVisit = () => {
             </div>
           ))}
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

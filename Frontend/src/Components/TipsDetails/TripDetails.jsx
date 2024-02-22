@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 const url = "http://localhost:8000";
@@ -18,6 +18,15 @@ const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
   const { setCIti, resData } = useTripForm();
+  const [locations, setLocations ] = useState ([]);
+
+  const handleAddLocation = (newLocationInfo) => {
+    setLocations([...locations, newLocationInfo]);
+  }
+  const handleDeleteLocation = (id) => {
+    setLocations(locations.filter((location) => location.id !== id));
+  };
+
 
   const getdata = async () => {
     await axios
@@ -45,7 +54,7 @@ const TripDetails = ({ destination }) => {
       <div className="content">
         <OverView destination={destination} />
         <Notes />
-        <PlacesToVisit />
+        <PlacesToVisit locations={locations} handleAddLocation={handleAddLocation} handleDeleteLocation= {handleDeleteLocation} />
         <Budget />
       </div>
       <div className="map">
