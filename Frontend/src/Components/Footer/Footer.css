@@ -8,6 +8,8 @@
   }
   .with-sidebar {
     margin-left: 200px; 
+    width: calc(100% - 200px);
+    overflow: hidden;
   }
 
   .footer-content {
@@ -45,7 +47,6 @@
     text-align: center;
   }
   
-  /* Responsive Styles */
   @media screen and (max-width: 768px) {
     footer {
         position: relative;
