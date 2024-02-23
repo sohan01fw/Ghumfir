@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import ghumfirLogo from "../../../../Assets/Ghumfir Logo.png";
 import { useParams } from "react-router-dom";
 import "./Overview.css";
@@ -11,6 +12,8 @@ const OverView = ({ destination }) => {
   const { cIti } = useTripForm();
   const [ImageUrl, setImageUrl] = useState("");
 =======
+=======
+>>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
 import ghumfirLogo from '../../../../Assets/Ghumfir_Logo.png';
 
 import './Overview.css';

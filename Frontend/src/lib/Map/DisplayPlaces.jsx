@@ -16,6 +16,9 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
 =======
   const [checkState, setcheckState] = useState(true);
   const carouselRef = useRef(null);
+<<<<<<< HEAD
+>>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
+=======
 >>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
   //displaying the place details
   const getPlaceDetails = () => {
@@ -163,6 +166,9 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
   const addToPlacesToVisit = (place) => {
     handleAddLocation(place);
   }
+<<<<<<< HEAD
+>>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
+=======
 >>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
 
   return (

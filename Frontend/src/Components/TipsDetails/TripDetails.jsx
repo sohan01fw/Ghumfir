@@ -31,6 +31,9 @@ const TripDetails = ({ destination }) => {
     setLocations(locations.filter((location) => location.id !== id));
   };
 
+<<<<<<< HEAD
+>>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
+=======
 >>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
 
   const getdata = async () => {
@@ -68,8 +71,13 @@ const TripDetails = ({ destination }) => {
       </div>
       <div className="map">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <h1>Map goes here</h1>
         <MapLocation />
+=======
+        {/* <h1>Map goes here</h1> */}
+        <MainNavigation />
+>>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
 =======
         {/* <h1>Map goes here</h1> */}
         <MainNavigation />
