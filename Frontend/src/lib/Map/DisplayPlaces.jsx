@@ -93,20 +93,18 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
         console.log(error);
       });
   };
-  /*  useEffect(() => {
+  useEffect(() => {
     if (checkState) {
-      cIti
-        ? getPlaceDetails()
-        : console.log("no created Itineraries found");
+      cIti ? getPlaceDetails() : console.log("no created Itineraries found");
     }
-  }, [cIti,checkState]);
+  }, [cIti, checkState]);
 
   useEffect(() => {
     if (checkState) {
       placeDetails
         ? insertPlaceDetails()
-
-        : console.log("no Data in placeDetails"));
+        : console.log("no Data in placeDetails");
+    }
   }, [placeDetails]);
   console.log("This is getItiData", cIti);
 
@@ -118,15 +116,6 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
   const scrollRight = () => {
     carouselRef.current.scrollLeft += 200; // Adjust scroll distance as needed
   };
-
-  const addToPlacesToVisit = (place) => {
-    handleAddLocation(place);
-  }
-
-        : console.log("no Data in placeDetails");
-    }
-  }, [placeDetails,checkState]); */
-
   const getAllPlacesData = async () => {
     await axios
       .get(`${url}/api/itineries/itiId/${itiId}`)
@@ -166,7 +155,7 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
     // <div>
     //   hey it's started
     <div className="carousel-container">
-      <button className="scroll-button left" /* onClick={scrollLeft} */>
+      <button className="scroll-button left" onClick={scrollLeft}>
         {"<"}
       </button>
       <div className="carousel" ref={carouselRef}>
@@ -184,7 +173,7 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
             )
           )}
       </div>
-      <button className="scroll-button right" /* onClick={scrollRight} */>
+      <button className="scroll-button right" onClick={scrollRight}>
         {">"}
       </button>
     </div>
