@@ -6,17 +6,31 @@ import SideBar from "../Navigation/SideBar";
 import PlacesToVisit from "./PlacesToVisit";
 import Budget from "./Budget";
 import MainNavigation from "../Navigation/MainNavigation";
-import "./TripDetails.css";
 import OverView from "./Overview";
 import Notes from "./Notes";
 import MapLocation from "../../lib/Map/MapLocation";
 import { useTripForm } from "../../Store/ItineriesContext";
 
+import "./TripDetails.css";
+
+
 const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
-  const { setCIti, resData, setGeoLocation } = useTripForm();
+
+  const { setCIti, resData } = useTripForm();
+  const [locations, setLocations ] = useState ([]);
+
+  const handleAddLocation = (newLocationInfo) => {
+    setLocations([...locations, newLocationInfo]);
+  }
+  const handleDeleteLocation = (id) => {
+    setLocations(locations.filter((location) => location.id !== id));
+  };
+
+ const { setCIti, resData, setGeoLocation } = useTripForm();
   const [itiData, setItiData] = useState([]);
+
 
   const getdata = async () => {
     await axios
@@ -43,16 +57,22 @@ const TripDetails = ({ destination }) => {
   return (
     <div className="trip-details">
       <MainNavigation />
+      <SideBar itiId={itiId} />
+
       <div className="content">
-        <SideBar itiId={itiId} />
         <OverView destination={destination} />
         <Notes />
-        <PlacesToVisit />
+        <PlacesToVisit locations={locations} handleAddLocation={handleAddLocation} handleDeleteLocation= {handleDeleteLocation} />
         <Budget />
       </div>
       <div className="map">
+
+        {/* <h1>Map goes here</h1> */}
+        <MainNavigation />
+
         <h1>Map goes here</h1>
         <MapLocation />
+
       </div>
     </div>
   );

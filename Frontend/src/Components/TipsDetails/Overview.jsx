@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+
+import ghumfirLogo from '../../../../Assets/Ghumfir_Logo.png';
+
+import './Overview.css';
+
+const OverView = ({ destination }) => {
+  const [imageUrl, setImageUrl] = useState("");
+  const sample_dest = "pokhara"
+
+
 import ghumfirLogo from "../../../../Assets/Ghumfir Logo.png";
 import { useParams } from "react-router-dom";
 import "./Overview.css";
@@ -32,6 +42,7 @@ const OverView = ({ destination }) => {
       console.log("Error Fetching Pexels image: ", error);
     }
   };
+
   useEffect(() => {
     getPexelsImage();
   }, []);
