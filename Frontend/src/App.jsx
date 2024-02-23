@@ -17,9 +17,10 @@ import Home from "./pages/Main/Home";
 
 function App() {
   let { itiId } = useParams();
-  // const location = useLocation();
-
-  // const isTripDetailsPage = location.pathname.includes("/tripDetails");
+  const location = useLocation();
+  const isTripDetailsPage = location.pathname.includes("/tripDetails");
+  const displaySidebar = isTripDetailsPage;
+  console.log(displaySidebar);
   return (
     <div className="app-container">
       <TripFormProvider>
@@ -36,7 +37,7 @@ function App() {
             <Route path="/auth" element={<Auth />} />
           </Routes>
         </div>
-        <Footer />
+        <Footer displaySidebar = {isTripDetailsPage} />
         {/* </Router> */}
       </TripFormProvider>
     </div>

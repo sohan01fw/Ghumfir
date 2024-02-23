@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import './Footer.css';
 
 
-const Footer = () => {
+const Footer = ({displaySidebar}) => {
   return (
-    <footer>
+    <footer className={displaySidebar ? "with-sidebar" : ""}>
       <div className="footer-content">
         <div className="footer-section">
           <h3>Ghumfir</h3>
