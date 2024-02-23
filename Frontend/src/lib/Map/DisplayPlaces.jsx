@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useTripForm } from "../../Store/ItineriesContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import './DisplayPlaces.css';
+
 const url = "http://localhost:8000";
-const DisplayPlaces = () => {
+const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
   const [placeDetails, setplaceDetails] = useState([]);
   const { cIti, geoLocations } = useTripForm();
   const { itiId } = useParams();
+<<<<<<< HEAD
   const [checkState, setcheckState] = useState(false);
   const [afterINsert, setafterINsert] = useState(false);
 
+=======
+  const [checkState, setcheckState] = useState(true);
+  const carouselRef = useRef(null);
+>>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
   //displaying the place details
   const getPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
@@ -100,6 +107,7 @@ const DisplayPlaces = () => {
     if (checkState) {
       placeDetails
         ? insertPlaceDetails()
+<<<<<<< HEAD
         : console.log("no Data in placeDetails");
     }
   }, [placeDetails,checkState]); */
@@ -138,20 +146,46 @@ const DisplayPlaces = () => {
   useEffect(() => {
     getAllPlacesData();
   }, [cIti, placeDetails]);
+=======
+        : console.log("no Data in placeDetails"));
+  }, [placeDetails]);
+  console.log("This is getItiData", cIti);
+
+  const scrollLeft = () => {
+    carouselRef.current.scrollLeft -= 200; // Adjust scroll distance as needed
+  };
+
+  // Function to scroll carousel right
+  const scrollRight = () => {
+    carouselRef.current.scrollLeft += 200; // Adjust scroll distance as needed
+  };
+
+  const addToPlacesToVisit = (place) => {
+    handleAddLocation(place);
+  }
+>>>>>>> 3c0ab40b89248878434613c4e80a2827391c3f90
 
   return (
-    <div>
-      hey it's started
-      {/*  <div>
-        {placeDetails.map((data, index) => {
-          return (
-            <div key={index}>
+    // <div>
+    //   hey it's started
+      <div className="carousel-container">
+        <button className="scroll-button left" onClick={scrollLeft}>{'<'}</button>
+        <div className="carousel" ref={carouselRef}>
+          {cIti && cIti.itineraries[0]?.itiInfo?.ItiDetails?.ItiDetails.map((place, index) => (
+            <div className="place-card" key={index}>
+              <h3>{place.name}</h3>
+              {/* Render photos if available */}
+              {place.photos && place.photos.length > 0 && (
+                <img src={place.photos[0]} alt={place.name} />
+              )}
+              <button onClick={() => addToPlacesToVisit(place)}>Add</button>
             </div>
-          );   <h3>{data.name && data.name}</h3>
-           
-        })}
-      </div> */}
-    </div>
+          ))}
+        </div>
+        <button className="scroll-button right" onClick={scrollRight}>{'>'}</button>
+      </div>
+
+    // </div>
   );
 };
 
