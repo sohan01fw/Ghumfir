@@ -6,6 +6,11 @@
     margin-top: auto;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.26);
   }
+  .with-sidebar {
+    margin-left: 200px; 
+    width: calc(100% - 200px);
+    overflow: hidden;
+  }
 
   .footer-content {
     display: flex;
@@ -42,7 +47,6 @@
     text-align: center;
   }
   
-  /* Responsive Styles */
   @media screen and (max-width: 768px) {
     footer {
         position: relative;
