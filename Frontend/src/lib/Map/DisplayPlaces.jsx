@@ -2,10 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useTripForm } from "../../Store/ItineriesContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import './DisplayPlaces.css';
+import "./DisplayPlaces.css";
 
 const url = "http://localhost:8000";
-const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
+const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
   const [placeDetails, setplaceDetails] = useState([]);
   const { cIti, geoLocations } = useTripForm();
   const { itiId } = useParams();
@@ -13,9 +13,7 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
   const [checkState, setcheckState] = useState(true);
   const carouselRef = useRef(null);
 
-  const [checkState, setcheckState] = useState(false);
   const [afterINsert, setafterINsert] = useState(false);
-
 
   //displaying the place details
   const getPlaceDetails = () => {
@@ -164,26 +162,32 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
     getAllPlacesData();
   }, [cIti, placeDetails]);
 
-
   return (
     // <div>
     //   hey it's started
-      <div className="carousel-container">
-        <button className="scroll-button left" onClick={scrollLeft}>{'<'}</button>
-        <div className="carousel" ref={carouselRef}>
-          {cIti && cIti.itineraries[0]?.itiInfo?.ItiDetails?.ItiDetails.map((place, index) => (
-            <div className="place-card" key={index}>
-              <h3>{place.name}</h3>
-              {/* Render photos if available */}
-              {place.photos && place.photos.length > 0 && (
-                <img src={place.photos[0]} alt={place.name} />
-              )}
-              <button onClick={() => addToPlacesToVisit(place)}>Add</button>
-            </div>
-          ))}
-        </div>
-        <button className="scroll-button right" onClick={scrollRight}>{'>'}</button>
+    <div className="carousel-container">
+      <button className="scroll-button left" /* onClick={scrollLeft} */>
+        {"<"}
+      </button>
+      <div className="carousel" ref={carouselRef}>
+        {cIti &&
+          cIti.itineraries[0]?.itiInfo?.ItiDetails?.ItiDetails.map(
+            (place, index) => (
+              <div className="place-card" key={index}>
+                <h3>{place.name}</h3>
+                {/* Render photos if available */}
+                {place.photos && place.photos.length > 0 && (
+                  <img src={place.photos[0]} alt={place.name} />
+                )}
+                <button onClick={() => addToPlacesToVisit(place)}>Add</button>
+              </div>
+            )
+          )}
       </div>
+      <button className="scroll-button right" /* onClick={scrollRight} */>
+        {">"}
+      </button>
+    </div>
 
     // </div>
   );
