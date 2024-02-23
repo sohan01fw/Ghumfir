@@ -1,5 +1,5 @@
 //import express
-import express from "express";
+import express, { NextFunction } from "express";
 import { Request, Response } from "express";
 //cookie-parser
 import cookieParser from "cookie-parser";
@@ -8,13 +8,14 @@ import compression from "compression";
 //cors
 import cors from "cors";
 /* import logger from "morgan"; */
-import { v4 as uuidv4 } from "uuid";
 import { TripRouter } from "./routes/tripPlanRoute.ts";
 import { UserRouter } from "./routes/UserRoute.ts";
 import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";
-
+import { myMiddleware } from "./Middleware/userMiddleware.ts";
 const app = express();
-
+require("dotenv").config();
+const port = process.env.PORT;
+app.use(cookieParser());
 //Handeling packages
 app.use(
   cors({
@@ -23,25 +24,26 @@ app.use(
       const isAllowed = options.includes(origin);
       callback(null, isAllowed);
     },
-    optionsSuccessStatus: 200,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Allow cookies to be sent with requests
+    optionsSuccessStatus: 204,
   })
 );
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(compression());
 
-require("dotenv").config();
-const port = process.env.PORT;
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(compression());
 
 //handling db connection
 require("./Db/dbConn.ts");
+
 //Handeling routes using express middleware
-app.use(TripRouter);
 app.use("/api/user", UserRouter);
+app.use(TripRouter);
 app.use("/api/itineries", TripRouter);
 app.use("/api/place-details", placeDetailsRoute);
-app.get("/", (req: Request, res: Response) => {
+
+app.get("/", myMiddleware, (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 

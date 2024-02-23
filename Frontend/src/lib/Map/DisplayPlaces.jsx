@@ -7,30 +7,42 @@ import './DisplayPlaces.css';
 const url = "http://localhost:8000";
 const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
   const [placeDetails, setplaceDetails] = useState([]);
-  const { cIti } = useTripForm();
+  const { cIti, geoLocations } = useTripForm();
   const { itiId } = useParams();
+
   const [checkState, setcheckState] = useState(true);
   const carouselRef = useRef(null);
+
+  const [checkState, setcheckState] = useState(false);
+  const [afterINsert, setafterINsert] = useState(false);
+
+
   //displaying the place details
-  const displayPlaceDetails = () => {
+  const getPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
       document.createElement("div")
     );
 
     service.nearbySearch(
       {
-        location: { lat: 28.2095831, lng: 83.9855674 },
+        location: {
+          lat: parseFloat(geoLocations?.lat),
+          lng: parseFloat(geoLocations?.lng),
+        },
         radius: 5000, // You can adjust the radius as needed
         type: [
-          "natural_feature",
+          /* "natural_feature",
           "Nature & Parks",
           "Nature & Wildlife Areas",
           "Sights & Landmarks",
-          "Caverns & Caves",
+         
           "Waterfalls",
-          "Lake",
+          "Lake", */
+          "Temple",
+          "Caverns & Caves",
+          "Things to do",
         ], // You can specify the type of places you want
-        keyword: "tourist attraction", // You can add a keyword to narrow down your results
+        keyword: "Things to do", // You can add a keyword to narrow down your results
         exclude: ["restaurant", "lodging"], // You can exclude places from your results
       },
       (results, status) => {
@@ -43,7 +55,13 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
                   business_status: detailResult.business_status,
                   address: detailResult.formatted_address,
                   name: detailResult.name,
-                  photos: detailResult.photos,
+
+                  photos: {
+                    url: detailResult.photos?.[0].getUrl(),
+                    height: detailResult.photos?.[0].height,
+                    width: detailResult.photos?.[0].width,
+                  },
+
                   place_id: detailResult.place_id,
                   rating: detailResult.rating,
                   user_total_rating: detailResult.user_ratings_total,
@@ -69,7 +87,7 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
         placeDetails
       )
       .then(function (response) {
-        if (response.data) {
+        if (response?.status === 200) {
           setcheckState(!checkState);
         }
       })
@@ -77,17 +95,19 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
         console.log(error);
       });
   };
-  useEffect(() => {
-    checkState &&
-      (cIti
-        ? displayPlaceDetails()
-        : console.log("no created Itineraries found"));
-  }, [cIti]);
+  /*  useEffect(() => {
+    if (checkState) {
+      cIti
+        ? getPlaceDetails()
+        : console.log("no created Itineraries found");
+    }
+  }, [cIti,checkState]);
 
   useEffect(() => {
-    checkState &&
-      (placeDetails
+    if (checkState) {
+      placeDetails
         ? insertPlaceDetails()
+
         : console.log("no Data in placeDetails"));
   }, [placeDetails]);
   console.log("This is getItiData", cIti);
@@ -104,6 +124,46 @@ const DisplayPlaces = ({handleAddLocation, handleDeleteLocation}) => {
   const addToPlacesToVisit = (place) => {
     handleAddLocation(place);
   }
+
+        : console.log("no Data in placeDetails");
+    }
+  }, [placeDetails,checkState]); */
+
+  const getAllPlacesData = async () => {
+    await axios
+      .get(`${url}/api/itineries/itiId/${itiId}`)
+      .then((res) => {
+        if (
+          res.data === "" ||
+          res?.data?.itineraries[0]?.itiInfo?.ItiDetails === null
+        ) {
+          if (cIti) {
+            getPlaceDetails();
+          }
+
+          if (placeDetails) {
+            insertPlaceDetails();
+          }
+        } else {
+          console.log("data=><", res);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (checkState) {
+      getAllPlacesData();
+    }
+  }, [checkState]);
+  //get data
+
+  useEffect(() => {
+    getAllPlacesData();
+  }, [cIti, placeDetails]);
+
 
   return (
     // <div>

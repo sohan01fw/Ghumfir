@@ -17,6 +17,7 @@ import "./TripDetails.css";
 const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
+
   const { setCIti, resData } = useTripForm();
   const [locations, setLocations ] = useState ([]);
 
@@ -27,13 +28,20 @@ const TripDetails = ({ destination }) => {
     setLocations(locations.filter((location) => location.id !== id));
   };
 
+ const { setCIti, resData, setGeoLocation } = useTripForm();
+  const [itiData, setItiData] = useState([]);
+
 
   const getdata = async () => {
     await axios
-      .get(`${url}/api/itineries/${itiId}`)
+      .get(`${url}/api/itineries/itiId/${itiId}`)
       .then((res) => {
         if (res.data) {
           setCIti(res.data);
+
+          res?.data?.itineraries?.map((data) => {
+            setGeoLocation(data?.itiInfo?.geolocation);
+          });
         }
 
         /*  console.log("response:", res.data); */
@@ -58,10 +66,14 @@ const TripDetails = ({ destination }) => {
         <Budget />
       </div>
       <div className="map">
+
         {/* <h1>Map goes here</h1> */}
         <MainNavigation />
-      </div>
 
+        <h1>Map goes here</h1>
+        <MapLocation />
+
+      </div>
     </div>
   );
 };

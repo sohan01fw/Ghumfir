@@ -20,6 +20,7 @@ const InputLocation = ({ destination }) => {
     // Provide the cache time in seconds, the default is 24 hours
     cache: 24 * 60 * 60,
   });
+
   useMemo(() => {
     setValue(destination);
   }, [destination]);

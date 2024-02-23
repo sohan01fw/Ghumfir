@@ -8,8 +8,7 @@ export default async function createItineries(req: Request, res: Response) {
   try {
     const tripDetails = req.body;
     let userId = "skoekfodkse";
-    const { itineraryId, itiInfo, startDate, endDate } =
-      tripDetails as Itineraries;
+    const { itineraryId, itiInfo, startDate, endDate } = tripDetails;
     if (!userId) {
       res.status(401).json({ status: "400", msg: "unauthorized user" });
     }
@@ -103,5 +102,19 @@ export async function getItineriesById(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     res.status(404).json({ msg: "error while fetching user itineries" });
+  }
+}
+
+//get all itineraries with users for homepage in client side
+export async function getAllItineries(req: Request, res: Response) {
+  try {
+    const result = await UserItineraryModel.findOne({
+      userId: "skoekfodkse",
+    });
+
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ msg: "error while fetching all itineries" });
   }
 }

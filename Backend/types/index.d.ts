@@ -1,37 +1,45 @@
-import { ObjectId } from "mongodb";
+import { Types } from "mongoose";
 
 export type User = {
   userId: string;
   email: string;
-  name: string;
+  name?: string;
+  password: string;
+  refreshToken: string;
 };
 
 export type Itineraries = {
-  itineraryId: string;
-  itiInfo: {
-    place_Id: string;
-    place: string;
-    geolocation: {
-      lat: string;
-      lng: string;
+  userId: String;
+  itineraries: Array<{
+    itineraryId: string;
+    itiInfo: {
+      place_Id: string;
+      place: string;
+      geolocation: {
+        lat: string;
+        lng: string;
+      };
+      ItiDetails: Types.ObjectId;
     };
-  };
-  startDate: string;
-  endDate: string;
+    startDate: string;
+    endDate: string;
+  }>;
 };
-
+//it's for all details model
 type itiPic = {
   url: string;
-  height: number;
-  width: number;
+  height: string;
+  width: string;
 };
 type userReviews = {
-  author: string;
-  author_url: string;
+  author_name: string;
+  author_pic_url: string;
   text: string;
+  rating: Number;
 };
 
 export type AllItiDetails = {
+  itineraryId: string;
   ItiDetails: Array<{
     address: string;
     business_status: string;

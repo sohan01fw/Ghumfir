@@ -4,6 +4,10 @@ import { AllItiDetails } from "../../../../types";
 const { Schema } = mongoose;
 
 const allItiDetailSchema = new Schema<AllItiDetails>({
+  itineraryId: {
+    type: String,
+    required: true,
+  },
   ItiDetails: [
     {
       address: {
@@ -23,8 +27,10 @@ const allItiDetailSchema = new Schema<AllItiDetails>({
       rating: Number,
       reviews: [
         {
-          author: String,
-          author_url: String,
+          author_name: String,
+          author_pic_url: String,
+          text: String,
+          rating: Number,
         },
       ],
       user_total_rating: Number,

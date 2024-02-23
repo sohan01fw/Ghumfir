@@ -1,10 +1,14 @@
-import { UserCreate, getUsers } from "../Controllers/UserController";
+import { LogOut, LoginUser, RegisterUser } from "../Controllers/UserController";
 import express from "express";
+import { myMiddleware } from "../Middleware/userMiddleware";
 
+const app = express();
 export const UserRouter = express.Router();
 
-UserRouter.route("/").get(getUsers);
-
-UserRouter.route("/createuser").post(UserCreate);
-/* UserRouter.route("/:id").delete(handleDeleteUser);
+/* UserRouter.route("/").get(getUsers);
  */
+UserRouter.route("/register").post(RegisterUser);
+
+UserRouter.route("/login").post(LoginUser);
+
+UserRouter.route("/logout").post(myMiddleware, LogOut);

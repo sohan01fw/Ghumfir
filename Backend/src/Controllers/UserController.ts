@@ -2,22 +2,28 @@ import { UserModel } from "../Db/Models/User.model.ts";
 import { User } from "../../types";
 import { Request, Response } from "express";
 
-//user creation
-export async function UserCreate(req: Request, res: Response) {
+//user registration
+export async function RegisterUser(req: Request, res: Response) {
   try {
-    const { userId, email, name }: User = req.body;
-    const findUser = false;
-
-    if (!findUser) {
+    const { email, name, password }: User = req.body;
+    if (!email || !name || !password) {
+      throw new Error("Email or name or password is empty");
+    }
+    const findUser = await UserModel.findOne({
+      $or: [{ email }, { name }],
+    });
+    console.log(findUser);
+    if (findUser === null) {
       try {
-        const saveUser = new UserModel({
-          userId,
-          email,
-          name,
+        const saveUser = await UserModel.create({
+          email: email,
+          name: name,
+          password: password,
         });
-        await saveUser.save();
+
         res.status(201).json({ msg: "Created new user" });
       } catch (error) {
+        console.log(error);
         res.status(401).json({ msg: "Error while creating user" });
       }
     }
@@ -26,21 +32,85 @@ export async function UserCreate(req: Request, res: Response) {
     res.status(500).json({ msg: "Error while processing user" });
   }
 }
-//get users
-export async function getUsers(req: Request, res: Response) {
+//for login user
+const getRefreshTokenAndAccessToken = async (userId: string) => {
+  const findUser = await UserModel.findById({ _id: userId });
+  if (!findUser) {
+    throw new Error("no user found");
+  }
+  const AccessToken = await findUser.generateAccessToken();
+  const RefreshToken = await findUser.generateRefreshToken();
+
+  await UserModel.findByIdAndUpdate(
+    { _id: userId },
+    {
+      $set: { refreshToken: RefreshToken },
+    },
+    { new: true }
+  );
+  return { AccessToken, RefreshToken };
+};
+
+export async function LoginUser(req: Request, res: Response) {
+  const { email, name, password } = req.body;
+  if (!email && !name) {
+    throw new Error("Email or name must be provided to login");
+  }
+  if (!password) {
+    throw new Error("password must be provided to login");
+  }
+
+  //check user in db
+  const user = await UserModel.findOne({
+    $or: [{ email: email }, { name: name }],
+  });
+  if (!user) {
+    throw new Error("user doesn't exists");
+  }
+  //check whether the password correct or not
+  let checkUser = await user.isPasswordCorrect(password);
+  if (checkUser) {
+    throw new Error("password is incorrect");
+  }
+  const options = {};
+  let id = user._id.toString();
+  const { RefreshToken, AccessToken } = await getRefreshTokenAndAccessToken(id);
+  user.password = undefined;
+  user.refreshToken = undefined;
+  res
+    .status(200)
+    .cookie("_rt", RefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    })
+    .cookie("_at", AccessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+      expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+    })
+    .json({ msg: "successfully logged in", data: user });
+}
+
+export async function LogOut(req: Request, res: Response) {
   try {
-    const { userId } = req.body;
-    const resUsers = await UserModel.findOne({ userId });
-    res.send(resUsers);
+    await UserModel.findByIdAndUpdate(
+      { _id: req.user._id },
+      {
+        $set: { refreshToken: undefined },
+      },
+      { new: true }
+    );
+
+    res
+      .status(200)
+      .clearCookie("_at")
+      .json({ msg: "successfully logout the user", data: {} });
   } catch (error) {
-    res.status(404).json({ msg: "user not found" });
+    throw new Error("failed to logout the user");
   }
 }
-/* export async function handleDeleteUser(req: Request, res: Response) {
-  try {
-    const { userId } = req.body;
-    console.log(userId);
-  } catch (error) {
-    res.status(500).json({ msg: "error while deleting user" });
-  }
-} */
