@@ -13,24 +13,21 @@ import { useTripForm } from "../../Store/ItineriesContext";
 
 import "./TripDetails.css";
 
-
 const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
 
   const { setCIti, resData } = useTripForm();
-  const [locations, setLocations ] = useState ([]);
+  const [locations, setLocations] = useState([]);
 
   const handleAddLocation = (newLocationInfo) => {
     setLocations([...locations, newLocationInfo]);
-  }
+  };
   const handleDeleteLocation = (id) => {
     setLocations(locations.filter((location) => location.id !== id));
   };
 
- const { setCIti, resData, setGeoLocation } = useTripForm();
   const [itiData, setItiData] = useState([]);
-
 
   const getdata = async () => {
     await axios
@@ -62,17 +59,19 @@ const TripDetails = ({ destination }) => {
       <div className="content">
         <OverView destination={destination} />
         <Notes />
-        <PlacesToVisit locations={locations} handleAddLocation={handleAddLocation} handleDeleteLocation= {handleDeleteLocation} />
+        <PlacesToVisit
+          locations={locations}
+          handleAddLocation={handleAddLocation}
+          handleDeleteLocation={handleDeleteLocation}
+        />
         <Budget />
       </div>
       <div className="map">
-
         {/* <h1>Map goes here</h1> */}
         <MainNavigation />
 
         <h1>Map goes here</h1>
         <MapLocation />
-
       </div>
     </div>
   );
