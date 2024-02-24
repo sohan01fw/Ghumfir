@@ -1,0 +1,7 @@
+.markerselected {
+  border: 1px solid black;
+  z-index: 50px;
+  background-color: red;
+  height: 50px;
+  width: 50px;
+}
