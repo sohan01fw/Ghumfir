@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useTripForm } from "../../Store/ItineriesContext";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import "./DisplayPlaces.css";
 
 const url = "http://localhost:8000";
@@ -12,7 +11,7 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
 
   const [checkState, setcheckState] = useState(true);
   const carouselRef = useRef(null);
-
+  const [allgetData, setallgetData] = useState();
   const [afterINsert, setafterINsert] = useState(false);
 
   //displaying the place details
@@ -59,7 +58,6 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
                     height: detailResult.photos?.[0].height,
                     width: detailResult.photos?.[0].width,
                   },
-
                   place_id: detailResult.place_id,
                   rating: detailResult.rating,
                   user_total_rating: detailResult.user_ratings_total,
@@ -78,12 +76,22 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
     );
   };
 
-  const insertPlaceDetails = () => {
-    axios
-      .post(
-        `${url}/api/place-details/insertAllItiDetails/${itiId}`,
-        placeDetails
-      )
+  const scrollLeft = () => {
+    carouselRef.current.scrollLeft -= 200; // Adjust scroll distance as needed
+  };
+
+  // Function to scroll carousel right
+  const scrollRight = () => {
+    carouselRef.current.scrollLeft += 200; // Adjust scroll distance as needed
+  };
+
+  useEffect(() => {
+    cIti ? getPlaceDetails() : console.log("no created Itineraries found");
+  }, [cIti]);
+
+  const addToPlacesToVisit = async (value) => {
+    await axios
+      .post(`${url}/api/place-details/insertAllItiDetails/${itiId}`, value)
       .then(function (response) {
         if (response?.status === 200) {
           setcheckState(!checkState);
@@ -93,92 +101,27 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
         console.log(error);
       });
   };
-  useEffect(() => {
-    if (checkState) {
-      cIti ? getPlaceDetails() : console.log("no created Itineraries found");
-    }
-  }, [cIti, checkState]);
-
-  useEffect(() => {
-    if (checkState) {
-      placeDetails
-        ? insertPlaceDetails()
-        : console.log("no Data in placeDetails");
-    }
-  }, [placeDetails]);
-  console.log("This is getItiData", cIti);
-
-  const scrollLeft = () => {
-    carouselRef.current.scrollLeft -= 200; // Adjust scroll distance as needed
-  };
-
-  // Function to scroll carousel right
-  const scrollRight = () => {
-    carouselRef.current.scrollLeft += 200; // Adjust scroll distance as needed
-  };
-  const getAllPlacesData = async () => {
-    await axios
-      .get(`${url}/api/itineries/itiId/${itiId}`)
-      .then((res) => {
-        if (
-          res.data === "" ||
-          res?.data?.itineraries[0]?.itiInfo?.ItiDetails === null
-        ) {
-          if (cIti) {
-            getPlaceDetails();
-          }
-
-          if (placeDetails) {
-            insertPlaceDetails();
-          }
-        } else {
-          console.log("data=><", res);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    if (checkState) {
-      getAllPlacesData();
-    }
-  }, [checkState]);
-  //get data
-
-  useEffect(() => {
-    getAllPlacesData();
-  }, [cIti, placeDetails]);
 
   return (
-    // <div>
-    //   hey it's started
     <div className="carousel-container">
       <button className="scroll-button left" onClick={scrollLeft}>
         {"<"}
       </button>
       <div className="carousel" ref={carouselRef}>
-        {cIti &&
-          cIti.itineraries[0]?.itiInfo?.ItiDetails?.ItiDetails.map(
-            (place, index) => (
-              <div className="place-card" key={index}>
-                <h3>{place.name}</h3>
-                {/* Render photos if available */}
-                {place.photos && place.photos.length > 0 && (
-                  <img src={place.photos[0]} alt={place.name} />
-                )}
-                <button onClick={() => addToPlacesToVisit(place)}>Add</button>
-              </div>
-            )
-          )}
+        {placeDetails &&
+          placeDetails.map((place, index) => (
+            <div className="place-card" key={index}>
+              <h3>{place.name}</h3>
+              {/* Render photos if available */}
+              {place.photos && <img src={place.photos.url} alt={place.name} />}
+              <button onClick={() => addToPlacesToVisit(place)}>Add</button>
+            </div>
+          ))}
       </div>
       <button className="scroll-button right" onClick={scrollRight}>
         {">"}
       </button>
     </div>
-
-    // </div>
   );
 };
 
