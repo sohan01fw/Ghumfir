@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useTripForm } from "../../Store/ItineriesContext";
 import { useParams } from "react-router-dom";
 import "./DisplayPlaces.css";
+import axios from "axios";
 
 const url = "http://localhost:8000";
 const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
@@ -52,11 +53,14 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
                   business_status: detailResult.business_status,
                   address: detailResult.formatted_address,
                   name: detailResult.name,
-
                   photos: {
                     url: detailResult.photos?.[0].getUrl(),
                     height: detailResult.photos?.[0].height,
                     width: detailResult.photos?.[0].width,
+                  },
+                  geo: {
+                    lat: detailResult.geometry?.location?.lat(),
+                    lng: detailResult.geometry?.location?.lng(),
                   },
                   place_id: detailResult.place_id,
                   rating: detailResult.rating,
@@ -90,18 +94,21 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
   }, [cIti]);
 
   const addToPlacesToVisit = async (value) => {
-    await axios
-      .post(`${url}/api/place-details/insertAllItiDetails/${itiId}`, value)
-      .then(function (response) {
-        if (response?.status === 200) {
-          setcheckState(!checkState);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    console.log("value =>>>", value);
+    if (value) {
+      await axios
+        .post(`${url}/api/place-details/insertAllItiDetails/${itiId}`, value)
+        .then(function (response) {
+          if (response?.status === 200) {
+            setcheckState(!checkState);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
-
+  console.log("placedetails =>>>", placeDetails);
   return (
     <div className="carousel-container">
       <button className="scroll-button left" onClick={scrollLeft}>

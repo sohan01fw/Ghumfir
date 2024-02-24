@@ -40,10 +40,38 @@ export async function insertAllItiDetails(req: Request, res: Response) {
             throw new Error("Error while inserting id to userItinerary model");
           }
         }
+      } else {
+        try {
+          const pushAllItiId = await allItiDetailsModel.findOneAndUpdate(
+            {
+              itineraryId: xParams.itiId,
+            },
+            { $push: { ItiDetails: xData } },
+            { new: true, upsert: true }
+          );
+          console.log(pushAllItiId);
+        } catch (error) {
+          throw new Error("Error while updating places details");
+        }
       }
     }
   } catch (error) {
     console.log(error);
     throw new Error("Error while inserting many itineraries");
+  }
+}
+
+export async function getSelectedPlacesDetails(req: Request, res: Response) {
+  try {
+    const { itiId } = req.params;
+
+    const result = await allItiDetailsModel.findOne({
+      itineraryId: itiId,
+    });
+
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ msg: "error while fetching user itineries" });
   }
 }
