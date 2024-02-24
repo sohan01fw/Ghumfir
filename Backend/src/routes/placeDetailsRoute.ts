@@ -1,4 +1,7 @@
-import { insertAllItiDetails } from "../Controllers/itiDetailsInfoController";
+import {
+  getSelectedPlacesDetails,
+  insertAllItiDetails,
+} from "../Controllers/itiDetailsInfoController";
 
 import express from "express";
 
@@ -7,3 +10,5 @@ export const placeDetailsRoute = express.Router();
 placeDetailsRoute
   .route("/insertAllItiDetails/:itiId")
   .post(insertAllItiDetails);
+
+placeDetailsRoute.route("/getDetails/:itiId").get(getSelectedPlacesDetails);
