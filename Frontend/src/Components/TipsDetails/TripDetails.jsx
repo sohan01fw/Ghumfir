@@ -17,7 +17,7 @@ const TripDetails = ({ destination }) => {
   /* console.log(destination); */
   const { itiId } = useParams();
 
-  const { setCIti, resData } = useTripForm();
+  const { setCIti, resData, setGeoLocation } = useTripForm();
   const [locations, setLocations] = useState([]);
 
   const handleAddLocation = (newLocationInfo) => {
