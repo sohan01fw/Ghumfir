@@ -5,9 +5,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 const url = "http://localhost:8000";
 const GoogleMaps = ({ isLoaded }) => {
-  const { cIti, geoLocations } = useTripForm();
+  const { cIti, geoLocations, checkState } = useTripForm();
   const { itiId } = useParams();
   console.log("itiId=>>>", itiId);
+  console.log("checkstate value=>>", checkState);
   const [returnSelectedData, setreturnSelectedData] = useState();
   const selectedDetails = async () => {
     await axios
@@ -21,7 +22,7 @@ const GoogleMaps = ({ isLoaded }) => {
   };
   useEffect(() => {
     cIti ? selectedDetails() : console.log("no created Itineraries found");
-  }, [cIti]);
+  }, [cIti, checkState]);
 
   const containerStyle = {
     width: "100%",

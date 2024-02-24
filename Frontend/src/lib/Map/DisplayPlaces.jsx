@@ -7,10 +7,9 @@ import axios from "axios";
 const url = "http://localhost:8000";
 const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
   const [placeDetails, setplaceDetails] = useState([]);
-  const { cIti, geoLocations } = useTripForm();
+  const { cIti, geoLocations, checkState, setcheckState } = useTripForm();
   const { itiId } = useParams();
 
-  const [checkState, setcheckState] = useState(true);
   const carouselRef = useRef(null);
   const [allgetData, setallgetData] = useState();
   const [afterINsert, setafterINsert] = useState(false);
@@ -108,7 +107,7 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
         });
     }
   };
-  console.log("placedetails =>>>", placeDetails);
+  /* console.log("placedetails =>>>", placeDetails); */
   return (
     <div className="carousel-container">
       <button className="scroll-button left" onClick={scrollLeft}>

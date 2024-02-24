@@ -20,6 +20,8 @@ const TripFormProvider = ({ children }) => {
   const [resData, setResData] = useState();
   const [geoLocations, setGeoLocation] = useState();
 
+  const [checkState, setcheckState] = useState(true);
+
   const addPlaceValue = (value) => {
     setValues(value);
   };
@@ -57,6 +59,8 @@ const TripFormProvider = ({ children }) => {
         resData,
         geoLocations,
         setGeoLocation,
+        checkState,
+        setcheckState,
       }}
     >
       {children}

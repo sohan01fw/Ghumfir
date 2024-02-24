@@ -50,6 +50,7 @@ export async function insertAllItiDetails(req: Request, res: Response) {
             { new: true, upsert: true }
           );
           console.log(pushAllItiId);
+          res.send("successsfully updated");
         } catch (error) {
           throw new Error("Error while updating places details");
         }
