@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ghumfirLogo from "../../../../Assets/Ghumfir_Logo.png";
-import { useParams } from "react-router-dom";
 import "./Overview.css";
-import { useTripForm } from "../../Store/ItineriesContext";
-
+import ghumfirLogo from "../../../Assets/Ghumfir_Logo.png";
 const OverView = ({ destination }) => {
-  const { itiId } = useParams();
-  const { cIti } = useTripForm();
   const [ImageUrl, setImageUrl] = useState("");
 
   const sample_dest = "pokhara";

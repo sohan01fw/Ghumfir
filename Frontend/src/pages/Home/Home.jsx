@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { url } from "../../Store/ItineriesContext";
+import { SERVER_URL } from "../../utils/exportItem";
 
 const Home = () => {
   useEffect(() => {
     axios
-      .get(`${url}/api/itineries/getAllIti`)
+      .get(`${SERVER_URL}/api/itineries/getAllIti`)
       .then((data) => {
         console.log(data);
       })

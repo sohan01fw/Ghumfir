@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-const url = "http://localhost:8000";
-import SideBar from "../Navigation/SideBar";
-import PlacesToVisit from "./PlacesToVisit";
-import Budget from "./Budget";
-import MainNavigation from "../Navigation/MainNavigation";
-import OverView from "./Overview";
-import Notes from "./Notes";
-import MapLocation from "../../lib/Map/MapLocation";
 import { useTripForm } from "../../Store/ItineriesContext";
 
 import "./TripDetails.css";
+import { SERVER_URL } from "../../utils/exportItem";
+import SideBar from "../../Components/Navigation/SideBar/SideBar";
+import PlacesToVisit from "../../Components/ShowTrips/placeToVisit/PlacesToVisit";
+import Budget from "../../Components/ShowTrips/Budget/Budget";
+import MainNavigation from "../../Components/Navigation/MainNavigation";
+import OverView from "../../Components/ShowTrips/Overview/Overview";
+import Notes from "../../Components/ShowTrips/Note/Notes";
+import MapLocation from "../../Components/Map/MapLocation";
 
 const TripDetails = ({ destination }) => {
   /* console.log(destination); */
@@ -31,7 +31,7 @@ const TripDetails = ({ destination }) => {
 
   const getdata = async () => {
     await axios
-      .get(`${url}/api/itineries/itiId/${itiId}`)
+      .get(`${SERVER_URL}/api/itineries/itiId/${itiId}`)
       .then((res) => {
         if (res.data) {
           setCIti(res.data);

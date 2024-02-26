@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useTripForm } from "../../Store/ItineriesContext";
+import { useTripForm } from "../../../Store/ItineriesContext";
 import { useParams } from "react-router-dom";
 import "./DisplayPlaces.css";
 import axios from "axios";
-
-const url = "http://localhost:8000";
+import { SERVER_URL } from "./../../../utils/exportItem";
 const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
   const [placeDetails, setplaceDetails] = useState([]);
   const { cIti, geoLocations, checkState, setcheckState } = useTripForm();
@@ -96,7 +95,10 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
     console.log("value =>>>", value);
     if (value) {
       await axios
-        .post(`${url}/api/place-details/insertAllItiDetails/${itiId}`, value)
+        .post(
+          `${SERVER_URL}/api/place-details/insertAllItiDetails/${itiId}`,
+          value
+        )
         .then(function (response) {
           if (response?.status === 200) {
             setcheckState(!checkState);
