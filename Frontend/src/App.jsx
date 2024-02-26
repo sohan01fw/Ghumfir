@@ -1,22 +1,15 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import Trips from "./Components/TipsDetails/Trips";
-import MainNavigation from "./Components/Navigation/MainNavigation";
-import About from "./pages/Main/About";
+import { Routes, Route } from "react-router-dom";
 import { TripFormProvider } from "./Store/ItineriesContext";
 import Footer from "./Components/Footer/Footer";
 import Auth from "./pages/Auth/Auth";
-import Blog from "./pages/Main/Blog";
-import TripDetails from "./Components/TipsDetails/TripDetails";
-import { useParams } from "react-router-dom";
-import Home from "./pages/Main/Home";
+import TripDetails from "./pages/TripDetails/TripDetails";
+import Home from "./pages/Home/Home";
+import Trips from "./pages/Trips/Trips";
+import About from "./pages/About/About";
+import Blog from "./pages/Blog/Blog";
+import { useLocation } from "react-router-dom";
 
 function App() {
-  let { itiId } = useParams();
   const location = useLocation();
   const isTripDetailsPage = location.pathname.includes("/tripDetails");
   const displaySidebar = isTripDetailsPage;
@@ -24,9 +17,6 @@ function App() {
   return (
     <div className="app-container">
       <TripFormProvider>
-        {/* <Router> */}
-        {/* {!isTripDetailsPage && <MainNavigation /> } */}
-        {/* <MainNavigation /> */}
         <div className="main-content">
           <Routes>
             <Route path="/" exact element={<Home />} />
@@ -37,8 +27,7 @@ function App() {
             <Route path="/auth" element={<Auth />} />
           </Routes>
         </div>
-        <Footer displaySidebar = {isTripDetailsPage} />
-        {/* </Router> */}
+        <Footer displaySidebar={isTripDetailsPage} />
       </TripFormProvider>
     </div>
   );

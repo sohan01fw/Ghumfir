@@ -1,9 +1,7 @@
 import React from "react";
 import { useJsApiLoader } from "@react-google-maps/api";
-import GoogleMaps from "../../Components/map/GoogleMaps";
-import InputLocation from "../../Components/map/InputLocation";
-
-export const key = import.meta.env.VITE_REACT_APP_GOOGLE_MAP_KEY;
+import GoogleMaps from "./GoogleMaps/GoogleMaps";
+import { key } from "../../utils/exportItem";
 
 const MapLocation = () => {
   const { isLoaded } = useJsApiLoader({

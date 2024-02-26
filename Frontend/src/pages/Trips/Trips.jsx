@@ -5,10 +5,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
 import { useTripForm } from "../../Store/ItineriesContext";
-import MapLocation, { key } from "../../lib/Map/MapLocation";
-import InputLocation from "../map/InputLocation";
 import short from "short-uuid";
-import MainNavigation from "../Navigation/MainNavigation";
+import { key } from "../../utils/exportItem";
+import InputLocation from "../../Components/Map/InputLocation/InputLocation";
+import MainNavigation from "../../Components/Navigation/MainNavigation";
 
 const Trips = () => {
   const { itiInfo, postItineriesDetails, Values, addPlaceValue } =

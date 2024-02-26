@@ -5,8 +5,7 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import "./InputLocation.css";
 import { useEffect, useMemo, useState } from "react";
-import TripDetails from "../TipsDetails/TripDetails";
-import { useTripForm } from "../../Store/ItineriesContext";
+import { useTripForm } from "../../../Store/ItineriesContext";
 
 const InputLocation = ({ destination }) => {
   const { addItineriesInfo, addPlaceValue } = useTripForm();

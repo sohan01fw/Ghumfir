@@ -39,31 +39,31 @@ const Blog = () => {
   return (
     <div className="blog">
       <MainNavigation />
-        <form onSubmit={handleSubmit} className="blog-form">
-      <label>
-        Title:
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Content:
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Image:
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-      </label>
-      <br />
-      <button type="submit">Submit Blog</button>
-    </form>
+      <form onSubmit={handleSubmit} className="blog-form">
+        <label>
+          Title:
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Content:
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Image:
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+        </label>
+        <br />
+        <button type="submit">Submit Blog</button>
+      </form>
     </div>
   );
 };

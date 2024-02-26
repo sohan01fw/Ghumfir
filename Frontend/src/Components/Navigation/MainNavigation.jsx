@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
-import NavLinks from "./NavLinks";
-import ghumfirLogo from '../../../../Assets/Ghumfir_Logo.png';
-
-
+import NavLinks from "./NavLinks/NavLinks";
+import ghumfirLogo from "../../Assets/Ghumfir_Logo.png";
 import "./MainNavigation.css";
 
 const MainNavigation = () => {

@@ -38,13 +38,16 @@ import {
   faAngleUp,
 } from "@fortawesome/free-solid-svg-icons";
 import "./PlacesToVisit.css";
-import DisplayPlaces from "../../lib/Map/DisplayPlaces";
+import DisplayPlaces from "../../Map/MapPlacesDisplay/DisplayPlaces";
 
-const PlacesToVisit = ({locations, handleAddLocation, handleDeleteLocation}) => {
+const PlacesToVisit = ({
+  locations,
+  handleAddLocation,
+  handleDeleteLocation,
+}) => {
   // const [locations, setLocations] = useState([]);
-  const [newLocation, setNewLocation] = useState('');
+  const [newLocation, setNewLocation] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
-
 
   const handleInputChange = (e) => {
     setNewLocation(e.target.value);
@@ -61,12 +64,10 @@ const PlacesToVisit = ({locations, handleAddLocation, handleDeleteLocation}) => 
   //     // };
   //     setLocations([...locations, newLocationInfo]);
 
-
   //     // setLocations([...locations, newLocationInfo]);
   //     setNewLocation("");
   //   }
   // };
-
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -94,10 +95,12 @@ const PlacesToVisit = ({locations, handleAddLocation, handleDeleteLocation}) => 
             />
             <button onClick={handleAddLocation}>Add Location</button>
           </div>
-    <div>
-    <DisplayPlaces handleAddLocation = {handleAddLocation} handleDeleteLocation={handleDeleteLocation} />
-
-    </div>
+          <div>
+            <DisplayPlaces
+              handleAddLocation={handleAddLocation}
+              handleDeleteLocation={handleDeleteLocation}
+            />
+          </div>
         </div>
         <div className="location-list">
           {locations.map((location) => (
@@ -107,7 +110,9 @@ const PlacesToVisit = ({locations, handleAddLocation, handleDeleteLocation}) => 
                 <p>{location.description}</p>
               </div>
               <div className="location-item-img">
-                {location.image && <img src={location.image} alt={location.name} />}
+                {location.image && (
+                  <img src={location.image} alt={location.name} />
+                )}
               </div>
               <div className="delete">
                 <button onClick={() => handleDeleteLocation(location.id)}>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
-import { useTripForm } from "../../Store/ItineriesContext";
+import { useTripForm } from "../../../Store/ItineriesContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./GoogleMaps.css";
