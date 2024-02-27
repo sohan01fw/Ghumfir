@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
-import { useTripForm } from "../../../Store/ItineriesContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./GoogleMaps.css";
-
-const url = "http://localhost:8000";
+import { SERVER_URL } from "../../../utils/exportItem";
+import { useAppState } from "../../../utils/Hooks/useAppState";
 
 const GoogleMaps = ({ isLoaded }) => {
-  const { cIti, geoLocations, checkState } = useTripForm();
+  const { state, dispatch } = useAppState();
+  const { cIti, geoLocations, checkState } = state;
   const { itiId } = useParams();
   const [returnSelectedData, setReturnSelectedData] = useState();
   const [markerSelected, setMarkerSelected] = useState(null);
@@ -17,7 +17,7 @@ const GoogleMaps = ({ isLoaded }) => {
   const selectedDetails = async () => {
     try {
       const response = await axios.get(
-        `${url}/api/place-details/getDetails/${itiId}`
+        `${SERVER_URL}/api/place-details/getDetails/${itiId}`
       );
       setReturnSelectedData(response.data);
     } catch (error) {

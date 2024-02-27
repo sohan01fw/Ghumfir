@@ -1,15 +1,39 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useReducer } from "react";
 
 const initialState = {
   itiDetails: null,
+  itiInfo: {},
+  placeValues: null,
+  cIti: null,
+  geoLocations: null,
+  checkState: true,
 };
 
 const Reducer = (state = initialState, action) => {
   switch (action.type) {
     case "ITI_DETAILS":
       return {
-        ...state,
-        itinerariesDetails: action.payload,
+        itiDetails: action.payload,
+      };
+    case "ADD_PLACE_VALUE":
+      return {
+        placeValues: action.payload,
+      };
+    case "ADD_ITI_INFO":
+      return {
+        itiInfo: action.payload,
+      };
+    case "ADD_cIti":
+      return {
+        cIti: action.payload,
+      };
+    case "ADD_GEOLOCATION":
+      return {
+        geoLocations: action.payload,
+      };
+    case "CHECK_STATE":
+      return {
+        checkState: action.payload,
       };
     default:
       return state;

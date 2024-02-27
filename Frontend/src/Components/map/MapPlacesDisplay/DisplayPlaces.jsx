@@ -4,10 +4,13 @@ import { useParams } from "react-router-dom";
 import "./DisplayPlaces.css";
 import axios from "axios";
 import { SERVER_URL } from "./../../../utils/exportItem";
+import { useAppState } from "../../../utils/Hooks/useAppState";
 const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
+  const { state, dispatch } = useAppState();
+  const { cIti, geoLocations, checkState } = state;
   const [placeDetails, setplaceDetails] = useState([]);
-  const { cIti, geoLocations, checkState, setcheckState } = useTripForm();
-  const { itiId } = useParams();
+  /*   const { cIti, geoLocations, checkState, setcheckState } = useTripForm();
+   */ const { itiId } = useParams();
 
   const carouselRef = useRef(null);
   const [allgetData, setallgetData] = useState();
@@ -101,7 +104,12 @@ const DisplayPlaces = ({ handleAddLocation, handleDeleteLocation }) => {
         )
         .then(function (response) {
           if (response?.status === 200) {
-            setcheckState(!checkState);
+            let gg = !checkState;
+            let checkAction = {
+              type: "CHECK_STATE",
+              payload: gg,
+            };
+            dispatch(checkAction);
           }
         })
         .catch(function (error) {
