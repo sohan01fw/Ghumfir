@@ -44,10 +44,13 @@ export type AllItiDetails = {
     address: string;
     business_status: string;
     name: string;
-    photos: Array<itiPic>;
+    geo: {
+      lat: string;
+      lng: string;
+    };
     place_id: string;
     rating: number;
-    reviews: Array<userReviews>;
+
     user_total_rating: number;
   }>;
 };

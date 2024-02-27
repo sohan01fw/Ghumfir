@@ -4,12 +4,11 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import "./InputLocation.css";
-import { useEffect, useMemo, useState } from "react";
-import TripDetails from "../TipsDetails/TripDetails";
-import { useTripForm } from "../../Store/ItineriesContext";
+import { useMemo } from "react";
+import { useAppState } from "../../../utils/Hooks/useAppState";
 
 const InputLocation = ({ destination }) => {
-  const { addItineriesInfo, addPlaceValue } = useTripForm();
+  const { state, dispatch } = useAppState();
   const {
     value,
     suggestions: { status, data },
@@ -30,7 +29,11 @@ const InputLocation = ({ destination }) => {
     ({ description, place_id }) =>
     () => {
       setValue(description, false);
-      addPlaceValue(description);
+      const placeValueAction = {
+        type: "ADD_PLACE_VALUE",
+        payload: description,
+      };
+      dispatch(placeValueAction);
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
@@ -39,7 +42,11 @@ const InputLocation = ({ destination }) => {
           geolocation: { lat, lng },
           place: description,
         };
-        addItineriesInfo(info);
+        const itiInfoAction = {
+          type: "ADD_ITI_INFO",
+          payload: info,
+        };
+        dispatch(itiInfoAction);
       });
     };
 

@@ -1,9 +1,9 @@
 // TripFormContext.js
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { SERVER_URL } from "../utils/exportItem";
+import { AppContext } from "./Reducer";
 export const TripFormContext = createContext();
-export const url = "http://localhost:8000";
 const useTripForm = () => {
   const context = useContext(TripFormContext);
   if (!context) {
@@ -14,11 +14,15 @@ const useTripForm = () => {
 
 // eslint-disable-next-line react/prop-types
 const TripFormProvider = ({ children }) => {
+  const { state, dispatch } = useContext(AppContext);
+
   const [itiInfo, setitiInfo] = useState({});
   const [Values, setValues] = useState();
   const [cIti, setCIti] = useState();
   const [resData, setResData] = useState();
   const [geoLocations, setGeoLocation] = useState();
+
+  const [checkState, setcheckState] = useState(true);
 
   const addPlaceValue = (value) => {
     setValues(value);
@@ -27,17 +31,7 @@ const TripFormProvider = ({ children }) => {
   const addItineriesInfo = (itineriesInfos) => {
     setitiInfo(itineriesInfos);
   };
-  //posting itineriesDetails to backend server
-  const postItineriesDetails = (itineriesDetails) => {
-    axios
-      .post(`${url}/api/itineries/create-Itineries`, itineriesDetails)
-      .then(function (response) {
-        setResData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+
   //Get all Details of place details from backend server
   /*  const postAndGetAllDetails = (allItiDetails) => {
    
@@ -50,13 +44,15 @@ const TripFormProvider = ({ children }) => {
         addItineriesInfo,
         itiInfo,
         Values,
-        postItineriesDetails,
+
         /*     postAndGetAllDetails, */
         cIti,
         setCIti,
         resData,
         geoLocations,
         setGeoLocation,
+        checkState,
+        setcheckState,
       }}
     >
       {children}

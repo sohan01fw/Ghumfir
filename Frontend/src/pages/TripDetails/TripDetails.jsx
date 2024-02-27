@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-const url = "http://localhost:8000";
-import SideBar from "../Navigation/SideBar";
-import PlacesToVisit from "./PlacesToVisit";
-import Budget from "./Budget";
-import MainNavigation from "../Navigation/MainNavigation";
-import OverView from "./Overview";
-import Notes from "./Notes";
-import MapLocation from "../../lib/Map/MapLocation";
-import { useTripForm } from "../../Store/ItineriesContext";
-
 import "./TripDetails.css";
+import { SERVER_URL } from "../../utils/exportItem";
+import SideBar from "../../Components/Navigation/SideBar/SideBar";
+import PlacesToVisit from "../../Components/ShowTrips/placeToVisit/PlacesToVisit";
+import Budget from "../../Components/ShowTrips/Budget/Budget";
+import MainNavigation from "../../Components/Navigation/MainNavigation";
+import OverView from "../../Components/ShowTrips/Overview/Overview";
+import Notes from "../../Components/ShowTrips/Note/Notes";
+import MapLocation from "../../Components/Map/MapLocation";
+import { useAppState } from "../../utils/Hooks/useAppState";
 
 const TripDetails = ({ destination }) => {
-  /* console.log(destination); */
+  const { state, dispatch } = useAppState();
+  const { itiDetails } = state;
   const { itiId } = useParams();
-
-  const { setCIti, resData } = useTripForm();
   const [locations, setLocations] = useState([]);
 
   const handleAddLocation = (newLocationInfo) => {
@@ -26,22 +24,27 @@ const TripDetails = ({ destination }) => {
   const handleDeleteLocation = (id) => {
     setLocations(locations.filter((location) => location.id !== id));
   };
-
-  const [itiData, setItiData] = useState([]);
-
   const getdata = async () => {
     await axios
-      .get(`${url}/api/itineries/itiId/${itiId}`)
+      .get(`${SERVER_URL}/api/itineries/itiId/${itiId}`)
       .then((res) => {
         if (res.data) {
-          setCIti(res.data);
+          let resD = res.data;
+          const resAction = {
+            type: "ADD_cIti",
+            payload: resD,
+          };
+          dispatch(resAction);
 
           res?.data?.itineraries?.map((data) => {
-            setGeoLocation(data?.itiInfo?.geolocation);
+            let d = data?.itiInfo?.geolocation;
+            const geoAction = {
+              type: "ADD_GEOLOCATION",
+              payload: d,
+            };
+            dispatch(geoAction);
           });
         }
-
-        /*  console.log("response:", res.data); */
       })
       .catch((err) => {
         console.log(err);
@@ -49,7 +52,7 @@ const TripDetails = ({ destination }) => {
   };
   useEffect(() => {
     getdata();
-  }, [resData]);
+  }, [itiDetails]);
 
   return (
     <div className="trip-details">

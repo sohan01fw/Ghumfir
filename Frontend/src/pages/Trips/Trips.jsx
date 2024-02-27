@@ -1,19 +1,21 @@
 import { useNavigate } from "react-router-dom";
-
 import { useId, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
-import { useTripForm } from "../../Store/ItineriesContext";
-import MapLocation, { key } from "../../lib/Map/MapLocation";
-import InputLocation from "../map/InputLocation";
 import short from "short-uuid";
-import MainNavigation from "../Navigation/MainNavigation";
+import { key } from "../../utils/exportItem";
+import InputLocation from "../../Components/Map/InputLocation/InputLocation";
+import MainNavigation from "../../Components/Navigation/MainNavigation";
+import { useAppState } from "../../utils/Hooks/useAppState";
+import { postItineriesDetails } from "../../lib/Actions/ServerPostActions/PostItiDetails";
 
 const Trips = () => {
-  const { itiInfo, postItineriesDetails, Values, addPlaceValue } =
-    useTripForm();
-  const inputValue = itiInfo.description;
+  const { state, dispatch } = useAppState();
+  const { itiInfo, placeValues } = state;
+  /* const { itiInfo, postItineriesDetails, Values, addPlaceValue } =
+    useTripForm(); */
+
   const navigate = useNavigate();
   const itiId = short.generate();
 
@@ -53,7 +55,7 @@ const Trips = () => {
   };
 
   //function to handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     //validate the form data
     validateDestination();
@@ -68,18 +70,32 @@ const Trips = () => {
       startDate <= endDate
     ) {
       //console.log("Form submitted successfully");
-      postItineriesDetails({
+      const res = await postItineriesDetails({
         itineraryId: itiId,
         itiInfo,
         startDate,
         endDate,
       });
+      if (res) {
+        const action = {
+          type: "ITI_DETAILS",
+          payload: res,
+        };
+        dispatch(action);
+      }
+
       navigate(`/tripDetails/${itiId}`);
     } else {
       console.log("Form validation failed");
     }
   };
-
+  const handlePlaceValue = (value) => {
+    const placevalueaction = {
+      type: "ADD_PLACE_VALUE",
+      payload: value,
+    };
+    dispatch(placevalueaction);
+  };
   return (
     <div className="trips">
       <MainNavigation />
@@ -89,10 +105,10 @@ const Trips = () => {
           <label className="destination-label">Destination:</label>
           <input
             type="text"
-            value={Values}
+            value={placeValues}
             onChange={(e) => {
               setDestination(e.target.value);
-              addPlaceValue(e.target.value);
+              handlePlaceValue(e.target.value);
               setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
             }}
             onBlur={validateDestination}
@@ -102,7 +118,7 @@ const Trips = () => {
             <div className="error-message">{errors.destination}</div>
           )}
         </div>
-        <InputLocation apiKey={key} destination={Values} />
+        <InputLocation apiKey={key} destination={placeValues} />
         <br />
 
         <div className="date-input">
