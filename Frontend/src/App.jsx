@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { TripFormProvider } from "./Store/ItineriesContext";
 import Footer from "./Components/Footer/Footer";
 import Auth from "./pages/Auth/Auth";
 import TripDetails from "./pages/TripDetails/TripDetails";
@@ -8,6 +7,9 @@ import Trips from "./pages/Trips/Trips";
 import About from "./pages/About/About";
 import Blog from "./pages/Blog/Blog";
 import { useLocation } from "react-router-dom";
+import NotFound from "./pages/NotFound";
+import TripPlaces from "./pages/TripPlaces/TripPlaces";
+import "./App.css";
 
 function App() {
   const location = useLocation();
@@ -16,17 +18,19 @@ function App() {
   console.log(displaySidebar);
   return (
     <div className="app-container">
-      <div className="main-content">
+      <div className="">
         <Routes>
           <Route path="/" exact element={<Home />} />
           <Route path="/trips" exact element={<Trips />} />
           <Route path="/about" exact element={<About />} />
+          <Route path="/tripPlaces" exact element={<TripPlaces />} />
           <Route path="/tripDetails/:itiId" exact element={<TripDetails />} />
           <Route path="/Blog" exact element={<Blog />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      <Footer displaySidebar={isTripDetailsPage} />
+      {/* <Footer displaySidebar={isTripDetailsPage} /> */}
     </div>
   );
 }

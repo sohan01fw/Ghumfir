@@ -1,0 +1,20 @@
+.tripplaces-container {
+  display: flex;
+  flex-direction: row;
+}
+.tripplaces-container2 {
+  height: 100vh;
+  width: 45%;
+  z-index: 10;
+  box-shadow: 2px 2px 6px gray;
+}
+.tripplaces-heading {
+  padding: 10px;
+}
+.tripplaces-heading > h1 {
+  font-size: 30px;
+  font-weight: bold;
+}
+.tripplaces-map {
+  width: 35%;
+}
