@@ -1,28 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, Marker, InfoWindow } from "@react-google-maps/api";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./GoogleMaps.css";
-import { SERVER_URL } from "../../../utils/exportItem";
 import { useAppState } from "../../../utils/Hooks/useAppState";
+import { useMapLoader } from "../../../utils/Hooks/useMapLoader";
+import { getPlacesDetails } from "../../../lib/Actions/ServerGetActions/getPlaceDetails";
 
-const GoogleMaps = ({ isLoaded }) => {
-  const { state, dispatch } = useAppState();
+const GoogleMaps = ({ zoom, center }) => {
+  const { state } = useAppState();
   const { cIti, geoLocations, checkState } = state;
   const { itiId } = useParams();
+  const { isLoaded } = useMapLoader();
   const [returnSelectedData, setReturnSelectedData] = useState();
   const [markerSelected, setMarkerSelected] = useState(null);
   const [markerValue, setmarkerValue] = useState();
 
   const selectedDetails = async () => {
-    try {
-      const response = await axios.get(
-        `${SERVER_URL}/api/place-details/getDetails/${itiId}`
-      );
-      setReturnSelectedData(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+    const resValue = await getPlacesDetails(itiId);
+    setReturnSelectedData(resValue);
   };
 
   useEffect(() => {
@@ -30,13 +25,8 @@ const GoogleMaps = ({ isLoaded }) => {
   }, [cIti, checkState]);
 
   const containerStyle = {
-    width: "100%",
+    width: "156%",
     height: "100vh",
-  };
-
-  const center = {
-    lat: parseFloat(geoLocations?.lat),
-    lng: parseFloat(geoLocations?.lng),
   };
 
   const handleMarkerHover = (data, index) => {
@@ -51,7 +41,7 @@ const GoogleMaps = ({ isLoaded }) => {
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
-          zoom={13}
+          zoom={zoom}
           options={{ disableAutoPan: true }}
         >
           {returnSelectedData &&

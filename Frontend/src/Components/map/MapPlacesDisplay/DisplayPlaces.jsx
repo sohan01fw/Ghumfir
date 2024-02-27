@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useTripForm } from "../../../Store/ItineriesContext";
 import { useParams } from "react-router-dom";
 import "./DisplayPlaces.css";
 import axios from "axios";
