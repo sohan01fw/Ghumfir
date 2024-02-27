@@ -31,22 +31,7 @@ const TripFormProvider = ({ children }) => {
   const addItineriesInfo = (itineriesInfos) => {
     setitiInfo(itineriesInfos);
   };
-  //posting itineriesDetails to backend server
-  const postItineriesDetails = (itineriesDetails) => {
-    axios
-      .post(`${SERVER_URL}/api/itineries/create-Itineries`, itineriesDetails)
-      .then(function (response) {
-        setResData(response.data);
-        const action = {
-          type: "ITI_DETAILS",
-          payload: response.data,
-        };
-        dispatch(action);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+
   //Get all Details of place details from backend server
   /*  const postAndGetAllDetails = (allItiDetails) => {
    
@@ -59,7 +44,7 @@ const TripFormProvider = ({ children }) => {
         addItineriesInfo,
         itiInfo,
         Values,
-        postItineriesDetails,
+
         /*     postAndGetAllDetails, */
         cIti,
         setCIti,

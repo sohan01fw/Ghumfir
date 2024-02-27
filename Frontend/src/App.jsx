@@ -16,19 +16,17 @@ function App() {
   console.log(displaySidebar);
   return (
     <div className="app-container">
-      <TripFormProvider>
-        <div className="main-content">
-          <Routes>
-            <Route path="/" exact element={<Home />} />
-            <Route path="/trips" exact element={<Trips />} />
-            <Route path="/about" exact element={<About />} />
-            <Route path="/tripDetails/:itiId" exact element={<TripDetails />} />
-            <Route path="/Blog" exact element={<Blog />} />
-            <Route path="/auth" element={<Auth />} />
-          </Routes>
-        </div>
-        <Footer displaySidebar={isTripDetailsPage} />
-      </TripFormProvider>
+      <div className="main-content">
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/trips" exact element={<Trips />} />
+          <Route path="/about" exact element={<About />} />
+          <Route path="/tripDetails/:itiId" exact element={<TripDetails />} />
+          <Route path="/Blog" exact element={<Blog />} />
+          <Route path="/auth" element={<Auth />} />
+        </Routes>
+      </div>
+      <Footer displaySidebar={isTripDetailsPage} />
     </div>
   );
 }
