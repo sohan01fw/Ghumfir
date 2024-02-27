@@ -3,6 +3,8 @@ import "./TripPlaces.css";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
 import TripPlaceNav from "../../Components/Navigation/TripPlaceNav/TripPlaceNav";
 import NestedLink from "../../lib/ui/NestedLink";
+import Softbtn from "../../lib/ui/Softbtn";
+import Steppers from "../../lib/ui/Stepper";
 const TripPlaces = () => {
   //center for map
   const tripPlacesCenter = {
@@ -18,8 +20,16 @@ const TripPlaces = () => {
         <div className="tripplaces-heading">
           <h1>Places You Want To Visit</h1>
         </div>
-        <div className="tripplaces-innerLink">
-          <NestedLink />
+        <div className="linknewplaces">
+          <div className="tripplaces-innerLink">
+            <NestedLink />
+          </div>
+          <div className="tripplaces-addnewplace">
+            <div className="tp-line"></div>
+            <div className="softbtn">
+              <Softbtn />
+            </div>
+          </div>
         </div>
       </div>
 
