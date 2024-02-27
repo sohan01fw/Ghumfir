@@ -2,6 +2,7 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../utils/exportItem";
+import { AppContext } from "./Reducer";
 export const TripFormContext = createContext();
 const useTripForm = () => {
   const context = useContext(TripFormContext);
@@ -13,6 +14,8 @@ const useTripForm = () => {
 
 // eslint-disable-next-line react/prop-types
 const TripFormProvider = ({ children }) => {
+  const { state, dispatch } = useContext(AppContext);
+
   const [itiInfo, setitiInfo] = useState({});
   const [Values, setValues] = useState();
   const [cIti, setCIti] = useState();
@@ -34,6 +37,11 @@ const TripFormProvider = ({ children }) => {
       .post(`${SERVER_URL}/api/itineries/create-Itineries`, itineriesDetails)
       .then(function (response) {
         setResData(response.data);
+        const action = {
+          type: "ITI_DETAILS",
+          payload: response.data,
+        };
+        dispatch(action);
       })
       .catch(function (error) {
         console.log(error);
