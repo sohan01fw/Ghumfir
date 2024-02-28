@@ -9,6 +9,7 @@ import InputLocation from "../../Components/Map/InputLocation/InputLocation";
 import MainNavigation from "../../Components/Navigation/MainNavigation";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import { postItineriesDetails } from "../../lib/Actions/ServerPostActions/PostItiDetails";
+import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
 
 const Trips = () => {
   const { state, dispatch } = useAppState();
@@ -18,6 +19,7 @@ const Trips = () => {
 
   const navigate = useNavigate();
   const itiId = short.generate();
+  const pId = short.generate();
 
   //state for form inputs
   const [destination, setDestination] = useState();
@@ -69,22 +71,24 @@ const Trips = () => {
       endDate &&
       startDate <= endDate
     ) {
-      //console.log("Form submitted successfully");
-      const res = await postItineriesDetails({
-        itineraryId: itiId,
-        itiInfo,
-        startDate,
-        endDate,
-      });
-      if (res) {
-        const action = {
-          type: "ITI_DETAILS",
-          payload: res,
-        };
-        dispatch(action);
-      }
+      const newPlaces = await PostPlaces(pId);
+      if (newPlaces) {
+        const res = await postItineriesDetails({
+          itineraryId: itiId,
+          itiInfo,
+          startDate,
+          endDate,
+        });
+        if (res) {
+          const action = {
+            type: "ITI_DETAILS",
+            payload: res,
+          };
+          dispatch(action);
+        }
 
-      navigate(`/tripDetails/${itiId}`);
+        navigate(`/tripPlaces/${pId}`);
+      }
     } else {
       console.log("Form validation failed");
     }
