@@ -57,10 +57,12 @@ export type AllItiDetails = {
 
 //type for places model
 export type Places = {
-  placesId: string;
   user: Types.ObjectId;
-  places: Array<{
-    itineraryId: string;
-    itiPlaces: Types.ObjectId;
+  AllPlaces: Array<{
+    places_Id: string;
+    places: Array<{
+      itineraryId: string;
+      itiPlaces: Types.ObjectId;
+    }>;
   }>;
 };

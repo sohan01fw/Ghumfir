@@ -9,13 +9,68 @@ export async function createPlaces(req: Request, res: Response) {
     //if already created placesId then just update the places array.
     //first placesid come from client side get from params
     const { pId } = req.params;
-    const createPlaces = await PlacesModel.create({
-      placesId: pId,
+    const findUser = await PlacesModel.findOne({
       user: "6599500b1f406337e260b6cb",
-      places: [],
     });
-    res.send(createPlaces);
+
+    if (!findUser) {
+      const createPlaces = await PlacesModel.create({
+        user: "6599500b1f406337e260b6cb",
+        AllPlaces: [
+          {
+            places_Id: pId,
+            places: [],
+          },
+        ],
+      });
+      if (!createPlaces) {
+        return res
+          .status(400)
+          .json({ error: "error while creating placesmodel" });
+      }
+      res.send(createPlaces);
+    } else {
+      const findPlace = await PlacesModel.findOne({
+        user: "6599500b1f406337e260b6cb",
+      });
+      const findpId = findPlace.AllPlaces.find(
+        (place: any) => place.places_Id === pId
+      );
+      if (!findpId) {
+        const updateFindPlace = await PlacesModel.findOneAndUpdate(
+          { user: "6599500b1f406337e260b6cb" },
+          {
+            $push: {
+              AllPlaces: {
+                places_Id: pId,
+                places: [],
+              },
+            },
+          }
+        );
+      }
+    }
   } catch (error) {
+    console.log(error);
     throw new Error(error);
+  }
+}
+
+export async function getPlaces(req: Request, res: Response) {
+  try {
+    const { pId } = req.params;
+
+    const getPlacesRes = await PlacesModel.findOne({ placesId: pId }).populate(
+      "places.itiPlaces"
+    );
+
+    if (!getPlacesRes) {
+      return res.status(404).json({ error: "Data not found" });
+    }
+
+    return res.status(200).json(getPlacesRes);
+  } catch (error) {
+    console.error("Error in getPlaces:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
