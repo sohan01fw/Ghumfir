@@ -54,3 +54,13 @@ export type AllItiDetails = {
     user_total_rating: number;
   }>;
 };
+
+//type for places model
+export type Places = {
+  placesId: string;
+  user: Types.ObjectId;
+  places: Array<{
+    itineraryId: string;
+    itiPlaces: Types.ObjectId;
+  }>;
+};
