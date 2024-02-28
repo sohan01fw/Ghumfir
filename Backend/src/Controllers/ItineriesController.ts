@@ -2,6 +2,7 @@ import { UserModel } from "../Db/Models/User.model.ts";
 import { Itineraries } from "../../types/index";
 import { UserItineraryModel } from "../Db/Models/itineraries.model.ts";
 import { Request, Response } from "express";
+import { PlacesModel } from "../Db/Models/Places.model.ts";
 
 //creating triplan route handler
 export default async function createItineries(req: Request, res: Response) {
@@ -37,7 +38,29 @@ export default async function createItineries(req: Request, res: Response) {
             },
           ],
         });
+        if (tripSave) {
+          const { pId } = req.params;
 
+          try {
+            const updatePlaceModel = await PlacesModel.findOneAndUpdate(
+              { placesId: pId },
+              {
+                $push: {
+                  places: {
+                    itineraryId: tripSave.itineraries.itineraryId,
+                    itiPlaces: tripSave._id,
+                  },
+                },
+              },
+              { new: true, upsert: true }
+            );
+          } catch (error) {
+            res.status(400).json({
+              status: "500",
+              msg: "error while updating places model",
+            });
+          }
+        }
         res.status(201).json({ status: "201", msg: "userTripplan is created" });
       } catch (error) {
         console.log(error);
@@ -71,6 +94,39 @@ export default async function createItineries(req: Request, res: Response) {
           },
           { new: true, upsert: true }
         );
+
+        if (x) {
+          const findX = await UserItineraryModel.findOne(
+            {
+              "itineraries.itineraryId": itineraryId,
+            },
+            { _id: 0, "itineraries.$": 1 }
+          );
+          if (findX) {
+            const { pId } = req.params;
+            try {
+              const updatepmodel = await PlacesModel.findOneAndUpdate(
+                { placesId: pId },
+                {
+                  $push: {
+                    places: {
+                      itineraryId: findX.itineraries[0].itineraryId,
+                      itiPlaces: findX.itineraries[0]._id,
+                    },
+                  },
+                },
+                { new: true, upsert: true }
+              );
+              res.send(updatepmodel);
+            } catch (error) {
+              console.log(error);
+              res.status(400).json({
+                status: "500",
+                msg: "error while updating places model",
+              });
+            }
+          }
+        }
         res.status(201).json({ status: "201", msg: "userTripplan is updated" });
       } catch (error) {
         res

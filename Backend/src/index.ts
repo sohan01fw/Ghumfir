@@ -8,10 +8,11 @@ import compression from "compression";
 //cors
 import cors from "cors";
 /* import logger from "morgan"; */
-import { TripRouter } from "./routes/tripPlanRoute.ts";
+import { TripRouter } from "./routes/ItinerariesRoute.ts";
 import { UserRouter } from "./routes/UserRoute.ts";
 import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";
 import { myMiddleware } from "./Middleware/userMiddleware.ts";
+import { placesRoute } from "./routes/PlacesRoute.ts";
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
@@ -41,6 +42,7 @@ require("./Db/dbConn.ts");
 app.use("/api/user", UserRouter);
 app.use(TripRouter);
 app.use("/api/itineries", TripRouter);
+app.use("/api/places", placesRoute);
 app.use("/api/place-details", placeDetailsRoute);
 
 app.get("/", myMiddleware, (req: Request, res: Response) => {
