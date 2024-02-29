@@ -1,19 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./TripPlaces.css";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
 import TripPlaceNav from "../../Components/Navigation/TripPlaceNav/TripPlaceNav";
 import NestedLink from "../../lib/ui/NestedLink";
 import Softbtn from "../../lib/ui/Softbtn";
 import { getPlaces } from "../../lib/Actions/ServerGetActions/getPlaces";
-import { useParams, redirect, useNavigate } from "react-router-dom";
+import { useParams, redirect, useNavigate, Link } from "react-router-dom";
 
 const TripPlaces = () => {
   const { pId } = useParams();
   const navigate = useNavigate();
+  const [PlaceData, setPlaceData] = useState();
   //center for map
   const tripPlacesCenter = {
-    lat: 28.397361,
-    lng: 84.125761,
+    lat: parseFloat("28.2095831"),
+    lng: parseFloat("83.9855674"),
   };
 
   const getPla = async () => {
@@ -22,12 +23,12 @@ const TripPlaces = () => {
       navigate("/trips", { replace: true });
     }
 
-    console.log("resGetPlaces ==>>", resGetPlaces);
+    setPlaceData(resGetPlaces);
   };
   useEffect(() => {
     getPla();
   }, []);
-
+  console.log(PlaceData);
   return (
     <div className="tripplaces-container">
       <div className="tripplaces-container2">
@@ -37,10 +38,17 @@ const TripPlaces = () => {
         <div className="tripplaces-heading">
           <h1>Places You Want To Visit</h1>
         </div>
+        {/* display data here........ */}
+
         <div className="linknewplaces">
-          <div className="tripplaces-innerLink">
-            <NestedLink />
-          </div>
+          {PlaceData?.itiPlaces?.itineraries.map((data, index) => (
+            <Link key={index} to={`/tripDetails/${pId}/${data.itineraryId}`}>
+              <div className="tripplaces-innerLink">
+                <NestedLink data={data} />
+              </div>
+            </Link>
+          ))}
+
           <div className="tripplaces-addnewplace">
             <div className="tp-line"></div>
             <div className="softbtn">
@@ -51,7 +59,7 @@ const TripPlaces = () => {
       </div>
 
       <div className="tripplaces-map">
-        <GoogleMaps zoom={20} center={tripPlacesCenter} />
+        <GoogleMaps zoom={8} center={tripPlacesCenter} />
       </div>
     </div>
   );

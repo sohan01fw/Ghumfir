@@ -24,7 +24,11 @@ function App() {
           <Route path="/trips" exact element={<Trips />} />
           <Route path="/about" exact element={<About />} />
           <Route path="/tripPlaces/:pId" exact element={<TripPlaces />} />
-          <Route path="/tripDetails/:itiId" exact element={<TripDetails />} />
+          <Route
+            path="/tripDetails/:pId/:itiId"
+            exact
+            element={<TripDetails />}
+          />
           <Route path="/Blog" exact element={<Blog />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
