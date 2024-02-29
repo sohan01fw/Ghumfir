@@ -1,14 +1,17 @@
 //posting itineriesDetails to backend server
 import axios from "axios";
 import { SERVER_URL } from "../../../utils/exportItem";
-export const postItineriesDetails = async (itineriesDetails) => {
-  await axios
-    .post(`${SERVER_URL}/api/itineries/create-Itineries`, itineriesDetails)
-    .then(function (response) {
-      let x = response.data;
-      return x;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+export const postItineriesDetails = async (pId, itineriesDetails) => {
+  try {
+    console.log(pId);
+    const xValue = await axios.post(
+      `${SERVER_URL}/api/itineries/create-Itineries/${pId}`,
+      itineriesDetails
+    );
+    console.log(xValue);
+    const res = xValue.data.data;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };

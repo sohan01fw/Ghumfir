@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
@@ -19,7 +19,6 @@ const Trips = () => {
 
   const navigate = useNavigate();
   const itiId = short.generate();
-  const pId = short.generate();
 
   //state for form inputs
   const [destination, setDestination] = useState();
@@ -27,6 +26,9 @@ const Trips = () => {
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState({});
 
+  //for to run useEffect hook
+  const [runHook, setrunHook] = useState(false);
+  const [plaIds, setplaIds] = useState();
   //validate function to validate form data
   const validateDestination = () => {
     const validationErrors = {};
@@ -56,6 +58,29 @@ const Trips = () => {
     setErrors((prevErrors) => ({ ...prevErrors, ...validationErrors }));
   };
 
+  //postitinerariesDetails
+  const postItiDetails = async () => {
+    const res = await postItineriesDetails(plaIds, {
+      itineraryId: itiId,
+      itiInfo,
+      startDate,
+      endDate,
+    });
+    console.log(res);
+    if (res) {
+      const action = {
+        type: "ITI_DETAILS",
+        payload: res,
+      };
+      dispatch(action);
+      navigate(`/tripPlaces/${plaIds}`);
+    }
+  };
+  useEffect(() => {
+    if (runHook) {
+      postItiDetails();
+    }
+  }, [runHook]);
   //function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,23 +96,12 @@ const Trips = () => {
       endDate &&
       startDate <= endDate
     ) {
+      const pId = short.generate();
+      setplaIds(pId);
       const newPlaces = await PostPlaces(pId);
-      if (newPlaces) {
-        const res = await postItineriesDetails({
-          itineraryId: itiId,
-          itiInfo,
-          startDate,
-          endDate,
-        });
-        if (res) {
-          const action = {
-            type: "ITI_DETAILS",
-            payload: res,
-          };
-          dispatch(action);
-        }
 
-        navigate(`/tripPlaces/${pId}`);
+      if (newPlaces) {
+        setrunHook(true);
       }
     } else {
       console.log("Form validation failed");

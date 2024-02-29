@@ -6,7 +6,8 @@ export const getPlaces = async (pId) => {
     const response = await axios.get(
       `${SERVER_URL}/api/places/getplaces/${pId}`
     );
-    return response.data;
+
+    return response.data.data;
   } catch (error) {
     console.error(error);
   }
