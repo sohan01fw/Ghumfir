@@ -8,6 +8,7 @@ import { PlacesModel } from "../Db/Models/Places.model.ts";
 export default async function createItineries(req: Request, res: Response) {
   try {
     const tripDetails = req.body;
+    console.log(tripDetails);
     let userId = "skoekfodkse";
     const { itineraryId, itiInfo, startDate, endDate } = tripDetails;
     if (!userId) {
@@ -25,11 +26,11 @@ export default async function createItineries(req: Request, res: Response) {
               user: "6599500b1f406337e260b6cb",
               itineraryId: itineraryId,
               itiInfo: {
-                place_Id: itiInfo?.place_Id,
-                place: itiInfo?.place,
+                place_Id: itiInfo?.place_Id || null,
+                place: itiInfo?.place || null,
                 geolocation: {
-                  lat: itiInfo?.geolocation.lat,
-                  lng: itiInfo?.geolocation.lng,
+                  lat: itiInfo?.geolocation?.lat || null,
+                  lng: itiInfo?.geolocation?.lng || null,
                 },
                 ItiDetails: null,
                 startDate: startDate,
@@ -40,7 +41,7 @@ export default async function createItineries(req: Request, res: Response) {
         });
         if (tripSave) {
           const { pId } = req.params;
-
+          console.log(pId);
           try {
             const updatePlaceModel = await PlacesModel.findOneAndUpdate(
               {
@@ -58,24 +59,19 @@ export default async function createItineries(req: Request, res: Response) {
 
               { new: true, upsert: true }
             );
-            if (!updatePlaceModel) {
-              res.status(400).json({
-                status: "400",
-                msg: "error while updating places array",
-              });
-            }
-            return res.status(200).json({
-              data: updatePlaceModel,
-              msg: "successfully update the place array",
-            });
           } catch (error) {
+            console.log(error);
             res.status(400).json({
-              status: "500",
-              msg: "error while updating places model",
+              status: "400",
+              msg: "error while updating places array",
             });
           }
         }
-        res.status(201).json({ status: "201", msg: "userTripplan is created" });
+        res.status(201).json({
+          status: "201",
+          data: tripSave,
+          msg: "userTripplan is created",
+        });
       } catch (error) {
         console.log(error);
         res
@@ -93,11 +89,11 @@ export default async function createItineries(req: Request, res: Response) {
                 user: "6599500b1f406337e260b6cb",
                 itineraryId: itineraryId,
                 itiInfo: {
-                  place_Id: itiInfo.place_Id,
-                  place: itiInfo.place,
+                  place_Id: itiInfo.place_Id || null,
+                  place: itiInfo.place || null,
                   geolocation: {
-                    lat: itiInfo.geolocation.lat,
-                    lng: itiInfo.geolocation.lng,
+                    lat: itiInfo.geolocation.lat || null,
+                    lng: itiInfo.geolocation.lng || null,
                   },
                   ItiDetails: null,
                   startDate: startDate,
@@ -118,45 +114,34 @@ export default async function createItineries(req: Request, res: Response) {
           );
           if (findX) {
             const { pId } = req.params;
-            try {
-              const findmodel = await PlacesModel.findOneAndUpdate(
-                {
-                  user: "6599500b1f406337e260b6cb",
-                  "AllPlaces.places_Id": pId,
-                },
-                {
-                  $push: {
-                    "AllPlaces.$.places": {
-                      itineraryId: findX.itineraries[0].itineraryId,
-                      itiPlaces: findX.itineraries[0]._id,
-                    },
+
+            const findupdatemodel = await PlacesModel.findOneAndUpdate(
+              {
+                user: "6599500b1f406337e260b6cb",
+                "AllPlaces.places_Id": pId,
+              },
+              {
+                $push: {
+                  "AllPlaces.$.places": {
+                    itineraryId: findX.itineraries[0].itineraryId,
+                    itiPlaces: findX.itineraries[0]._id,
                   },
                 },
-                { new: true, upsert: true }
-              );
-              console.log(findmodel);
+              },
+              { new: true, upsert: true }
+            );
 
-              if (!findmodel) {
-                res.status(400).json({
-                  status: "500",
-                  msg: "error while updating places array",
-                });
-              }
-
-              return res.status(200).json({
-                data: findmodel,
-                msg: "successfully update the place array",
-              });
-            } catch (error) {
-              console.log(error);
+            if (!findupdatemodel) {
               res.status(400).json({
                 status: "500",
-                msg: "error while processing places model update",
+                msg: "error while updating places array",
               });
             }
           }
         }
-        res.status(201).json({ status: "201", msg: "userTripplan is updated" });
+        res
+          .status(201)
+          .json({ status: "201", data: x, msg: "userTripplan is updated" });
       } catch (error) {
         res
           .status(400)
