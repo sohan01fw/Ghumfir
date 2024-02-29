@@ -43,25 +43,31 @@ export default async function createItineries(req: Request, res: Response) {
 
           try {
             const updatePlaceModel = await PlacesModel.findOneAndUpdate(
-              { user: "6599500b1f406337e260b6cb", "AllPlaces.placesId": pId },
               {
-                AllPlaces: {
-                  $push: {
-                    places: {
-                      itineraryId: tripSave.itineraries.itineraryId,
-                      itiPlaces: tripSave._id,
-                    },
+                user: "6599500b1f406337e260b6cb",
+                "AllPlaces.places_Id": pId,
+              },
+              {
+                $push: {
+                  "AllPlaces.$.places": {
+                    itineraryId: itineraryId,
+                    itiPlaces: tripSave._id,
                   },
                 },
               },
+
               { new: true, upsert: true }
             );
             if (!updatePlaceModel) {
               res.status(400).json({
                 status: "400",
-                msg: "error while updating places model",
+                msg: "error while updating places array",
               });
             }
+            return res.status(200).json({
+              data: updatePlaceModel,
+              msg: "successfully update the place array",
+            });
           } catch (error) {
             res.status(400).json({
               status: "500",
@@ -113,13 +119,11 @@ export default async function createItineries(req: Request, res: Response) {
           if (findX) {
             const { pId } = req.params;
             try {
-              const findmodel = await PlacesModel.findOne({
-                user: "6599500b1f406337e260b6cb",
-                "AllPlaces.placesId": pId,
-              });
-              console.log(findmodel);
-              /*  const updatepmodel = await PlacesModel.findOneAndUpdate(
-                { user: "6599500b1f406337e260b6cb", "AllPlaces.placesId": pId },
+              const findmodel = await PlacesModel.findOneAndUpdate(
+                {
+                  user: "6599500b1f406337e260b6cb",
+                  "AllPlaces.places_Id": pId,
+                },
                 {
                   $push: {
                     "AllPlaces.$.places": {
@@ -130,13 +134,19 @@ export default async function createItineries(req: Request, res: Response) {
                 },
                 { new: true, upsert: true }
               );
-              if (!updatepmodel) {
+              console.log(findmodel);
+
+              if (!findmodel) {
                 res.status(400).json({
                   status: "500",
-                  msg: "error while updating places model",
+                  msg: "error while updating places array",
                 });
               }
-               */
+
+              return res.status(200).json({
+                data: findmodel,
+                msg: "successfully update the place array",
+              });
             } catch (error) {
               console.log(error);
               res.status(400).json({
