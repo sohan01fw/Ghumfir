@@ -48,6 +48,15 @@ export async function createPlaces(req: Request, res: Response) {
             },
           }
         );
+        if (!updateFindPlace) {
+          return res.status(500).json({
+            msg: "server errror while updating place model",
+          });
+        }
+        return res.status(200).json({
+          data: updateFindPlace,
+          msg: "successfully update the place model",
+        });
       }
     }
   } catch (error) {
