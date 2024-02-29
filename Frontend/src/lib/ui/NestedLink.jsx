@@ -1,6 +1,6 @@
 import React from "react";
 import { LinkBox, LinkOverlay, Box, Heading, Text } from "@chakra-ui/react";
-const NestedLink = () => {
+const NestedLink = ({ data }) => {
   return (
     <div>
       <LinkBox as="article" maxW="sm" p="5" borderWidth="1px" rounded="md">
@@ -9,7 +9,7 @@ const NestedLink = () => {
         </Box>
         <Heading size="md" my="2">
           <LinkOverlay href="#">
-            <h2>Pokhara</h2>
+            <h2>{data.itiInfo.place}</h2>
           </LinkOverlay>
         </Heading>
         <Text mb="3">
