@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AllItiDetails } from "../../types";
 import { allItiDetailsModel } from "../Db/Models/itiInfoDetails/allItiDetails.model";
-import { UserItineraryModel } from "../Db/Models/itineraries.model";
+import { PlacesModel } from "../Db/Models/Places.model";
 
 export async function insertAllItiDetails(req: Request, res: Response) {
   try {
@@ -9,7 +9,7 @@ export async function insertAllItiDetails(req: Request, res: Response) {
 
     const xParams = req.params;
     if (xData.length !== 0) {
-      const findUserIti = await UserItineraryModel.findOne({
+      const findUserIti = await PlacesModel.findOne({
         userId: "skoekfodkse",
       });
       // check the dupilcate of data.
@@ -25,7 +25,7 @@ export async function insertAllItiDetails(req: Request, res: Response) {
         if (result) {
           console.log(result._id);
           try {
-            const pushAllItiId = await UserItineraryModel.findOneAndUpdate(
+            const pushAllItiId = await PlacesModel.findOneAndUpdate(
               {
                 userId: "skoekfodkse",
                 "itineraries.itineraryId": xParams.itiId,

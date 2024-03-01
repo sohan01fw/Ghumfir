@@ -8,23 +8,6 @@ export type User = {
   refreshToken: string;
 };
 
-export type Itineraries = {
-  userId: String;
-  itineraries: Array<{
-    itineraryId: string;
-    itiInfo: {
-      place_Id: string;
-      place: string;
-      geolocation: {
-        lat: string;
-        lng: string;
-      };
-      ItiDetails: Types.ObjectId;
-    };
-    startDate: string;
-    endDate: string;
-  }>;
-};
 //it's for all details model
 type itiPic = {
   url: string;
@@ -62,7 +45,20 @@ export type Places = {
     places_Id: string;
     places: Array<{
       itineraryId: string;
-      itiPlaces: Types.ObjectId;
+      itiPlaces: Array<{
+        itineraryId: string;
+        itiInfo: {
+          place_Id: string;
+          place: string;
+          geolocation: {
+            lat: string;
+            lng: string;
+          };
+          ItiDetails: Types.ObjectId;
+        };
+        startDate: string;
+        endDate: string;
+      }>;
     }>;
   }>;
 };

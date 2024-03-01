@@ -3,12 +3,11 @@ import axios from "axios";
 import { SERVER_URL } from "../../../utils/exportItem";
 export const postItineriesDetails = async (pId, itineriesDetails) => {
   try {
-    console.log(pId);
     const xValue = await axios.post(
       `${SERVER_URL}/api/itineries/create-Itineries/${pId}`,
       itineriesDetails
     );
-    console.log(xValue);
+
     const res = xValue.data.data;
     return res;
   } catch (error) {

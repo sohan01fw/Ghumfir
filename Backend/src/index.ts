@@ -8,7 +8,6 @@ import compression from "compression";
 //cors
 import cors from "cors";
 /* import logger from "morgan"; */
-import { TripRouter } from "./routes/ItinerariesRoute.ts";
 import { UserRouter } from "./routes/UserRoute.ts";
 import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";
 import { myMiddleware } from "./Middleware/userMiddleware.ts";
@@ -40,8 +39,6 @@ require("./Db/dbConn.ts");
 
 //Handeling routes using express middleware
 app.use("/api/user", UserRouter);
-app.use(TripRouter);
-app.use("/api/itineries", TripRouter);
 app.use("/api/places", placesRoute);
 app.use("/api/place-details", placeDetailsRoute);
 
