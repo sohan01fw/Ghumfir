@@ -13,10 +13,24 @@ const PlacesSchema = new mongoose.Schema<Places>({
       },
       places: [
         {
-          itineraryId: String,
-          itiPlaces: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "UserItineraries",
+          itineraryId: {
+            type: String,
+            required: true,
+            unique: true,
+          },
+          itiInfo: {
+            place_Id: String,
+            place: String,
+            geolocation: {
+              lat: String,
+              lng: String,
+            },
+            ItiDetails: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "AllItiDetails",
+            },
+            startDate: Date,
+            endDate: Date,
           },
         },
       ],

@@ -6,7 +6,7 @@ import { useAppState } from "../../../utils/Hooks/useAppState";
 import { useMapLoader } from "../../../utils/Hooks/useMapLoader";
 import { getPlacesDetails } from "../../../lib/Actions/ServerGetActions/getPlaceDetails";
 
-const GoogleMaps = ({ zoom, center }) => {
+const GoogleMaps = ({ zoom, center, data }) => {
   const { state } = useAppState();
   const { cIti, geoLocations, checkState } = state;
   const { itiId } = useParams();
@@ -44,27 +44,48 @@ const GoogleMaps = ({ zoom, center }) => {
           zoom={zoom}
           options={{ disableAutoPan: true }}
         >
-          {returnSelectedData &&
-            returnSelectedData.ItiDetails.map((data, index) => (
-              <Marker
-                key={index}
-                position={{
-                  lat: parseFloat(data.geo.lat),
-                  lng: parseFloat(data.geo.lng),
-                }}
-                onClick={(e) => setmarkerValue(data)}
-                onMouseOver={() => handleMarkerHover(data, index)}
-                onMouseOut={() => setMarkerSelected(null)}
-              >
-                {markerSelected && markerSelected.index === index && (
-                  <InfoWindow options={{ disableAutoPan: true }}>
-                    <div className="infowindow">
-                      <h4>{data.name}</h4>
-                    </div>
-                  </InfoWindow>
-                )}
-              </Marker>
-            ))}
+          {itiId
+            ? returnSelectedData &&
+              returnSelectedData.ItiDetails.map((data, index) => (
+                <Marker
+                  key={index}
+                  position={{
+                    lat: parseFloat(data?.geo?.lat),
+                    lng: parseFloat(data?.geo?.lng),
+                  }}
+                  onClick={(e) => setmarkerValue(data)}
+                  onMouseOver={() => handleMarkerHover(data, index)}
+                  onMouseOut={() => setMarkerSelected(null)}
+                >
+                  {markerSelected && markerSelected.index === index && (
+                    <InfoWindow options={{ disableAutoPan: true }}>
+                      <div className="infowindow">
+                        <h4>{data.name}</h4>
+                      </div>
+                    </InfoWindow>
+                  )}
+                </Marker>
+              ))
+            : data?.itiPlaces?.itineraries.map((data, index) => (
+                <Marker
+                  key={index}
+                  position={{
+                    lat: parseFloat(data?.itiInfo?.geolocation?.lat),
+                    lng: parseFloat(data?.itiInfo?.geolocation?.lng),
+                  }}
+                  onClick={(e) => setmarkerValue(data)}
+                  onMouseOver={() => handleMarkerHover(data, index)}
+                  onMouseOut={() => setMarkerSelected(null)}
+                >
+                  {markerSelected && markerSelected.index === index && (
+                    <InfoWindow options={{ disableAutoPan: true }}>
+                      <div className="infowindow">
+                        <h4>{data?.itiInfo?.place}</h4>
+                      </div>
+                    </InfoWindow>
+                  )}
+                </Marker>
+              ))}
         </GoogleMap>
       )}
 

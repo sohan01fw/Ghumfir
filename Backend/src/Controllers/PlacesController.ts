@@ -9,6 +9,9 @@ export async function createPlaces(req: Request, res: Response) {
     //if already created placesId then just update the places array.
     //first placesid come from client side get from params
     const { pId } = req.params;
+    const tripDetails = req.body;
+
+    const { itineraryId, itiInfo, startDate, endDate } = tripDetails;
     const findUser = await PlacesModel.findOne({
       user: "6599500b1f406337e260b6cb",
     });
@@ -19,7 +22,22 @@ export async function createPlaces(req: Request, res: Response) {
         AllPlaces: [
           {
             places_Id: pId,
-            places: [],
+            places: [
+              {
+                itineraryId: itineraryId,
+                itiInfo: {
+                  place_Id: itiInfo?.place_Id || null,
+                  place: itiInfo?.place || null,
+                  geolocation: {
+                    lat: itiInfo?.geolocation?.lat || null,
+                    lng: itiInfo?.geolocation?.lng || null,
+                  },
+                  ItiDetails: null,
+                  startDate: startDate,
+                  endDate: endDate,
+                },
+              },
+            ],
           },
         ],
       });
@@ -46,10 +64,26 @@ export async function createPlaces(req: Request, res: Response) {
             $push: {
               AllPlaces: {
                 places_Id: pId,
-                places: [],
+                places: [
+                  {
+                    itineraryId: itineraryId,
+                    itiInfo: {
+                      place_Id: itiInfo?.place_Id || null,
+                      place: itiInfo?.place || null,
+                      geolocation: {
+                        lat: itiInfo?.geolocation?.lat || null,
+                        lng: itiInfo?.geolocation?.lng || null,
+                      },
+                      ItiDetails: null,
+                      startDate: startDate,
+                      endDate: endDate,
+                    },
+                  },
+                ],
               },
             },
-          }
+          },
+          { new: true, upsert: true }
         );
         if (!updateFindPlace) {
           return res.status(500).json({
@@ -60,11 +94,48 @@ export async function createPlaces(req: Request, res: Response) {
           data: updateFindPlace,
           msg: "successfully update the place model",
         });
+      } else {
+        const updateplacesArray = await PlacesModel.findOneAndUpdate(
+          {
+            user: "6599500b1f406337e260b6cb",
+            AllPlaces: { $elemMatch: { places_Id: pId } },
+          },
+          {
+            $push: {
+              "AllPlaces.$.places": {
+                itineraryId: itineraryId,
+                itiInfo: {
+                  place_Id: itiInfo?.place_Id || null,
+                  place: itiInfo?.place || null,
+                  geolocation: {
+                    lat: itiInfo?.geolocation?.lat || null,
+                    lng: itiInfo?.geolocation?.lng || null,
+                  },
+                  ItiDetails: null,
+                  startDate: startDate,
+                  endDate: endDate,
+                },
+              },
+            },
+          },
+          { new: true, upsert: true }
+        );
+        if (!updateplacesArray) {
+          return res.status(400).json({
+            errorMsg: "Failed to update the places arrary in place model",
+          });
+        }
+        return res.status(200).json({
+          Msg: "sucessfully update the place array",
+          data: updateplacesArray,
+        });
       }
     }
   } catch (error) {
-    console.log(error);
-    throw new Error(error);
+    return res.status(500).json({
+      error: error,
+      msg: "server errror ",
+    });
   }
 }
 
@@ -78,10 +149,10 @@ export async function getPlaces(req: Request, res: Response) {
         "AllPlaces.places_Id": pId,
       },
       { _id: 0, "AllPlaces.$": 1 }
-    ).populate("AllPlaces.places.itiPlaces");
+    );
 
     //structuring response data
-    const structResData = getPlacesRes.AllPlaces[0].places[0];
+    const structResData = getPlacesRes.AllPlaces[0].places;
 
     if (!getPlacesRes) {
       return res.status(404).json({ error: "Data not found" });

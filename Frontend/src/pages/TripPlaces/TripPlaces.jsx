@@ -59,7 +59,7 @@ const TripPlaces = () => {
       </div>
 
       <div className="tripplaces-map">
-        <GoogleMaps zoom={8} center={tripPlacesCenter} />
+        <GoogleMaps zoom={8} center={tripPlacesCenter} data={PlaceData} />
       </div>
     </div>
   );
