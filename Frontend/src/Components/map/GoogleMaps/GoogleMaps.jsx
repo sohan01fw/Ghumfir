@@ -66,7 +66,7 @@ const GoogleMaps = ({ zoom, center, data }) => {
                   )}
                 </Marker>
               ))
-            : data?.itiPlaces?.itineraries.map((data, index) => (
+            : data?.map((data, index) => (
                 <Marker
                   key={index}
                   position={{

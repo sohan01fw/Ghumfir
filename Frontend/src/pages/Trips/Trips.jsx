@@ -8,14 +8,11 @@ import { key } from "../../utils/exportItem";
 import InputLocation from "../../Components/Map/InputLocation/InputLocation";
 import MainNavigation from "../../Components/Navigation/MainNavigation";
 import { useAppState } from "../../utils/Hooks/useAppState";
-import { postItineriesDetails } from "../../lib/Actions/ServerPostActions/PostItiDetails";
 import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
 
 const Trips = () => {
   const { state, dispatch } = useAppState();
   const { itiInfo, placeValues } = state;
-  /* const { itiInfo, postItineriesDetails, Values, addPlaceValue } =
-    useTripForm(); */
 
   const navigate = useNavigate();
   const itiId = short.generate();
@@ -26,9 +23,6 @@ const Trips = () => {
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState({});
 
-  //for to run useEffect hook
-  const [runHook, setrunHook] = useState(false);
-  const [plaIds, setplaIds] = useState();
   //validate function to validate form data
   const validateDestination = () => {
     const validationErrors = {};
@@ -58,29 +52,6 @@ const Trips = () => {
     setErrors((prevErrors) => ({ ...prevErrors, ...validationErrors }));
   };
 
-  //postitinerariesDetails
-  const postItiDetails = async () => {
-    const res = await postItineriesDetails(plaIds, {
-      itineraryId: itiId,
-      itiInfo,
-      startDate,
-      endDate,
-    });
-    console.log(res);
-    if (res) {
-      const action = {
-        type: "ITI_DETAILS",
-        payload: res,
-      };
-      dispatch(action);
-      navigate(`/tripPlaces/${plaIds}`);
-    }
-  };
-  useEffect(() => {
-    if (runHook) {
-      postItiDetails();
-    }
-  }, [runHook]);
   //function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,11 +68,16 @@ const Trips = () => {
       startDate <= endDate
     ) {
       const pId = short.generate();
-      setplaIds(pId);
-      const newPlaces = await PostPlaces(pId);
+
+      const newPlaces = await PostPlaces(pId, {
+        itineraryId: itiId,
+        itiInfo,
+        startDate,
+        endDate,
+      });
 
       if (newPlaces) {
-        setrunHook(true);
+        navigate(`/tripPlaces/${pId}`);
       }
     } else {
       console.log("Form validation failed");

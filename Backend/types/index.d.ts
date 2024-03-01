@@ -43,6 +43,8 @@ export type Places = {
   user: Types.ObjectId;
   AllPlaces: Array<{
     places_Id: string;
+    startDate: string;
+    endDate: string;
     places: Array<{
       itineraryId: string;
       itiPlaces: Array<{
@@ -56,8 +58,6 @@ export type Places = {
           };
           ItiDetails: Types.ObjectId;
         };
-        startDate: string;
-        endDate: string;
       }>;
     }>;
   }>;

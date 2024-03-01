@@ -8,6 +8,7 @@
   width: 45%;
   z-index: 10;
   box-shadow: 2px 2px 6px gray;
+  overflow: auto;
 }
 .tripplaces-heading {
   padding: 10px;
@@ -22,19 +23,32 @@
 .tripplaces-map {
   width: 35%;
 }
-.tripplaces-addnewplace {
-  display: flex;
-  flex-direction: column;
-  width: 5%;
-  padding: 2px;
-}
+
 .tp-line {
   width: 3px;
-  height: 15vh;
+  height: 10vh;
   background-color: rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
+  margin-top: 10px;
+  margin-left: 13px;
 }
+.tripplaces-addnewplace {
+  width: 45%;
+  padding: 2px;
+  margin-bottom: 30%;
+  margin-left: 8px;
+}
+
 .softbtn {
   width: 5%;
-  margin-top: 5px;
+  margin-top: -3px;
+  z-index: 10;
+  margin-left: 7px;
+}
+.inputandbtn {
+  display: flex;
+}
+
+.i-btn {
+  position: absolute;
+  margin-left: -60px;
 }
