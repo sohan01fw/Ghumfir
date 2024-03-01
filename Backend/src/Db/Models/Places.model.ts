@@ -11,6 +11,8 @@ const PlacesSchema = new mongoose.Schema<Places>({
       places_Id: {
         type: String,
       },
+      startDate: Date,
+      endDate: Date,
       places: [
         {
           itineraryId: {
@@ -29,8 +31,6 @@ const PlacesSchema = new mongoose.Schema<Places>({
               type: mongoose.Schema.Types.ObjectId,
               ref: "AllItiDetails",
             },
-            startDate: Date,
-            endDate: Date,
           },
         },
       ],

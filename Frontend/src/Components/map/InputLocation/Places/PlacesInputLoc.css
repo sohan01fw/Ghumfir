@@ -1,0 +1,23 @@
+.input-location {
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px;
+}
+.list-group-item {
+  border: 1px solid black;
+}
+.renderPlace {
+  box-shadow: 1px 1px 3px gray;
+}
+.showplaces {
+  padding: 4px;
+}
+.ul-div {
+  cursor: pointer;
+}
+.ul-div:hover {
+  background-color: #e1f5fe;
+}
+
+.s-text {
+}

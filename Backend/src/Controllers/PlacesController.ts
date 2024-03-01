@@ -22,6 +22,8 @@ export async function createPlaces(req: Request, res: Response) {
         AllPlaces: [
           {
             places_Id: pId,
+            startDate: startDate,
+            endDate: endDate,
             places: [
               {
                 itineraryId: itineraryId,
@@ -33,8 +35,6 @@ export async function createPlaces(req: Request, res: Response) {
                     lng: itiInfo?.geolocation?.lng || null,
                   },
                   ItiDetails: null,
-                  startDate: startDate,
-                  endDate: endDate,
                 },
               },
             ],
@@ -64,6 +64,8 @@ export async function createPlaces(req: Request, res: Response) {
             $push: {
               AllPlaces: {
                 places_Id: pId,
+                startDate: startDate,
+                endDate: endDate,
                 places: [
                   {
                     itineraryId: itineraryId,
@@ -75,8 +77,6 @@ export async function createPlaces(req: Request, res: Response) {
                         lng: itiInfo?.geolocation?.lng || null,
                       },
                       ItiDetails: null,
-                      startDate: startDate,
-                      endDate: endDate,
                     },
                   },
                 ],
@@ -112,8 +112,6 @@ export async function createPlaces(req: Request, res: Response) {
                     lng: itiInfo?.geolocation?.lng || null,
                   },
                   ItiDetails: null,
-                  startDate: startDate,
-                  endDate: endDate,
                 },
               },
             },
