@@ -164,3 +164,48 @@ export async function getPlaces(req: Request, res: Response) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
+
+export async function deletePlaces(req: Request, res: Response) {
+  try {
+    const { pId, itiId } = req.params;
+
+    const deletePlaces = await PlacesModel.findOneAndUpdate(
+      { user: "6599500b1f406337e260b6cb", "AllPlaces.places_Id": pId },
+      {
+        $pull: {
+          "AllPlaces.$.places": {
+            itineraryId: itiId,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (deletePlaces.AllPlaces[0].places.length === 0) {
+      const deletePla = await PlacesModel.findOneAndUpdate(
+        { user: "6599500b1f406337e260b6cb", "AllPlaces.places_Id": pId },
+        {
+          $pull: {
+            AllPlaces: {
+              places_Id: pId,
+            },
+          },
+        },
+        { new: true }
+      );
+      return res.status(200).json({
+        data: deletePla,
+        msg: "successfully delete allplaces elements",
+      });
+    }
+
+    return res.status(200).json({
+      data: deletePlaces,
+      msg: "successfully delete Places data",
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ errorData: error, errorMsg: "error while deleting place data" });
+  }
+}

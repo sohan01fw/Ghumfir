@@ -16,6 +16,9 @@
 .linknewplaces {
   margin-left: 30px;
 }
+.tripplaces-innerLink:hover {
+  text-decoration: none;
+}
 .tripplaces-heading > h1 {
   font-size: 30px;
   font-weight: bold;
@@ -51,4 +54,12 @@
 .i-btn {
   position: absolute;
   margin-left: -60px;
+}
+.delete-icon {
+  position: absolute;
+  margin-left: 35rem;
+  margin-top: -18rem;
+}
+.delete-icon:hover {
+  cursor: pointer;
 }

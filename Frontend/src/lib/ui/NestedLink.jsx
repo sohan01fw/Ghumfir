@@ -1,25 +1,33 @@
 import React from "react";
-import { LinkBox, LinkOverlay, Box, Heading, Text } from "@chakra-ui/react";
+import "./NestedLink.css";
+import { ChevronRightIcon, DeleteIcon } from "@chakra-ui/icons";
 const NestedLink = ({ data }) => {
   return (
-    <div>
-      <LinkBox as="article" maxW="sm" p="5" borderWidth="1px" rounded="md">
-        <Box as="time" dateTime="2021-01-15 15:30:00 +0000 UTC">
-          13 days ago
-        </Box>
-        <Heading size="md" my="2">
-          <LinkOverlay href="#">
-            <h2>{data.itiInfo.place}</h2>
-          </LinkOverlay>
-        </Heading>
-        <Text mb="3">
-          Catch up on what’s been cookin’ at Smashing and explore some of the
-          most popular community resources.
-        </Text>
-        <Box as="a" color="teal.400" href="#inner-link" fontWeight="bold">
-          Details
-        </Box>
-      </LinkBox>
+    <div className="mainlink-container">
+      <div className="link-container">
+        <div className="innerlink-container">
+          <div className="title">
+            <h2 className="t-head">{data.itiInfo.place}</h2>
+          </div>
+
+          <div className="description">
+            <p>
+              pokhara is beautiful contry of nepal. Lorem ipsum dolor sit amet
+              consectetur, adipisicing elit. Culpa odit sint animi ratione illo?
+              Autem voluptates numquam, voluptas, dolores blanditiis, quisquam
+              sapiente voluptatum magnam tempore eum fugit. Exercitationem,
+              minima officiis?
+            </p>
+          </div>
+          <div className="right-arrow">
+            <h5>Details</h5>
+            <ChevronRightIcon />
+          </div>
+        </div>
+        <div className="images">
+          <img src="" alt="image" />
+        </div>
+      </div>
     </div>
   );
 };

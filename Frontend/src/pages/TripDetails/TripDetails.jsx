@@ -11,12 +11,14 @@ import OverView from "../../Components/ShowTrips/Overview/Overview";
 import Notes from "../../Components/ShowTrips/Note/Notes";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
-
+import TripPlaceNav from "../../Components/Navigation/TripPlaceNav/TripPlaceNav";
+import { ArrowRightIcon, ArrowLeftIcon } from "@chakra-ui/icons";
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
   const { itiDetails, geoLocations } = state;
   const { itiId } = useParams();
   const [locations, setLocations] = useState([]);
+  const [toggleIcon, settoggleIcon] = useState(true);
   //center for map
   const itiDetailCenter = {
     lat: parseFloat(geoLocations?.lat),
@@ -59,26 +61,40 @@ const TripDetails = ({ destination }) => {
   }, [itiDetails]);
 
   return (
-    <div className="trip-details">
-      <MainNavigation />
-      <SideBar itiId={itiId} />
-
-      <div className="content">
-        <OverView destination={destination} />
-        <Notes />
-        <PlacesToVisit
-          locations={locations}
-          handleAddLocation={handleAddLocation}
-          handleDeleteLocation={handleDeleteLocation}
-        />
-        <Budget />
+    <div className="main-container">
+      <div className="sub-maincontainer">
+        <div className="container-navbar">
+          <h2>Ghumfir</h2>
+        </div>
+        <div className="middle-section">
+          <div className={`${toggleIcon ? "c-sidebar" : "expanded-sidebar"}`}>
+            {toggleIcon ? (
+              <div
+                className="arrow-icon"
+                onClick={() => {
+                  settoggleIcon(!toggleIcon);
+                }}
+              >
+                <ArrowRightIcon />
+              </div>
+            ) : (
+              <div
+                className="arrow-icon-2"
+                onClick={() => {
+                  settoggleIcon(!toggleIcon);
+                }}
+              >
+                <ArrowLeftIcon />
+              </div>
+            )}
+          </div>
+          <div className="main-section">kaa</div>
+        </div>
       </div>
-      <div className="map">
-        {/* <h1>Map goes here</h1> */}
-        <MainNavigation />
-
-        <h1>Map goes here</h1>
-        <GoogleMaps zoom={12} center={itiDetailCenter} />
+      <div className="trip-details-mapcontainer">
+        <div>
+          <GoogleMaps zoom={12} center={itiDetailCenter} className="maps" />
+        </div>
       </div>
     </div>
   );
