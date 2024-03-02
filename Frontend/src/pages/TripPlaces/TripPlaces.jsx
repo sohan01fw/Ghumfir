@@ -12,6 +12,7 @@ import short from "short-uuid";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import PlacesInputLoc from "../../Components/Map/InputLocation/Places/PlacesInputLoc";
 import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
+import { ChevronRightIcon, DeleteIcon } from "@chakra-ui/icons";
 
 const TripPlaces = () => {
   const { state, dispatch } = useAppState();
@@ -87,11 +88,18 @@ const TripPlaces = () => {
 
         <div className="linknewplaces">
           {PlaceData?.map((data, index) => (
-            <Link key={index} to={`/tripDetails/${pId}/${data.itineraryId}`}>
-              <div className="tripplaces-innerLink">
-                <NestedLink data={data} />
+            <>
+              <Link key={index} to={`/tripDetails/${pId}/${data.itineraryId}`}>
+                <div className="tripplaces-innerLink">
+                  <NestedLink data={data} />
+                </div>
+              </Link>
+              <div className="delete-icon">
+                <p>
+                  <DeleteIcon />
+                </p>
               </div>
-            </Link>
+            </>
           ))}
           <div className="alltrip">
             <div className="tp-line"></div>
