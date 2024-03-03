@@ -3,64 +3,32 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./TripDetails.css";
 import { SERVER_URL } from "../../utils/exportItem";
-import SideBar from "../../Components/Navigation/SideBar/SideBar";
-import PlacesToVisit from "../../Components/ShowTrips/placeToVisit/PlacesToVisit";
-import Budget from "../../Components/ShowTrips/Budget/Budget";
-import MainNavigation from "../../Components/Navigation/MainNavigation";
-import OverView from "../../Components/ShowTrips/Overview/Overview";
-import Notes from "../../Components/ShowTrips/Note/Notes";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
-import TripPlaceNav from "../../Components/Navigation/TripPlaceNav/TripPlaceNav";
 import { ArrowRightIcon, ArrowLeftIcon } from "@chakra-ui/icons";
 import { Avatar, WrapItem } from "@chakra-ui/react";
 import Accordation from "../../Components/ui/Accordation";
+import { getPlaces } from "../../lib/Actions/ServerGetActions/getPlaces";
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
-  const { itiDetails, geoLocations } = state;
-  const { itiId } = useParams();
-  const [locations, setLocations] = useState([]);
+  const { itiDetails, geoLocations, placesData } = state;
+  const { itiId, pId } = useParams();
   const [toggleIcon, settoggleIcon] = useState(true);
+  const [dataDetails, setdataDetails] = useState();
   //center for map
   const itiDetailCenter = {
-    lat: parseFloat(geoLocations?.lat),
-    lng: parseFloat(geoLocations?.lng),
+    lat: parseFloat(dataDetails?.itiInfo?.geolocation?.lat),
+    lng: parseFloat(dataDetails?.itiInfo?.geolocation?.lng),
   };
-  const handleAddLocation = (newLocationInfo) => {
-    setLocations([...locations, newLocationInfo]);
-  };
-  const handleDeleteLocation = (id) => {
-    setLocations(locations.filter((location) => location.id !== id));
-  };
+  //getting data from server
   const getdata = async () => {
-    await axios
-      .get(`${SERVER_URL}/api/itineries/itiId/${itiId}`)
-      .then((res) => {
-        if (res.data) {
-          let resD = res.data;
-          const resAction = {
-            type: "ADD_cIti",
-            payload: resD,
-          };
-          dispatch(resAction);
-
-          res?.data?.itineraries?.map((data) => {
-            let d = data?.itiInfo?.geolocation;
-            const geoAction = {
-              type: "ADD_GEOLOCATION",
-              payload: d,
-            };
-            dispatch(geoAction);
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const resGetPlaces = await getPlaces(pId);
+    const findD = resGetPlaces.find((data) => data.itineraryId === itiId);
+    setdataDetails(findD);
   };
   useEffect(() => {
     getdata();
-  }, [itiDetails]);
+  }, [pId]);
 
   return (
     <div className="main-container">
@@ -98,7 +66,7 @@ const TripDetails = ({ destination }) => {
               />
             </div>
             <div className="cover-board">
-              <h2>Trip to pokhara</h2>
+              <h2>Trip to {dataDetails?.itiInfo?.place}</h2>
 
               <div className="dateandprofile">
                 <div className="for-date">2021-2022</div>
@@ -113,14 +81,14 @@ const TripDetails = ({ destination }) => {
               </div>
             </div>
             <div className="placetovisit-container">
-              <Accordation title="Places To Visit" />
+              <Accordation title="Places To Visit" dataDetails={dataDetails} />
             </div>
           </div>
         </div>
       </div>
       <div className="trip-details-mapcontainer">
-        <div>
-          <GoogleMaps zoom={12} center={itiDetailCenter} className="maps" />
+        <div className="maps">
+          <GoogleMaps zoom={12} center={itiDetailCenter} />
         </div>
       </div>
     </div>

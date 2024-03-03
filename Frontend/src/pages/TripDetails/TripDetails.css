@@ -7,6 +7,7 @@
   width: 45%;
   box-shadow: 4px 6px 8px gray;
   z-index: 50;
+  background-color: white;
 }
 .container-navbar {
   background-color: white;
@@ -103,12 +104,13 @@
   margin-left: 40px;
 }
 .trip-details-mapcontainer {
-  position: fixed;
-  height: 120vh;
-  width: 100%;
+  position: absolute;
+  width: 54.8%;
+  height: 100vh;
   border: 1px solid gray;
-  margin-left: 45%;
+  overflow: hidden;
+  right: 0;
 }
-.maps:focus {
-  outline: none;
+.maps {
+  width: 63%;
 }
