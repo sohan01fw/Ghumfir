@@ -55,10 +55,52 @@
   transition: width 0.3s ease;
   transition: 0.3s ease;
 }
+
 .main-section {
+  border: 1px solid black;
   width: 100%;
   height: 100vh;
   z-index: 30;
+  overflow: scroll;
+  position: relative;
+}
+.cover-img {
+  border: 1px solid black;
+  width: 100%;
+}
+.cover-img > img {
+  height: 35vh;
+  width: 100%;
+  object-fit: cover;
+}
+.cover-board {
+  border-radius: 30px;
+  position: absolute;
+  background-color: white;
+  top: 25%;
+  width: 60%;
+  padding: 12px;
+  margin-left: 100px;
+  box-shadow: 2px 4px 4px gray;
+}
+.cover-board > h2 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.dateandprofile {
+  padding-top: 16px;
+  margin: 7px;
+  display: flex;
+  justify-content: space-between;
+}
+.for-date {
+  padding-top: 10px;
+}
+.placetovisit-container {
+  margin-top: 20%;
+  width: 80%;
+  margin-left: 40px;
 }
 .trip-details-mapcontainer {
   position: fixed;
