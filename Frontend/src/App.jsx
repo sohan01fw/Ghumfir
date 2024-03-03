@@ -23,12 +23,14 @@ function App() {
           <Route path="/" exact element={<Home />} />
           <Route path="/trips" exact element={<Trips />} />
           <Route path="/about" exact element={<About />} />
-          <Route path="/tripPlaces/:pId" exact element={<TripPlaces />} />
-          <Route
-            path="/tripDetails/:pId/:itiId"
-            exact
-            element={<TripDetails />}
-          />
+          <ChakraProvider>
+            <Route path="/tripPlaces/:pId" exact element={<TripPlaces />} />
+            <Route
+              path="/tripDetails/:pId/:itiId"
+              exact
+              element={<TripDetails />}
+            />
+          </ChakraProvider>
           <Route path="/Blog" exact element={<Blog />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
