@@ -11,6 +11,8 @@ import { useAppState } from "../../utils/Hooks/useAppState";
 import PlacesInputLoc from "../../Components/Map/InputLocation/Places/PlacesInputLoc";
 import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
 import { ChevronRightIcon, DeleteIcon } from "@chakra-ui/icons";
+import NestedLink from "../../Components/ui/NestedLink";
+import Softbtn from "../../Components/ui/Softbtn";
 
 const TripPlaces = () => {
   const { state, dispatch } = useAppState();
@@ -60,19 +62,19 @@ const TripPlaces = () => {
     if (!resGetPlaces) {
       navigate("/trips", { replace: true });
     }
-
     setPlaceData(resGetPlaces);
   };
   useEffect(() => {
     getPla();
-  }, []);
-  useEffect(() => {
-    if (addPlaces) {
-      getPla();
-    }
-  }, [addPlaces]);
+  }, [pId, addPlaces]);
   /*  console.log(PlaceData); */
-
+  /* const AddedPlacesDetails = () => {
+    const addPDetails = {
+      type: "Add_PlacesData",
+      payload: PlaceData,
+    };
+    dispatch(addPDetails);
+  }; */
   return (
     <div className="tripplaces-container">
       <div className="tripplaces-container2">
@@ -87,7 +89,11 @@ const TripPlaces = () => {
         <div className="linknewplaces">
           {PlaceData?.map((data, index) => (
             <>
-              <Link key={index} to={`/tripDetails/${pId}/${data.itineraryId}`}>
+              <Link
+                key={index}
+                to={`/tripDetails/${pId}/${data.itineraryId}`}
+                onClick={AddedPlacesDetails}
+              >
                 <div className="tripplaces-innerLink">
                   <NestedLink data={data} />
                 </div>

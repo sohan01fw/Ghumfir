@@ -7,6 +7,7 @@ const initialState = {
   cIti: null,
   geoLocations: null,
   checkState: true,
+  placesData: null,
 };
 
 const Reducer = (state = initialState, action) => {
@@ -34,6 +35,10 @@ const Reducer = (state = initialState, action) => {
     case "CHECK_STATE":
       return {
         checkState: action.payload,
+      };
+    case "Add_PlacesData":
+      return {
+        placesData: action.payload,
       };
     default:
       return state;
