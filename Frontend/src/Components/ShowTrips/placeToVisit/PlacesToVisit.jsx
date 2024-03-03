@@ -102,26 +102,7 @@ const PlacesToVisit = ({
             />
           </div>
         </div>
-        <div className="location-list">
-          {locations.map((location) => (
-            <div className="location-item" key={location.id}>
-              <div className="location-item-info">
-                <h3>{location.name}</h3>
-                <p>{location.description}</p>
-              </div>
-              <div className="location-item-img">
-                {location.image && (
-                  <img src={location.image} alt={location.name} />
-                )}
-              </div>
-              <div className="delete">
-                <button onClick={() => handleDeleteLocation(location.id)}>
-                  <FontAwesomeIcon icon={faTrash} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <div className="location-list"></div>
       </div>
     </div>
   );

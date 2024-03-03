@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import Footer from "./Components/Footer/Footer";
 import Auth from "./pages/Auth/Auth";
 import TripDetails from "./pages/TripDetails/TripDetails";
 import Home from "./pages/Home/Home";
@@ -29,6 +28,7 @@ function App() {
             exact
             element={<TripDetails />}
           />
+
           <Route path="/Blog" exact element={<Blog />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />

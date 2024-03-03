@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./TripPlaces.css";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
 import TripPlaceNav from "../../Components/Navigation/TripPlaceNav/TripPlaceNav";
-import NestedLink from "../../lib/ui/NestedLink";
-import Softbtn from "../../lib/ui/Softbtn";
 import { getPlaces } from "../../lib/Actions/ServerGetActions/getPlaces";
 import { useParams, redirect, useNavigate, Link } from "react-router-dom";
 import { Input, Button } from "@chakra-ui/react";
