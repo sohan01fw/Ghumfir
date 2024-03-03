@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import Footer from "./Components/Footer/Footer";
 import Auth from "./pages/Auth/Auth";
 import TripDetails from "./pages/TripDetails/TripDetails";
 import Home from "./pages/Home/Home";
@@ -23,14 +22,13 @@ function App() {
           <Route path="/" exact element={<Home />} />
           <Route path="/trips" exact element={<Trips />} />
           <Route path="/about" exact element={<About />} />
-          <ChakraProvider>
-            <Route path="/tripPlaces/:pId" exact element={<TripPlaces />} />
-            <Route
-              path="/tripDetails/:pId/:itiId"
-              exact
-              element={<TripDetails />}
-            />
-          </ChakraProvider>
+          <Route path="/tripPlaces/:pId" exact element={<TripPlaces />} />
+          <Route
+            path="/tripDetails/:pId/:itiId"
+            exact
+            element={<TripDetails />}
+          />
+
           <Route path="/Blog" exact element={<Blog />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="*" element={<NotFound />} />
