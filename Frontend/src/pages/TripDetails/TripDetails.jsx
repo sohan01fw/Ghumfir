@@ -13,6 +13,8 @@ import { useAppState } from "../../utils/Hooks/useAppState";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
 import TripPlaceNav from "../../Components/Navigation/TripPlaceNav/TripPlaceNav";
 import { ArrowRightIcon, ArrowLeftIcon } from "@chakra-ui/icons";
+import { Avatar, WrapItem } from "@chakra-ui/react";
+import Accordation from "../../Components/ui/Accordation";
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
   const { itiDetails, geoLocations } = state;
@@ -88,7 +90,32 @@ const TripDetails = ({ destination }) => {
               </div>
             )}
           </div>
-          <div className="main-section">kaa</div>
+          <div className="main-section">
+            <div className="cover-img">
+              <img
+                src="https://images.unsplash.com/photo-1562462181-b228e3cff9ad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cG9raGFyYXxlbnwwfHwwfHx8MA%3D%3D"
+                alt="img"
+              />
+            </div>
+            <div className="cover-board">
+              <h2>Trip to pokhara</h2>
+
+              <div className="dateandprofile">
+                <div className="for-date">2021-2022</div>
+                <div className="for-profile">
+                  <WrapItem>
+                    <Avatar
+                      name="Dan Abrahmov"
+                      src="https://bit.ly/dan-abramov"
+                    />
+                  </WrapItem>
+                </div>
+              </div>
+            </div>
+            <div className="placetovisit-container">
+              <Accordation title="Places To Visit" />
+            </div>
+          </div>
         </div>
       </div>
       <div className="trip-details-mapcontainer">
