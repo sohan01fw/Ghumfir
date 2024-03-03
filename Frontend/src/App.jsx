@@ -34,7 +34,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      {/* <Footer displaySidebar={isTripDetailsPage} /> */}
+      <Footer displaySidebar={isTripDetailsPage} />
     </div>
   );
 }
