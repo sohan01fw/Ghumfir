@@ -7,7 +7,7 @@ export async function insertAllItiDetails(req: Request, res: Response) {
   try {
     const { place_itiid } = req.body;
 
-    const { itiId, pId } = req.params;
+    const { itiId } = req.params;
     if (place_itiid) {
       // check the dupilcate of data.
       const findItiDup = await allItiDetailsModel.findOne({

@@ -10,15 +10,21 @@ import {
   Image,
 } from "@chakra-ui/react";
 import "./Accordation.css";
+import { PostPlacesItiId } from "../../lib/Actions/ServerPostActions/PostPlacesItiId";
+import { useParams } from "react-router-dom";
+import { GetPlacesItiId } from "../../lib/Actions/ServerGetActions/GetPlacesItiId";
 const Accordation = ({ title, dataDetails }) => {
   const [placeItiDetails, setplaceItiDetails] = useState([]);
-
+  const { itiId, pId } = useParams();
+  const [AddPlaceValue, setAddPlaceValue] = useState();
+  const [getPlacesValue, setGetPlacesValue] = useState();
+  const [filterPlacetoVisitData, setfilterPlacetoVisitData] = useState();
+  const [filterRecomendedPlace, setfilterRecomendedPlace] = useState();
   //getting place details from google api server
   const getPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
       document.createElement("div")
     );
-
     service.nearbySearch(
       {
         location: {
@@ -64,7 +70,6 @@ const Accordation = ({ title, dataDetails }) => {
                   user_total_rating: detailResult.user_ratings_total,
                   reviews: detailResult.reviews,
                 };
-
                 resolve(places);
               }
             );
@@ -79,7 +84,44 @@ const Accordation = ({ title, dataDetails }) => {
   useEffect(() => {
     getPlaceDetails();
   }, [dataDetails]);
-  console.log(placeItiDetails);
+
+  //Adding places with marker in map
+  const handleAddPlaces = async (data) => {
+    const returnValue = await PostPlacesItiId(itiId, data);
+    setAddPlaceValue(returnValue);
+  };
+
+  //Getting places detail with place_id
+  const getPlacesAddedDetails = async () => {
+    const xRes = await GetPlacesItiId(itiId);
+    setGetPlacesValue(xRes);
+  };
+  useEffect(() => {
+    getPlacesAddedDetails();
+  }, [itiId, AddPlaceValue]);
+
+  //Apply filter
+  const filterPost = async () => {
+    // Filter out elements based on place_id comparison
+    const filteredArray = placeItiDetails.filter((place) => {
+      return getPlacesValue.ItiDetails.some(
+        (detail) => detail.place_itiid === place.place_id
+      );
+    });
+    setfilterPlacetoVisitData(filteredArray);
+
+    //filter array for recomended places
+    const filteredArrays = placeItiDetails.filter((place) => {
+      return !getPlacesValue.ItiDetails.some(
+        (detail) => detail.place_itiid === place.place_id
+      );
+    });
+    setfilterRecomendedPlace(filteredArrays);
+  };
+  useEffect(() => {
+    filterPost();
+  }, [getPlacesValue, placeItiDetails]);
+
   return (
     <div>
       <Accordion defaultIndex={[0]} allowMultiple border="transparent">
@@ -93,17 +135,21 @@ const Accordation = ({ title, dataDetails }) => {
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <div className="addedplaces">
-              <div className="placetitle">
-                <h4>Phewa Lake</h4>
-              </div>
-              <div className="placeimg">
-                <img
-                  src="https://www.bing.com/th?id=OIP.2z6Gv66T56RbDX5VMqKYUgHaFj&w=155&h=110&c=8&rs=1&qlt=90&o=6&dpr=1.1&pid=3.1&rm=2"
-                  alt=""
-                />
-              </div>
-            </div>
+            {filterPlacetoVisitData
+              ? filterPlacetoVisitData.map((data) => (
+                  <div className="addedplaces">
+                    <div className="placetitle">
+                      <h4>{data?.name}</h4>
+                    </div>
+                    <div className="placeimg">
+                      {data?.photos && (
+                        <img src={data?.photos?.url} alt={data?.name} />
+                      )}
+                    </div>
+                  </div>
+                ))
+              : "Add place u want to visit"}
+
             <div className="inner-accor">
               <Accordion defaultIndex={[0]} allowMultiple border="transparent">
                 <AccordionItem>
@@ -121,9 +167,9 @@ const Accordation = ({ title, dataDetails }) => {
                   </h2>
                   <AccordionPanel pb={4}>
                     <div className="recomended-places">
-                      {placeItiDetails &&
-                        placeItiDetails.map((place, index) => (
-                          <div className="r-places">
+                      {filterRecomendedPlace &&
+                        filterRecomendedPlace.map((place, index) => (
+                          <div className="r-places" key={index}>
                             <div className="r-img">
                               {place?.photos && (
                                 <img
@@ -133,7 +179,10 @@ const Accordation = ({ title, dataDetails }) => {
                               )}
                             </div>
                             <div className="r-name">{place?.name}</div>
-                            <div className="add-places">
+                            <div
+                              className="add-places"
+                              onClick={() => handleAddPlaces(place?.place_id)}
+                            >
                               <Button
                                 colorScheme="blackAlpha"
                                 bgColor="#f1f2f5"
