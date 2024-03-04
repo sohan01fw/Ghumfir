@@ -4,7 +4,7 @@
 .sub-maincontainer {
   position: fixed;
   height: 100vh;
-  width: 45%;
+  width: 50%;
   box-shadow: 4px 6px 8px gray;
   z-index: 50;
   background-color: white;
@@ -20,13 +20,13 @@
 }
 .c-sidebar {
   height: 100vh;
-  width: 7%;
+  width: 8%;
   transition: width 0.3s ease;
   box-shadow: 0.5px 0px 1px gray;
 }
 .expanded-sidebar {
   height: 100vh;
-  width: 20%;
+  width: 22%;
   box-shadow: 0.5px 0px 1px gray;
   transition: width 0.3s ease;
 }
@@ -46,10 +46,10 @@
 .arrow-icon-2 {
   position: absolute;
   bottom: 20px;
-  padding-left: 12%;
+  padding-left: 14%;
   padding-top: 7px;
   padding-bottom: 5px;
-  width: 15%;
+  width: 18%;
   cursor: pointer;
   color: gray;
   font-size: small;

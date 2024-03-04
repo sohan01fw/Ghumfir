@@ -1,19 +1,9 @@
 .sidebar {
-  height: 100vh;
-  width: 11%;
-  position: fixed;
   background-color: #fff; /* White color */
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar h3 {
-  color: #333;
-  font-size: 1.5em;
-  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .sidebar ul {
@@ -23,19 +13,21 @@
 
 .sidebar a {
   padding: 16px;
+  text-align: left;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 17px;
   color: #333;
   display: block;
   transition: 0.3s;
+  white-space: nowrap;
 }
+
 .sidebar a:hover {
-  color: #000;
+  color: gray;
 }
 
 .sidebar ul li.active {
   background-color: #181818;
-  border-radius: 0.75rem;
 }
 .sidebar ul li.active a {
   color: white;
