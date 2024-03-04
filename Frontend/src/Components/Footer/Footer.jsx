@@ -1,34 +1,47 @@
-import { Link } from 'react-router-dom';
+import { Box, Flex, Text} from "@chakra-ui/react";
+import { useLocation, Link} from "react-router-dom";
 
-import './Footer.css';
+const Footer = () => {
+  const { pathname } = useLocation();
 
-
-const Footer = ({displaySidebar}) => {
   return (
-    <footer className={displaySidebar ? "with-sidebar" : ""}>
-      <div className="footer-content">
-        <div className="footer-section">
-          <h3>Ghumfir</h3>
-          <p>Your Ultimate Travel Companion</p>
-        </div>
-        <div className="footer-section">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/Blog">Blog</Link></li>
-          </ul>
-        </div>
-        <div className="footer-section">
-          <h3>Contact Us</h3>
-          <p>Email: info@ghumfir.com</p>
-
-        </div>
-      </div>
-      <div className="footer-bottom">
-        <p>&copy; 2023 Ghumfir. All Rights Reserved.</p>
-      </div>
-    </footer>
+    <Flex
+      as="footer"
+      bg="white"
+      color="gray.600"
+      textAlign="center"
+      p={4}
+      boxShadow="0 2px 6px rgba(0, 0, 0, 0.26)"
+      position="fixed"
+      bottom="0"
+      width="100%"
+      zIndex="999"
+    >
+      <Flex
+        justifyContent="space-between"
+        flexDirection={{ base: "column", md: "row" }}
+        width="100%"
+        maxWidth="960px"
+        mx="auto"
+      >
+        <Box flex={1} textAlign={{ base: "center", md: "left" }} mb={{ base: 4, md: 0 }}>
+          <Text fontSize="xl" fontWeight="bold" mb={2}>Ghumfir</Text>
+          <Text>Your Ultimate Travel Companion</Text>
+        </Box>
+        <Box flex={1} textAlign={{ base: "center", md: "left" }} mb={{ base: 4, md: 0 }}>
+          <Text fontSize="xl" fontWeight="bold" mb={2}>Quick Links</Text>
+          <Flex flexDirection="column">
+            <Link to="/" color={pathname === "/" ? "blue.500" : "gray.600"} textDecoration="none" mb={2}>Home</Link>
+            <Link to="/about" color={pathname === "/about" ? "blue.500" : "gray.600"} textDecoration="none" mb={2}>About Us</Link>
+            <Link to="/Blog" color={pathname === "/Blog" ? "blue.500" : "gray.600"} textDecoration="none">Blog</Link>
+          </Flex>
+        </Box>
+        <Box flex={1} textAlign={{ base: "center", md: "left" }}>
+          <Text fontSize="xl" fontWeight="bold" mb={2}>Contact Us</Text>
+          <Text>Email: info@ghumfir.com</Text>
+        </Box>
+      </Flex>
+    </Flex>
   );
 };
 

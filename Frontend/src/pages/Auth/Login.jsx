@@ -1,8 +1,5 @@
-import  { useState } from 'react';
-// import { signInWithEmailAndPassword } from 'firebase/auth';
-// import { auth } from '../firebase';
-
-import './Login.css'
+import { useState } from 'react';
+import { Box, Button, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,26 +7,51 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    // try {
-    //   await signInWithEmailAndPassword(auth, email, password);
-    //   // Redirect or perform other actions upon successful login
-    // } catch (error) {
-    //   console.error('Error signing in:', error.message);
-    // }
+    // Your login logic here
+    console.log('Logging in with:', email, password);
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <label>Email:</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <label>Password:</label>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit">Login</button>
+    <Box
+      maxW="400px"
+      mx="auto"
+      p="20px"
+      boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
+      width="100%"
+    >
+      <Heading as="h2" textAlign="center" color="green.500" mb="20px">
+        Login
+      </Heading>
+      <form onSubmit={handleLogin} style={{ width: '100%' }}>
+        <FormControl>
+          <FormLabel>Email:</FormLabel>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            mb="16px"
+            isRequired
+            width="100%"
+          />
+        </FormControl>
+
+        <FormControl>
+          <FormLabel>Password:</FormLabel>
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            mb="16px"
+            isRequired
+            width="100%"
+          />
+        </FormControl>
+
+        <Button type="submit" colorScheme="green" mt="16px" width="100%">
+          Login
+        </Button>
       </form>
-    </div>
+    </Box>
   );
 };
 

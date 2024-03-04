@@ -9,6 +9,8 @@ import { useLocation } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import TripPlaces from "./pages/TripPlaces/TripPlaces";
 import "./App.css";
+import Footer from "./Components/Footer/Footer";
+
 
 function App() {
   const location = useLocation();
@@ -35,6 +37,7 @@ function App() {
         </Routes>
       </div>
       {/* <Footer displaySidebar={isTripDetailsPage} /> */}
+      {/* <Footer /> */}
     </div>
   );
 }
