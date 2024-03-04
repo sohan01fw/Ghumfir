@@ -9,6 +9,8 @@ import { ArrowRightIcon, ArrowLeftIcon } from "@chakra-ui/icons";
 import { Avatar, WrapItem } from "@chakra-ui/react";
 import Accordation from "../../Components/ui/Accordation";
 import { getPlaces } from "../../lib/Actions/ServerGetActions/getPlaces";
+import SideBar from "../../Components/Navigation/SideBar/SideBar";
+import IconSideBar from "../../Components/Navigation/SideBar/IconSideBar/IconSideBar";
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
   const { itiDetails, geoLocations, placesData } = state;
@@ -39,23 +41,35 @@ const TripDetails = ({ destination }) => {
         <div className="middle-section">
           <div className={`${toggleIcon ? "c-sidebar" : "expanded-sidebar"}`}>
             {toggleIcon ? (
-              <div
-                className="arrow-icon"
-                onClick={() => {
-                  settoggleIcon(!toggleIcon);
-                }}
-              >
-                <ArrowRightIcon />
-              </div>
+              <>
+                <div className="sidebar-content">
+                  <IconSideBar />
+                </div>
+                <div
+                  onClick={() => {
+                    settoggleIcon(!toggleIcon);
+                  }}
+                >
+                  <div className="arrow-icon">
+                    <ArrowRightIcon />
+                  </div>
+                </div>
+              </>
             ) : (
-              <div
-                className="arrow-icon-2"
-                onClick={() => {
-                  settoggleIcon(!toggleIcon);
-                }}
-              >
-                <ArrowLeftIcon />
-              </div>
+              <>
+                <div className="sidebar-content-expand">
+                  <SideBar />
+                </div>
+                <div
+                  onClick={() => {
+                    settoggleIcon(!toggleIcon);
+                  }}
+                >
+                  <div className="arrow-icon-2">
+                    <ArrowLeftIcon />
+                  </div>
+                </div>
+              </>
             )}
           </div>
           <div className="main-section">

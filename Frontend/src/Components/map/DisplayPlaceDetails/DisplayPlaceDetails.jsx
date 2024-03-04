@@ -9,7 +9,6 @@ const DisplayPlaceDetails = ({ handleAddLocation, handleDeleteLocation }) => {
   const { cIti, geoLocations, checkState } = state;
   const [placeDetails, setplaceDetails] = useState([]);
   const { itiId } = useParams();
-
   const carouselRef = useRef(null);
   const [allgetData, setallgetData] = useState();
   const [afterINsert, setafterINsert] = useState(false);

@@ -20,44 +20,19 @@ const SideBar = ({ itiId }) => {
             !location.hash || location.hash === "#overview" ? "active" : ""
           }
         >
-          <Link
-            to={`/tripDetails/${itiId}#overview`}
-            onClick={() => scrollToSection("#overview")}
-          >
-            OverView
-          </Link>
+          <Link>OverView</Link>
         </li>
         <li className={location.hash === "#explore" ? "active" : ""}>
-          <Link
-            to={`/tripDetails/${itiId}#explore`}
-            onClick={() => scrollToSection("#explore")}
-          >
-            Explore
-          </Link>
+          <Link>Explore</Link>
         </li>
         <li className={location.hash === "#notes" ? "active" : ""}>
-          <Link
-            to={`/tripDetails/${itiId}#notes`}
-            onClick={() => scrollToSection("#notes")}
-          >
-            Notes
-          </Link>
+          <Link>Notes</Link>
         </li>
         <li className={location.hash === "#placesToVisit" ? "active" : ""}>
-          <Link
-            to={`/tripDetails/${itiId}#placesToVisit`}
-            onClick={() => scrollToSection("#placesToVisit")}
-          >
-            Places To Visit
-          </Link>
+          <Link>Places To Visit</Link>
         </li>
         <li className={location.hash === "#budget" ? "active" : ""}>
-          <Link
-            to={`/tripDetails/${itiId}#budget`}
-            onClick={() => scrollToSection("#budget")}
-          >
-            Budget
-          </Link>
+          <Link>Budget</Link>
         </li>
       </ul>
     </div>

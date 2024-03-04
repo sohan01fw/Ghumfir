@@ -87,7 +87,7 @@ const Accordation = ({ title, dataDetails }) => {
           <h2>
             <AccordionButton width={"160px"}>
               <AccordionIcon color={"black"} paddingRight={"5px"} />
-              <Box color={"black"} whiteSpace={"nowrap"}>
+              <Box color={"black"} whiteSpace={"nowrap"} fontWeight="600">
                 {title}
               </Box>
             </AccordionButton>
@@ -110,7 +110,11 @@ const Accordation = ({ title, dataDetails }) => {
                   <h2>
                     <AccordionButton width={"190px"}>
                       <AccordionIcon color={"black"} paddingRight={"5px"} />
-                      <Box color={"black"} whiteSpace={"nowrap"}>
+                      <Box
+                        color={"black"}
+                        whiteSpace={"nowrap"}
+                        fontWeight="600"
+                      >
                         Recomended places
                       </Box>
                     </AccordionButton>
@@ -136,7 +140,7 @@ const Accordation = ({ title, dataDetails }) => {
                                 width="10px"
                                 height="29px"
                               >
-                                +
+                                <p>+</p>
                               </Button>
                             </div>
                           </div>

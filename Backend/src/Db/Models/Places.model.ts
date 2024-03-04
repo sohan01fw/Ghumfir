@@ -27,10 +27,6 @@ const PlacesSchema = new mongoose.Schema<Places>({
               lat: String,
               lng: String,
             },
-            ItiDetails: {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: "AllItiDetails",
-            },
           },
         },
       ],

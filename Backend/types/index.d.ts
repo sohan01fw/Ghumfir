@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { Types } from "mongoose";
 
 export type User = {
@@ -22,19 +23,10 @@ type userReviews = {
 };
 
 export type AllItiDetails = {
+  userId: Types.ObjectId;
   itineraryId: string;
   ItiDetails: Array<{
-    address: string;
-    business_status: string;
-    name: string;
-    geo: {
-      lat: string;
-      lng: string;
-    };
-    place_id: string;
-    rating: number;
-
-    user_total_rating: number;
+    place_itiid: string;
   }>;
 };
 
@@ -56,7 +48,6 @@ export type Places = {
             lat: string;
             lng: string;
           };
-          ItiDetails: Types.ObjectId;
         };
       }>;
     }>;

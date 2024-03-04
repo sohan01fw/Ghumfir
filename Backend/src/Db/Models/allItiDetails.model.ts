@@ -1,28 +1,20 @@
 import mongoose from "mongoose";
-import { AllItiDetails } from "../../../../types";
+import { AllItiDetails } from "../../../types";
 
 const { Schema } = mongoose;
 
 const allItiDetailSchema = new Schema<AllItiDetails>({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+  },
   itineraryId: {
     type: String,
     required: true,
   },
   ItiDetails: [
     {
-      address: {
-        type: String,
-        required: true,
-      },
-      business_status: String,
-      name: String,
-      geo: {
-        lat: String,
-        lng: String,
-      },
-      place_id: String,
-      rating: Number,
-      user_total_rating: Number,
+      place_itiid: String,
     },
   ],
 });
