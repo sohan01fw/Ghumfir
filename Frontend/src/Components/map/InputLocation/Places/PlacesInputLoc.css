@@ -19,5 +19,7 @@
   background-color: #e1f5fe;
 }
 
-.s-text {
+.smallss-text {
+  padding-left: 7px;
+  white-space: nowrap;
 }

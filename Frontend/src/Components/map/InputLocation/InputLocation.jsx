@@ -1,5 +1,4 @@
 import usePlacesAutocomplete, {
-  getDetails,
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
@@ -58,14 +57,21 @@ const InputLocation = ({ destination }) => {
         structured_formatting: { main_text, secondary_text },
       } = suggestion;
       return (
-        <li key={place_id} onClick={handleSelect(suggestion)}>
-          <strong>{main_text}</strong> <small>{secondary_text}</small>
-        </li>
+        <div className="displayplaces">
+          <ul
+            key={place_id}
+            onClick={handleSelect(suggestion)}
+            className="list-div"
+          >
+            <strong className="s-text">{main_text}</strong>
+            <small className="small-text">{secondary_text}</small>
+          </ul>
+        </div>
       );
     });
 
   return (
-    <div>
+    <div className="renderloc">
       {/* Render dropdown location  */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
