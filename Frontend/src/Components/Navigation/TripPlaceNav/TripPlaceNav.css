@@ -1,14 +1,28 @@
 .tp-container {
   box-shadow: 1px 1px 4px gray;
-  padding: 15px;
+  padding-top: 7px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .tp-logo {
   display: flex;
+  flex: 0 0 100px;
+  white-space: nowrap;
 }
-.tp-logoname {
-  padding-top: 8px;
-  padding-left: 2px;
+.tp-logo > img {
+  flex: 0 0 70px;
+  object-fit: cover;
+  white-space: nowrap;
+}
+.tp-avatar {
+  display: flex;
+  margin-right: 10px;
+}
+.nofity-icon {
+  padding-top: 13px;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }

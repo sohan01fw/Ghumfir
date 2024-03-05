@@ -13,6 +13,7 @@ import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
 import { ChevronRightIcon, DeleteIcon } from "@chakra-ui/icons";
 import NestedLink from "../../Components/ui/NestedLink";
 import Softbtn from "../../Components/ui/Softbtn";
+import { deletePlaces } from "../../lib/Actions/ServerDeleteActions/deletePlaces";
 
 const TripPlaces = () => {
   const { state, dispatch } = useAppState();
@@ -24,6 +25,7 @@ const TripPlaces = () => {
   const [inputPlace, setinputPlace] = useState("");
   const [addPlaces, setaddPlaces] = useState();
   const [placesExists, setplacesExists] = useState(false);
+  const [deletePla, setdeletePla] = useState();
   //center for map
   const tripPlacesCenter = {
     lat: parseFloat("28.2095831"),
@@ -66,7 +68,7 @@ const TripPlaces = () => {
   };
   useEffect(() => {
     getPla();
-  }, [pId, addPlaces]);
+  }, [pId, addPlaces, deletePla]);
   /*  console.log(PlaceData); */
   /* const AddedPlacesDetails = () => {
     const addPDetails = {
@@ -75,6 +77,13 @@ const TripPlaces = () => {
     };
     dispatch(addPDetails);
   }; */
+  //delete place
+  const handleDeletePlace = async (id) => {
+    const resDeletePlace = await deletePlaces(pId, { itiId: id.id });
+    if (resDeletePlace) {
+      setdeletePla(resDeletePlace);
+    }
+  };
   return (
     <div className="tripplaces-container">
       <div className="tripplaces-container2">
@@ -89,30 +98,46 @@ const TripPlaces = () => {
         <div className="linknewplaces">
           {PlaceData?.map((data, index) => (
             <>
-              <Link
-                key={index}
-                to={`/tripDetails/${pId}/${data.itineraryId}`}
-                onClick={AddedPlacesDetails}
-              >
-                <div className="tripplaces-innerLink">
+              <div className="tripplaces-innerLink">
+                <Link
+                  key={index}
+                  to={`/tripDetails/${pId}/${data.itineraryId}`}
+                  className="innerlinkage"
+                >
                   <NestedLink data={data} />
+                </Link>
+                <div
+                  className="delete-icon"
+                  onClick={() =>
+                    handleDeletePlace({
+                      id: data?.itineraryId,
+                    })
+                  }
+                >
+                  <p>
+                    <DeleteIcon />
+                  </p>
                 </div>
-              </Link>
-              <div className="delete-icon">
-                <p>
-                  <DeleteIcon />
-                </p>
               </div>
             </>
           ))}
           <div className="alltrip">
             <div className="tp-line"></div>
+            {!watchState && (
+              <div
+                className="resetcover"
+                onClick={() => {
+                  setwatchState(true);
+                }}
+              ></div>
+            )}
+
             <div className="tripplaces-addnewplace">
               {watchState ? (
                 <div
                   className="softbtn"
                   onClick={() => {
-                    setwatchState(!watchState);
+                    setwatchState(false);
                   }}
                 >
                   <Softbtn />
@@ -128,7 +153,9 @@ const TripPlaces = () => {
                       className="i-input"
                     />
                     <Button
-                      colorScheme="teal"
+                      backgroundColor="#4caf50"
+                      color={"white"}
+                      _hover={{ color: "white" }}
                       size="md"
                       onClick={handlePostPlaces}
                       className="i-btn"
