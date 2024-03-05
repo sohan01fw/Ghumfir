@@ -1,6 +1,7 @@
 import React from "react";
 import "./NestedLink.css";
 import { ChevronRightIcon, DeleteIcon } from "@chakra-ui/icons";
+import { Button, ButtonGroup } from "@chakra-ui/react";
 const NestedLink = ({ data }) => {
   return (
     <div className="mainlink-container">
@@ -19,10 +20,14 @@ const NestedLink = ({ data }) => {
               minima officiis?
             </p>
           </div>
-          <div className="right-arrow">
+          <Button
+            className="right-arrow"
+            backgroundColor="#4caf50"
+            marginTop={1}
+          >
             <h5>Details</h5>
-            <ChevronRightIcon />
-          </div>
+            <ChevronRightIcon color={"white"} paddingTop={0.2} fontSize={23} />
+          </Button>
         </div>
         <div className="images">
           <img src="" alt="image" />
