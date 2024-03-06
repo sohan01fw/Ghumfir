@@ -1,6 +1,7 @@
 import { Box, Flex, Input, Image, Spacer, IconButton } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
+import userLogo from "../../Assets/user_logo.png";
 import ghumfirLogo from "../../Assets/Ghumfir_Logo.png";
 import NavLinks from "./NavLinks/NavLinks";
 
@@ -37,7 +38,7 @@ const MainNavigation = () => {
       </Box>
 
       <Box>
-        <Image src="../../Assets/user_logo.png" alt="user" w={20} h={12} />
+        <Image src={userLogo} alt="user" w={8} h={8} />
       </Box>
     </Flex>
   );

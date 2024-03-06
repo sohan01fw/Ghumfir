@@ -36,7 +36,6 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      {/* <Footer displaySidebar={isTripDetailsPage} /> */}
       {/* <Footer /> */}
     </div>
   );
