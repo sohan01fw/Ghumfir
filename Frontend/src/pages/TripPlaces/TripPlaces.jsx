@@ -131,7 +131,6 @@ const TripPlaces = () => {
                 }}
               ></div>
             )}
-
             <div className="tripplaces-addnewplace">
               {watchState ? (
                 <div

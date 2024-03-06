@@ -45,8 +45,7 @@ const GoogleMaps = ({ zoom, center, data }) => {
           options={{ disableAutoPan: true }}
         >
           {itiId
-            ? returnSelectedData &&
-              returnSelectedData.ItiDetails.map((data, index) => (
+            ? data.map((data, index) => (
                 <Marker
                   key={index}
                   position={{

@@ -5,19 +5,36 @@
   position: fixed;
   height: 100vh;
   width: 50%;
-  box-shadow: 4px 6px 8px gray;
   z-index: 50;
   background-color: white;
 }
 .container-navbar {
+  display: flex;
+  justify-content: space-between;
   background-color: white;
   padding: 10px;
-  box-shadow: 1px 0px 1.5px gray;
+}
+.cn-logo {
+  width: 6%;
+  height: 5vh;
+  white-space: nowrap;
+  object-fit: contain;
+  margin-left: 5%;
+}
+.nofityicon {
+  height: 3vh;
+  margin-top: 10px;
+  font-size: 20px;
+  margin-right: 5%;
+}
+.nofityicon:hover {
+  cursor: pointer;
 }
 .middle-section {
   display: flex;
   z-index: 50;
 }
+
 .c-sidebar {
   height: 100vh;
   width: 8%;
@@ -58,12 +75,14 @@
 }
 
 .main-section {
-  border: 1px solid black;
   width: 100%;
   height: 100vh;
   z-index: 30;
   overflow: scroll;
   position: relative;
+}
+.main-section::-webkit-scrollbar {
+  display: none;
 }
 .cover-img {
   border: 1px solid black;
@@ -75,14 +94,14 @@
   object-fit: cover;
 }
 .cover-board {
-  border-radius: 30px;
+  border-radius: 15px;
   position: absolute;
   background-color: white;
   top: 25%;
   width: 60%;
   padding: 12px;
-  margin-left: 100px;
-  box-shadow: 2px 4px 4px gray;
+  margin-left: 120px;
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
 }
 .cover-board > h2 {
   font-size: 30px;
@@ -96,16 +115,91 @@
   justify-content: space-between;
 }
 .for-date {
+  font-weight: 500;
   padding-top: 10px;
 }
+.for-profile:hover {
+  cursor: pointer;
+}
+.Explore-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: #edeef0;
+  padding-top: 5%;
+  padding-bottom: 8%;
+}
+.browseall-btn {
+  margin-top: 5rem;
+  margin-right: 22%;
+  height: 5.5vh;
+}
+.browseall-btn:hover {
+  cursor: pointer;
+}
+.reservation-budget-conatainer {
+  margin-top: 20px;
+  margin-left: 8%;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+.reservation {
+  background-color: #edeef0;
+  height: 15vh;
+  width: 22rem;
+  padding: 10px;
+  text-align: left;
+  border-radius: 10px;
+}
+.reservation > h3 {
+  font-weight: 700;
+}
+.reserve-icons {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.i-1 > P {
+  font-size: 10px;
+}
+.i-2 > P {
+  font-size: 10px;
+}
+.i-3 > P {
+  font-size: 10px;
+}
+.i-1:hover {
+  cursor: pointer;
+}
+.i-2:hover {
+  cursor: pointer;
+}
+.i-3:hover {
+  cursor: pointer;
+}
+.view-budget {
+  background-color: #edeef0;
+  height: 15vh;
+  width: 12rem;
+  height: 15vh;
+  padding: 10px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.view-budget > h3 {
+  font-weight: 700;
+}
 .placetovisit-container {
-  margin-top: 20%;
   width: 80%;
   margin-left: 40px;
 }
+
 .trip-details-mapcontainer {
   position: absolute;
-  width: 54.8%;
+  width: 50%;
   height: 100vh;
   border: 1px solid gray;
   overflow: hidden;

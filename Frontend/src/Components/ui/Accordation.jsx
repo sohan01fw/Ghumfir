@@ -9,17 +9,23 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 import "./Accordation.css";
 import { PostPlacesItiId } from "../../lib/Actions/ServerPostActions/PostPlacesItiId";
 import { useParams } from "react-router-dom";
 import { GetPlacesItiId } from "../../lib/Actions/ServerGetActions/GetPlacesItiId";
+import { useAppState } from "../../utils/Hooks/useAppState";
+import axios from "axios";
+import { SERVER_URL } from "../../utils/exportItem";
 const Accordation = ({ title, dataDetails }) => {
+  const { state, dispatch } = useAppState();
   const [placeItiDetails, setplaceItiDetails] = useState([]);
   const { itiId, pId } = useParams();
   const [AddPlaceValue, setAddPlaceValue] = useState();
   const [getPlacesValue, setGetPlacesValue] = useState();
   const [filterPlacetoVisitData, setfilterPlacetoVisitData] = useState();
   const [filterRecomendedPlace, setfilterRecomendedPlace] = useState();
+  const [deletePlacesId, setdeletePlacesId] = useState();
   //getting place details from google api server
   const getPlaceDetails = () => {
     const service = new window.google.maps.places.PlacesService(
@@ -98,33 +104,58 @@ const Accordation = ({ title, dataDetails }) => {
   };
   useEffect(() => {
     getPlacesAddedDetails();
-  }, [itiId, AddPlaceValue]);
+  }, [itiId, AddPlaceValue, deletePlacesId]);
 
   //Apply filter
   const filterPost = async () => {
     // Filter out elements based on place_id comparison
     const filteredArray = placeItiDetails.filter((place) => {
-      return getPlacesValue.ItiDetails.some(
+      return getPlacesValue?.ItiDetails.some(
         (detail) => detail.place_itiid === place.place_id
       );
     });
     setfilterPlacetoVisitData(filteredArray);
+    const addPla = {
+      type: "filter_PlaceValue",
+      payload: filteredArray,
+    };
+    dispatch(addPla);
 
     //filter array for recomended places
     const filteredArrays = placeItiDetails.filter((place) => {
-      return !getPlacesValue.ItiDetails.some(
+      return !getPlacesValue?.ItiDetails.some(
         (detail) => detail.place_itiid === place.place_id
       );
     });
     setfilterRecomendedPlace(filteredArrays);
   };
+
   useEffect(() => {
     filterPost();
   }, [getPlacesValue, placeItiDetails]);
+  //get delete
+  const handleDeletePlaceId = async (data) => {
+    let place_ItiId = data.place_id;
 
+    const response = await axios.delete(
+      `${SERVER_URL}/api/place-details/deleteItiPlacesDetails/${itiId}/${place_ItiId}`
+    );
+
+    let xvalue = response.data;
+
+    if (xvalue) {
+      setdeletePlacesId(xvalue);
+    }
+  };
   return (
     <div>
-      <Accordion defaultIndex={[0]} allowMultiple border="transparent">
+      <Accordion
+        defaultIndex={[0]}
+        allowMultiple
+        border="transparent"
+        marginTop={5}
+        marginBottom={60}
+      >
         <AccordionItem>
           <h2>
             <AccordionButton width={"160px"}>
@@ -145,6 +176,14 @@ const Accordation = ({ title, dataDetails }) => {
                       {data?.photos && (
                         <img src={data?.photos?.url} alt={data?.name} />
                       )}
+                    </div>
+                    <div
+                      className="delete-icon"
+                      onClick={() => handleDeletePlaceId(data)}
+                    >
+                      <p>
+                        <DeleteIcon />
+                      </p>
                     </div>
                   </div>
                 ))

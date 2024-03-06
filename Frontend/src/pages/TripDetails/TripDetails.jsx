@@ -1,19 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import "./TripDetails.css";
-import { SERVER_URL } from "../../utils/exportItem";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
-import { ArrowRightIcon, ArrowLeftIcon } from "@chakra-ui/icons";
-import { Avatar, WrapItem } from "@chakra-ui/react";
+import {
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  EmailIcon,
+  Search2Icon,
+} from "@chakra-ui/icons";
+import { Avatar, WrapItem, Button } from "@chakra-ui/react";
 import Accordation from "../../Components/ui/Accordation";
 import { getPlaces } from "../../lib/Actions/ServerGetActions/getPlaces";
 import SideBar from "../../Components/Navigation/SideBar/SideBar";
 import IconSideBar from "../../Components/Navigation/SideBar/IconSideBar/IconSideBar";
+import Ghumfir_Logo from "../../Assets/Ghumfir_Logo.png";
+import { IoIosNotifications } from "react-icons/io";
+import AccordionExplore from "../../Components/ui/AccordionExplore";
+import Notes from "../../Components/ShowTrips/Note/Notes";
+import { FaBed } from "react-icons/fa";
+import { FaCar } from "react-icons/fa";
+import { MdFlight } from "react-icons/md";
+
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
-  const { itiDetails, geoLocations, placesData } = state;
+  const { itiDetails, geoLocations, placesData, filterPlaceValue } = state;
   const { itiId, pId } = useParams();
   const [toggleIcon, settoggleIcon] = useState(true);
   const [dataDetails, setdataDetails] = useState();
@@ -31,12 +42,16 @@ const TripDetails = ({ destination }) => {
   useEffect(() => {
     getdata();
   }, [pId]);
-
   return (
     <div className="main-container">
       <div className="sub-maincontainer">
         <div className="container-navbar">
-          <h2>Ghumfir</h2>
+          <div className="cn-logo">
+            <img src={Ghumfir_Logo} alt="logo" />
+          </div>
+          <div className="nofityicon">
+            <IoIosNotifications />
+          </div>
         </div>
         <div className="middle-section">
           <div className={`${toggleIcon ? "c-sidebar" : "expanded-sidebar"}`}>
@@ -72,7 +87,7 @@ const TripDetails = ({ destination }) => {
               </>
             )}
           </div>
-          <div className="main-section">
+          <div className="main-section" id="Overview">
             <div className="cover-img">
               <img
                 src="https://images.unsplash.com/photo-1562462181-b228e3cff9ad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cG9raGFyYXxlbnwwfHwwfHx8MA%3D%3D"
@@ -94,6 +109,62 @@ const TripDetails = ({ destination }) => {
                 </div>
               </div>
             </div>
+            <div className="Explore-container">
+              <AccordionExplore />
+              <div className="browseall-btn">
+                <Button
+                  leftIcon={<Search2Icon />}
+                  colorScheme="teal"
+                  variant="solid"
+                  borderRadius={20}
+                  backgroundColor={"green"}
+                  _hover={{ backgroundColor: "#4caf50" }}
+                >
+                  Browse all
+                </Button>
+              </div>
+            </div>
+            <div className="reservation-budget-conatainer">
+              <div className="reservation">
+                <h3>Reservations and attachments</h3>
+                <div className="reserve-icons">
+                  <div className="i-1">
+                    <FaBed
+                      style={{
+                        paddingLeft: "3px",
+                        width: "30px",
+                      }}
+                    />
+                    <p>Lodging</p>
+                  </div>
+                  <div className="i-2">
+                    <FaCar
+                      style={{
+                        paddingLeft: "17px",
+                        width: "30px",
+                      }}
+                    />
+                    <p>Rental Cars</p>
+                  </div>
+                  <div className="i-3">
+                    <MdFlight
+                      style={{
+                        paddingLeft: "3px",
+                        width: "30px",
+                      }}
+                    />
+                    <p>Flights</p>
+                  </div>
+                </div>
+              </div>
+              <div className="view-budget">
+                <h3>Budget</h3>
+                <div className="money">
+                  <p>Rs.00</p>
+                </div>
+                <p>View Details</p>
+              </div>
+            </div>
             <div className="placetovisit-container">
               <Accordation title="Places To Visit" dataDetails={dataDetails} />
             </div>
@@ -102,7 +173,11 @@ const TripDetails = ({ destination }) => {
       </div>
       <div className="trip-details-mapcontainer">
         <div className="maps">
-          <GoogleMaps zoom={12} center={itiDetailCenter} />
+          <GoogleMaps
+            zoom={12}
+            center={itiDetailCenter}
+            data={filterPlaceValue}
+          />
         </div>
       </div>
     </div>

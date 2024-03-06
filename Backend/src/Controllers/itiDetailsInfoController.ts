@@ -78,3 +78,50 @@ export async function getSelectedPlacesDetails(req: Request, res: Response) {
       .json({ error: error, msg: "error while fetching user itineries" });
   }
 }
+
+//deleting specific id
+
+export async function deleteSelectedPlacesId(req: Request, res: Response) {
+  try {
+    const { place_ItiId, itiId } = req.params;
+    const deletePlaces = await allItiDetailsModel.findOneAndUpdate(
+      {
+        itineraryId: itiId,
+      },
+      {
+        $pull: {
+          ItiDetails: { place_itiid: place_ItiId },
+        },
+      },
+      { new: true }
+    );
+
+    /* if (deletePlaces.AllPlaces[0].places.length === 0) {
+      const deletePla = await PlacesModel.findOneAndUpdate(
+        { user: "6599500b1f406337e260b6cb", "AllPlaces.places_Id": pId },
+        {
+          $pull: {
+            AllPlaces: {
+              places_Id: pId,
+            },
+          },
+        },
+        { new: true }
+      );
+      return res.status(200).json({
+        data: deletePla,
+        msg: "successfully delete allplaces elements",
+      });
+    } */
+
+    return res.status(200).json({
+      data: deletePlaces,
+      msg: "successfully delete Places data",
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ errorData: error, errorMsg: "error while deleting place data" });
+  }
+}
