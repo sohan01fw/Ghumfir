@@ -1,4 +1,5 @@
 import {
+  deleteSelectedPlacesId,
   getSelectedPlacesDetails,
   insertAllItiDetails,
 } from "../Controllers/itiDetailsInfoController";
@@ -12,3 +13,7 @@ placeDetailsRoute.route("/insertPlaceItiId/:itiId").post(insertAllItiDetails);
 placeDetailsRoute
   .route("/getItiPlacesDetails/:itiId")
   .get(getSelectedPlacesDetails);
+
+placeDetailsRoute
+  .route("/deleteItiPlacesDetails/:itiId/:place_ItiId")
+  .delete(deleteSelectedPlacesId);
