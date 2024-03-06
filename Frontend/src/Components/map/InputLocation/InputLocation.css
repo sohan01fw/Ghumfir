@@ -1,8 +1,29 @@
-.input-location {
-  padding: 10px;
+.renderloc {
+  box-shadow: 1px 1px 3px gray;
+  z-index: 100;
+  width: 29.4%;
+  background-color: white;
+  margin-top: 30px;
+  position: absolute;
   border-radius: 5px;
-  margin: 10px;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.list-group-item {
-  border: 1px solid black;
+.displayplaces {
+}
+.list-div {
+  cursor: pointer;
+  padding: 5px;
+}
+.list-div:hover {
+  background-color: #eceff4;
+  border-radius: 5px;
+}
+.s-text {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.small-text {
+  padding-left: 7px;
+  white-space: nowrap;
 }
