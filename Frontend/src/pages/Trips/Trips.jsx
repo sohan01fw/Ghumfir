@@ -9,7 +9,7 @@ import InputLocation from "../../Components/Map/InputLocation/InputLocation";
 import MainNavigation from "../../Components/Navigation/MainNavigation";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
-
+import { Input, Button } from "@chakra-ui/react";
 const Trips = () => {
   const { state, dispatch } = useAppState();
   const { itiInfo, placeValues } = state;
@@ -91,77 +91,83 @@ const Trips = () => {
     dispatch(placevalueaction);
   };
   return (
-    <div className="trips">
+    <>
       <MainNavigation />
-      <h2>Plan a New Trip</h2>
-      <form onSubmit={handleSubmit} className="trips-form">
-        <div className="destination-input">
-          <label className="destination-label">Destination:</label>
-          <input
-            type="text"
-            value={placeValues}
-            onChange={(e) => {
-              setDestination(e.target.value);
-              handlePlaceValue(e.target.value);
-              setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
-            }}
-            onBlur={validateDestination}
-            placeholder="e.g pokhara,Kathmandu,Mustang"
-          />
-          {errors.destination && (
-            <div className="error-message">{errors.destination}</div>
+      <div className="trips">
+        <h2>Plan a New Trip</h2>
+        <form onSubmit={handleSubmit} className="trips-form">
+          <div className="destination-input">
+            <label className="destination-label">Destination:</label>
+            <Input
+              type="text"
+              value={placeValues}
+              onChange={(e) => {
+                setDestination(e.target.value);
+                handlePlaceValue(e.target.value);
+                setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
+              }}
+              onBlur={validateDestination}
+              placeholder="e.g pokhara,Kathmandu,Mustang"
+            />
+            {errors.destination && (
+              <div className="error-message">{errors.destination}</div>
+            )}
+          </div>
+          {placeValues && (
+            <InputLocation apiKey={key} destination={placeValues} />
           )}
-        </div>
-        <InputLocation apiKey={key} destination={placeValues} />
-        <br />
 
-        <div className="date-input">
-          <label className="date-label">Start Date:</label>
-          <DatePicker
-            selected={startDate}
-            onChange={(date) => {
-              setStartDate(date);
-              setErrors((prevErrors) => ({ ...prevErrors, startDate: "" }));
-            }}
-            onBlur={validateDates}
-            dateFormat="MM/dd/yyyy"
-            isClearable
-            placeholderText="Select Start Date"
-            showTimeInput={false}
-          />
-          {errors.startDate && (
-            <div className="error-message">{errors.startDate}</div>
-          )}
-          <label className="date-label">End Date:</label>
-          <DatePicker
-            selected={endDate}
-            onChange={(date) => {
-              setEndDate(date);
-              setErrors((prevErrors) => ({ ...prevErrors, endDate: "" }));
-            }}
-            onBlur={validateDates}
-            dateFormat="MM/dd/yyyy"
-            isClearable
-            placeholderText="Select End Date"
-          />
-          {errors.endDate && (
-            <div className="error-message">{errors.endDate}</div>
-          )}
-        </div>
-        <br />
-        {errors.dateRange && (
-          <div className="error-message">{errors.dateRange}</div>
-        )}
+          <br />
 
-        <button className="trips-button" type="submit">
-          Plan Trip
-        </button>
-      </form>
-    </div>
+          <div className="date-input">
+            <label className="date-label">Start Date:</label>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => {
+                setStartDate(date);
+                setErrors((prevErrors) => ({ ...prevErrors, startDate: "" }));
+              }}
+              onBlur={validateDates}
+              dateFormat="MM/dd/yyyy"
+              isClearable
+              placeholderText="Select Start Date"
+              showTimeInput={false}
+            />
+
+            {errors.startDate && (
+              <div className="error-message">{errors.startDate}</div>
+            )}
+            <label className="date-label">End Date:</label>
+            <DatePicker
+              selected={endDate}
+              onChange={(date) => {
+                setEndDate(date);
+                setErrors((prevErrors) => ({ ...prevErrors, endDate: "" }));
+              }}
+              onBlur={validateDates}
+              dateFormat="MM/dd/yyyy"
+              isClearable
+              placeholderText="Select End Date"
+            />
+            {errors.endDate && (
+              <div className="error-message">{errors.endDate}</div>
+            )}
+          </div>
+          <br />
+          {errors.dateRange && (
+            <div className="error-message">{errors.dateRange}</div>
+          )}
+
+          <Button colorScheme=" #45a049" className="trips-button" type="submit">
+            Plan Trip
+          </Button>
+        </form>
+      </div>
+    </>
   );
 };
 
-// export default Trips;
+export default Trips;
 // import { useState } from "react";
 // import {
 //   Box,
