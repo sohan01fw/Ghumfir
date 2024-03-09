@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   margin-left: 20px;
+  scroll-behavior: smooth;
 }
 .tripplaces-container2 {
   height: 100vh;
@@ -10,15 +11,38 @@
   box-shadow: 2px 2px 6px gray;
   overflow: auto;
 }
+
+.tripplaces-container2::-webkit-scrollbar {
+  display: none;
+  scroll-behavior: smooth;
+}
 .tripplaces-heading {
   padding: 10px;
 }
 .linknewplaces {
   margin-left: 30px;
 }
-.tripplaces-innerLink:hover {
+.tripplaces-innerLink {
+  display: flex;
+  width: 85%;
+  padding-right: 10px;
+  height: 35vh;
+  margin: 5px;
+  margin-bottom: 15px;
+}
+.innerlinkage:hover {
   text-decoration: none;
 }
+
+.delete-icon {
+  height: 5vh;
+  margin-left: 10px;
+  padding: 2px;
+}
+.delete-icon:hover {
+  cursor: pointer;
+}
+
 .tripplaces-heading > h1 {
   font-size: 30px;
   font-weight: bold;
@@ -34,6 +58,17 @@
   margin-top: 10px;
   margin-left: 13px;
 }
+.resetcover {
+  width: 3.5%;
+  height: 3vh;
+  border-radius: 100%;
+  margin-left: 10px;
+}
+.resetcover:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
 .tripplaces-addnewplace {
   width: 45%;
   padding: 2px;
@@ -54,12 +89,4 @@
 .i-btn {
   position: absolute;
   margin-left: -60px;
-}
-.delete-icon {
-  position: absolute;
-  margin-left: 35rem;
-  margin-top: -18rem;
-}
-.delete-icon:hover {
-  cursor: pointer;
 }

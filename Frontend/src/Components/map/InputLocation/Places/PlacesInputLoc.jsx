@@ -74,6 +74,7 @@ const PlacesInputLoc = ({ place }) => {
             className="ul-div"
           >
             <strong className="s-text">{main_text}</strong>
+            <small className="smallss-text">{secondary_text}</small>
           </ul>
         </div>
       );

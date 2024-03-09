@@ -1,64 +1,64 @@
 import { Request, Response } from "express";
 import { AllItiDetails } from "../../types";
-import { allItiDetailsModel } from "../Db/Models/itiInfoDetails/allItiDetails.model";
+import { allItiDetailsModel } from "../Db/Models/allItiDetails.model";
 import { PlacesModel } from "../Db/Models/Places.model";
 
 export async function insertAllItiDetails(req: Request, res: Response) {
   try {
-    const xData = req.body;
+    const { place_itiid } = req.body;
 
-    const xParams = req.params;
-    if (xData.length !== 0) {
-      const findUserIti = await PlacesModel.findOne({
-        userId: "skoekfodkse",
-      });
+    const { itiId } = req.params;
+    if (place_itiid) {
       // check the dupilcate of data.
       const findItiDup = await allItiDetailsModel.findOne({
-        itineraryId: xParams.itiId,
+        itineraryId: itiId,
       });
-      if (findUserIti && !findItiDup) {
+      if (!findItiDup) {
         // Save the mapped data to MongoDB
         const result = await allItiDetailsModel.create({
-          itineraryId: xParams.itiId,
-          ItiDetails: xData,
+          userId: "6599500b1f406337e260b6cb",
+          itineraryId: itiId,
+          ItiDetails: [
+            {
+              place_itiid: place_itiid,
+            },
+          ],
         });
-        if (result) {
-          console.log(result._id);
-          try {
-            const pushAllItiId = await PlacesModel.findOneAndUpdate(
-              {
-                userId: "skoekfodkse",
-                "itineraries.itineraryId": xParams.itiId,
-              },
-              { $set: { "itineraries.$.itiInfo.ItiDetails": result._id } },
-              //to get the sepecific data.
-              { _id: 0, "itineraries.$": 1 }
-            );
-            res.send("successfully send");
-          } catch (error) {
-            console.log(error);
-            throw new Error("Error while inserting id to userItinerary model");
-          }
-        }
+        return res.status(201).json({
+          data: result,
+          msg: "successfully creating ItiDetails",
+        });
       } else {
         try {
-          const pushAllItiId = await allItiDetailsModel.findOneAndUpdate(
+          const pushplaceItiId = await allItiDetailsModel.findOneAndUpdate(
             {
-              itineraryId: xParams.itiId,
+              userId: "6599500b1f406337e260b6cb",
+              itineraryId: itiId,
             },
-            { $push: { ItiDetails: xData } },
+            {
+              $push: {
+                ItiDetails: {
+                  place_itiid: place_itiid,
+                },
+              },
+            },
             { new: true, upsert: true }
           );
-          console.log(pushAllItiId);
-          res.send("successsfully updated");
+          return res.status(200).json({
+            data: pushplaceItiId,
+            msg: "successfully updating ItiDetails",
+          });
         } catch (error) {
-          throw new Error("Error while updating places details");
+          return res.status(400).json({
+            errorData: error,
+            errorMsg: "error while updating  ItiDetailsModel",
+          });
         }
       }
     }
   } catch (error) {
     console.log(error);
-    throw new Error("Error while inserting many itineraries");
+    throw new Error("Error while inserting  itiDEtails");
   }
 }
 
@@ -67,12 +67,61 @@ export async function getSelectedPlacesDetails(req: Request, res: Response) {
     const { itiId } = req.params;
 
     const result = await allItiDetailsModel.findOne({
+      userId: "6599500b1f406337e260b6cb",
       itineraryId: itiId,
     });
 
-    res.send(result);
+    res.status(200).json({ data: result, msg: "fetching user itiPlaceId" });
+  } catch (error) {
+    res
+      .status(404)
+      .json({ error: error, msg: "error while fetching user itineries" });
+  }
+}
+
+//deleting specific id
+
+export async function deleteSelectedPlacesId(req: Request, res: Response) {
+  try {
+    const { place_ItiId, itiId } = req.params;
+    const deletePlaces = await allItiDetailsModel.findOneAndUpdate(
+      {
+        itineraryId: itiId,
+      },
+      {
+        $pull: {
+          ItiDetails: { place_itiid: place_ItiId },
+        },
+      },
+      { new: true }
+    );
+
+    /* if (deletePlaces.AllPlaces[0].places.length === 0) {
+      const deletePla = await PlacesModel.findOneAndUpdate(
+        { user: "6599500b1f406337e260b6cb", "AllPlaces.places_Id": pId },
+        {
+          $pull: {
+            AllPlaces: {
+              places_Id: pId,
+            },
+          },
+        },
+        { new: true }
+      );
+      return res.status(200).json({
+        data: deletePla,
+        msg: "successfully delete allplaces elements",
+      });
+    } */
+
+    return res.status(200).json({
+      data: deletePlaces,
+      msg: "successfully delete Places data",
+    });
   } catch (error) {
     console.log(error);
-    res.status(404).json({ msg: "error while fetching user itineries" });
+    return res
+      .status(500)
+      .json({ errorData: error, errorMsg: "error while deleting place data" });
   }
 }

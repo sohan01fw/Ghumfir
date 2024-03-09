@@ -7,6 +7,9 @@ const initialState = {
   cIti: null,
   geoLocations: null,
   checkState: true,
+  placesData: null,
+  filterPlaceValue: null,
+  triggerDeletePlace: null,
 };
 
 const Reducer = (state = initialState, action) => {
@@ -34,6 +37,18 @@ const Reducer = (state = initialState, action) => {
     case "CHECK_STATE":
       return {
         checkState: action.payload,
+      };
+    case "Add_PlacesData":
+      return {
+        placesData: action.payload,
+      };
+    case "filter_PlaceValue":
+      return {
+        filterPlaceValue: action.payload,
+      };
+    case "delete_PlaceValue":
+      return {
+        triggerDeletePlace: action.payload,
       };
     default:
       return state;
