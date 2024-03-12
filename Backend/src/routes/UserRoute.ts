@@ -11,4 +11,4 @@ UserRouter.route("/register").post(RegisterUser);
 
 UserRouter.route("/login").post(LoginUser);
 
-UserRouter.route("/logout").post(myMiddleware, LogOut);
+UserRouter.route("/logout").delete(myMiddleware, LogOut);

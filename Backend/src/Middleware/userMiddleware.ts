@@ -26,24 +26,28 @@ export const myMiddleware = async (
     const token =
       req.cookies?._at || req.header("Authorization")?.replace("bearer ", "");
     if (!token) {
-      throw new Error("Unauthorized access!");
+      return res.status(404).json({ msg: "token already deleted!!" });
     }
 
     const decodedToken = jwt.verify(
       token,
       process.env.ACCESS_TOKEN_KEY
     ) as Token;
-
+    if (!decodedToken) {
+      return res.status(500).json({ msg: "invalid on getting decoded token" });
+    }
     const userDetails = await UserModel.findById(decodedToken?._id).select(
       "-password -refreshToken"
     );
     if (!userDetails) {
-      throw new Error("Invalid access token");
+      return res.status(504).json({ msg: "invalid access token" });
     }
 
     req.user = userDetails;
     next();
   } catch (error) {
-    throw new Error("Error on getting token from cookie");
+    return res
+      .status(500)
+      .json({ msg: "Error on proccessing authenticate user middleware" });
   }
 };
