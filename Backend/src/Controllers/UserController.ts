@@ -7,28 +7,31 @@ export async function RegisterUser(req: Request, res: Response) {
   try {
     const { email, name, password }: User = req.body;
     if (!email || !name || !password) {
-      throw new Error("Email or name or password is empty");
+      res.status(400).json({ msg: "Email or name or password is empty" });
     }
     const findUser = await UserModel.findOne({
       $or: [{ email }, { name }],
     });
-    console.log(findUser);
+    if (findUser) {
+      res.status(400).json({ msg: "Email or name already created!!" });
+    }
     if (findUser === null) {
       try {
         const saveUser = await UserModel.create({
           email: email,
           name: name,
           password: password,
+          refreshToken: null,
         });
 
-        res.status(201).json({ msg: "Created new user" });
+        res.status(201).json({ data: saveUser, msg: "Created new user" });
       } catch (error) {
         console.log(error);
         res.status(401).json({ msg: "Error while creating user" });
       }
     }
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.status(500).json({ msg: "Error while processing user" });
   }
 }
@@ -51,49 +54,68 @@ const getRefreshTokenAndAccessToken = async (userId: string) => {
   return { AccessToken, RefreshToken };
 };
 
+//login users
 export async function LoginUser(req: Request, res: Response) {
-  const { email, name, password } = req.body;
-  if (!email && !name) {
-    throw new Error("Email or name must be provided to login");
-  }
-  if (!password) {
-    throw new Error("password must be provided to login");
-  }
+  try {
+    const { email, name, password } = req.body;
 
-  //check user in db
-  const user = await UserModel.findOne({
-    $or: [{ email: email }, { name: name }],
-  });
-  if (!user) {
-    throw new Error("user doesn't exists");
+    if (!email && !name) {
+      return res
+        .status(400)
+        .json({ msg: "Email or name must be provided to login" });
+    }
+
+    if (!password) {
+      return res
+        .status(400)
+        .json({ msg: "Password must be provided to login" });
+    }
+
+    // Check user in DB
+    const user = await UserModel.findOne({
+      $or: [{ email: email }, { name: name }],
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ msg: "User doesn't exist. Please register first!" });
+    }
+
+    // Check password
+    const checkUserPassword = await user.isPasswordCorrect(password);
+    if (!checkUserPassword) {
+      return res.status(400).json({ msg: "Password is incorrect" });
+    }
+
+    const id = user._id.toString();
+    const { RefreshToken, AccessToken } = await getRefreshTokenAndAccessToken(
+      id
+    );
+
+    user.password = undefined;
+    user.refreshToken = undefined;
+
+    return res
+      .status(200)
+      .cookie("_rt", RefreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      })
+      .cookie("_at", AccessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+        expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+      })
+      .json({ msg: "Successfully logged in", data: user });
+  } catch (error) {
+    return res.status(500).json({ msg: "Error while logging in user" });
   }
-  //check whether the password correct or not
-  let checkUser = await user.isPasswordCorrect(password);
-  if (checkUser) {
-    throw new Error("password is incorrect");
-  }
-  const options = {};
-  let id = user._id.toString();
-  const { RefreshToken, AccessToken } = await getRefreshTokenAndAccessToken(id);
-  user.password = undefined;
-  user.refreshToken = undefined;
-  res
-    .status(200)
-    .cookie("_rt", RefreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      path: "/",
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    })
-    .cookie("_at", AccessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      path: "/",
-      expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
-    })
-    .json({ msg: "successfully logged in", data: user });
 }
 
 export async function LogOut(req: Request, res: Response) {
@@ -101,7 +123,7 @@ export async function LogOut(req: Request, res: Response) {
     await UserModel.findByIdAndUpdate(
       { _id: req.user._id },
       {
-        $set: { refreshToken: undefined },
+        $set: { refreshToken: null },
       },
       { new: true }
     );
@@ -109,6 +131,7 @@ export async function LogOut(req: Request, res: Response) {
     res
       .status(200)
       .clearCookie("_at")
+      .clearCookie("_rt")
       .json({ msg: "successfully logout the user", data: {} });
   } catch (error) {
     throw new Error("failed to logout the user");

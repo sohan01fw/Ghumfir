@@ -11,6 +11,8 @@ const UserSchema = new mongoose.Schema<User>(
       unique: true,
       lowercase: true,
       trim: true,
+      minlength: 3,
+      maxlength: 255,
     },
     name: {
       type: String,
@@ -18,14 +20,15 @@ const UserSchema = new mongoose.Schema<User>(
       unique: true,
       lowercase: true,
       trim: true,
+      minlength: 3,
+      maxlength: 250,
       index: 1,
     },
     password: {
       type: String,
       required: [true, "password must provided"],
-      lowercase: true,
-      trim: true,
-      unique: true,
+      minlength: 3,
+      maxlength: 1024,
     },
     refreshToken: {
       type: String,
