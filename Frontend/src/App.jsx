@@ -9,8 +9,8 @@ import { useLocation } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import TripPlaces from "./pages/TripPlaces/TripPlaces";
 import "./App.css";
-import Footer from "./Components/Footer/Footer";
-
+import Login from "./pages/Auth/Login";
+import SignUp from "./pages/Auth/SignUp";
 
 function App() {
   const location = useLocation();
@@ -30,13 +30,12 @@ function App() {
             exact
             element={<TripDetails />}
           />
-
           <Route path="/Blog" exact element={<Blog />} />
-          <Route path="/auth" element={<Auth />} />
+          <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/register" element={<SignUp />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }

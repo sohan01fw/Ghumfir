@@ -30,11 +30,7 @@ const Auth = () => {
         zIndex={999}
       /> */}
       <MainNavigation />
-      {isLogin ? (
-        <Login />
-      ) : (
-        <SignUp />
-      )}
+      {isLogin ? <Login /> : <SignUp />}
       <Text mt={4}>
         {isLogin ? "Don't have an account? " : "Already have an account? "}
         <Button
@@ -50,7 +46,6 @@ const Auth = () => {
       </Text>
       <Footer />
     </Flex>
-
   );
 };
 
