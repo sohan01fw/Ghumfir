@@ -18,3 +18,16 @@ export const getRefreshTokenAndAccessToken = async (userId: string) => {
   );
   return { AccessToken, RefreshToken };
 };
+//only getnewAccessToken
+export async function generateNewAccessToken(userId: String) {
+  try {
+    const findUser = await UserModel.findById({ _id: userId });
+    if (!findUser) {
+      throw new Error("no user found");
+    }
+    const AccessToken = await findUser.generateAccessToken();
+    return { newAccessToken: AccessToken };
+  } catch (error) {
+    throw new Error(error);
+  }
+}

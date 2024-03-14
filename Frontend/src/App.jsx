@@ -12,8 +12,9 @@ import "./App.css";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import { Token } from "./lib/Token";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppState } from "./utils/Hooks/useAppState";
+import { getAccessToken } from "./lib/Actions/ServerGetActions/getAccessToken";
 
 function App() {
   const location = useLocation();
@@ -22,6 +23,9 @@ function App() {
   const { state, dispatch } = useAppState();
   useEffect(() => {
     const token = Token();
+    if (!token) {
+      getAccessToken();
+    }
     const userToken = {
       type: "set-token",
       payload: token,
