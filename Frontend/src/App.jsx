@@ -12,17 +12,30 @@ import "./App.css";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import getToken from "./lib/getToken";
+import { useEffect } from "react";
+import { Token } from "./lib/Token";
+import { getAccessToken } from "./lib/Actions/ServerGetActions/getAccessToken";
+import { useAppState } from "./utils/Hooks/useAppState";
 
 function App() {
   const location = useLocation();
   const isTripDetailsPage = location.pathname.includes("/tripDetails");
   const displaySidebar = isTripDetailsPage;
-  const user = getToken();
-  const navigate = useNavigate();
+  const { state, dispatch } = useAppState();
+  const navigate = useNavigate(); // Get the navigate function
+  const { user } = state;
+  useEffect(() => {
+    const tokens = Token();
+    if (!tokens) {
+      getAccessToken();
+    }
+    const t = {
+      type: "set-token",
+      payload: tokens,
+    };
+    dispatch(t);
+  }, []);
 
-  if (!user) {
-    navigate("/auth/login");
-  }
   return (
     <div className="app-container">
       <div className="">

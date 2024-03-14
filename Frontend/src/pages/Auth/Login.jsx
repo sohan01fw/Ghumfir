@@ -36,7 +36,7 @@ const Login = () => {
         name: resLoginData.data.name,
         email: resLoginData.data.email,
       });
-      return redirect("/");
+      navigate("/");
     }
   };
 
