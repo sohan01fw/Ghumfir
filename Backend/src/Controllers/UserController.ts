@@ -1,7 +1,11 @@
 import { UserModel } from "../Db/Models/User.model.ts";
 import { User } from "../../types";
 import { Request, Response } from "express";
-import { getRefreshTokenAndAccessToken } from "../utils/getRTandAT.ts";
+import {
+  generateNewAccessToken,
+  getRefreshTokenAndAccessToken,
+} from "../utils/getRTandAT.ts";
+import jwt from "jsonwebtoken";
 
 //user registration
 export async function RegisterUser(req: Request, res: Response) {
@@ -118,5 +122,51 @@ export async function LogOut(req: Request, res: Response) {
       .json({ msg: "successfully logout the user", data: {} });
   } catch (error) {
     throw new Error("failed to logout the user");
+  }
+}
+interface Token {
+  _id: string;
+}
+export async function newAccessToken(req: Request, res: Response) {
+  try {
+    const accToken = req.cookies._at;
+    if (accToken) {
+      return res.status(400).json({
+        msg: "no need to generate new access token it's already present",
+      });
+    }
+    const refToken = req.cookies._rt;
+    if (!refToken) {
+      return res
+        .status(403)
+        .json({ msg: "no refresh token found to generate new access token" });
+    }
+    const decodedToken = jwt.verify(
+      refToken,
+      process.env.REFRESH_TOKEN_KEY
+    ) as Token;
+
+    const { _id } = decodedToken;
+    const matchRefreshToken = await UserModel.findById(_id);
+    if (refToken === matchRefreshToken.refreshToken) {
+      const { newAccessToken } = await generateNewAccessToken(_id);
+      return res
+        .status(200)
+        .cookie("_at", newAccessToken, {
+          httpOnly: false,
+          secure: true,
+          sameSite: "none",
+          path: "/",
+          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        })
+        .json({
+          msg: "successfully created new session",
+          data: newAccessToken,
+        });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ msg: "error while processing new accesstoken generator" });
   }
 }
