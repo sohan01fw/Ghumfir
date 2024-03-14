@@ -1,5 +1,5 @@
 import { useNavigate, redirect } from "react-router-dom";
-import { useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Trips.css";
@@ -10,30 +10,30 @@ import MainNavigation from "../../Components/Navigation/MainNavigation";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
 import { Input, Button } from "@chakra-ui/react";
+import getToken from "../../lib/getToken";
 const Trips = () => {
   const { state, dispatch } = useAppState();
-  const { itiInfo, placeValues, token } = state;
-
+  const { itiInfo, placeValues } = state;
+  const user = getToken();
   const navigate = useNavigate();
   const itiId = short.generate();
-  //if user doesn't exist;
-  if (!token) {
-    navigate(`/auth/login`, { replace: true });
+  if (!user) {
+    navigate("/auth/login");
   }
   //state for form inputs
-  const [destination, setDestination] = useState();
+  const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState({});
 
   //validate function to validate form data
-  const validateDestination = () => {
+  const validateDestination = useCallback(() => {
     const validationErrors = {};
     if (!destination.trim()) {
       validationErrors.destination = "Destination is required";
     }
     setErrors((prevErrors) => ({ ...prevErrors, ...validationErrors }));
-  };
+  }, []);
   // Validation function for dates
   const validateDates = () => {
     const validationErrors = {};
@@ -86,13 +86,13 @@ const Trips = () => {
       console.log("Form validation failed");
     }
   };
-  const handlePlaceValue = (value) => {
+  const handlePlaceValue = useCallback((value) => {
     const placevalueaction = {
       type: "ADD_PLACE_VALUE",
       payload: value,
     };
     dispatch(placevalueaction);
-  };
+  }, []);
   return (
     <>
       <MainNavigation />

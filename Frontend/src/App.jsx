@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Auth from "./pages/Auth/Auth";
 import TripDetails from "./pages/TripDetails/TripDetails";
 import Home from "./pages/Home/Home";
@@ -11,28 +11,18 @@ import TripPlaces from "./pages/TripPlaces/TripPlaces";
 import "./App.css";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
-import { Token } from "./lib/Token";
-import { useEffect, useState } from "react";
-import { useAppState } from "./utils/Hooks/useAppState";
-import { getAccessToken } from "./lib/Actions/ServerGetActions/getAccessToken";
+import getToken from "./lib/getToken";
 
 function App() {
   const location = useLocation();
   const isTripDetailsPage = location.pathname.includes("/tripDetails");
   const displaySidebar = isTripDetailsPage;
-  const { state, dispatch } = useAppState();
-  useEffect(() => {
-    const token = Token();
-    if (!token) {
-      getAccessToken();
-    }
-    const userToken = {
-      type: "set-token",
-      payload: token,
-    };
-    dispatch(userToken);
-  }, []);
+  const user = getToken();
+  const navigate = useNavigate();
 
+  if (!user) {
+    navigate("/auth/login");
+  }
   return (
     <div className="app-container">
       <div className="">
