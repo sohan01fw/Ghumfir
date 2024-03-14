@@ -13,13 +13,14 @@ import { Input, Button } from "@chakra-ui/react";
 import getToken from "../../lib/getToken";
 const Trips = () => {
   const { state, dispatch } = useAppState();
-  const { itiInfo, placeValues } = state;
-  const user = getToken();
+  const { itiInfo, placeValues, user } = state;
   const navigate = useNavigate();
   const itiId = short.generate();
-  if (!user) {
-    navigate("/auth/login");
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth/login");
+    }
+  }, [user]);
   //state for form inputs
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState(null);

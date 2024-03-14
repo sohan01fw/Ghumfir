@@ -10,7 +10,7 @@ const initialState = {
   placesData: null,
   filterPlaceValue: null,
   triggerDeletePlace: null,
-  token: null,
+  user: null,
 };
 
 const Reducer = (state = initialState, action) => {
@@ -53,7 +53,7 @@ const Reducer = (state = initialState, action) => {
       };
     case "set-token":
       return {
-        token: action.payload,
+        user: action.payload,
       };
     default:
       return state;

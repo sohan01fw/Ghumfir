@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Token } from "./Token";
 import { getAccessToken } from "./Actions/ServerGetActions/getAccessToken";
+import { useAppState } from "../utils/Hooks/useAppState";
 
 const getToken = () => {
-  const [value, setvalue] = useState();
+  const { dispatch } = useAppState();
   useEffect(() => {
     const token = Token();
     if (!token) {
       getAccessToken();
     }
-    setvalue(token);
+    const t = {
+      type: "set-token",
+      payload: token,
+    };
+    dispatch(t);
   }, []);
-  return value;
+  return;
 };
 
 export default getToken;
