@@ -1,6 +1,7 @@
 import { UserModel } from "../Db/Models/User.model.ts";
 import { User } from "../../types";
 import { Request, Response } from "express";
+import { getRefreshTokenAndAccessToken } from "../utils/getRTandAT.ts";
 
 //user registration
 export async function RegisterUser(req: Request, res: Response) {
@@ -35,24 +36,6 @@ export async function RegisterUser(req: Request, res: Response) {
     res.status(500).json({ msg: "Error while processing user" });
   }
 }
-//for login user
-const getRefreshTokenAndAccessToken = async (userId: string) => {
-  const findUser = await UserModel.findById({ _id: userId });
-  if (!findUser) {
-    throw new Error("no user found");
-  }
-  const AccessToken = await findUser.generateAccessToken();
-  const RefreshToken = await findUser.generateRefreshToken();
-
-  await UserModel.findByIdAndUpdate(
-    { _id: userId },
-    {
-      $set: { refreshToken: RefreshToken },
-    },
-    { new: true }
-  );
-  return { AccessToken, RefreshToken };
-};
 
 //login users
 export async function LoginUser(req: Request, res: Response) {
@@ -101,16 +84,16 @@ export async function LoginUser(req: Request, res: Response) {
       .cookie("_rt", RefreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "strict",
-        path: "/",
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      })
-      .cookie("_at", AccessToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "strict",
+        sameSite: "none",
         path: "/",
         expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
+      })
+      .cookie("_at", AccessToken, {
+        httpOnly: false,
+        secure: true,
+        sameSite: "none",
+        path: "/",
+        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       })
       .json({ msg: "Successfully logged in", data: user });
   } catch (error) {

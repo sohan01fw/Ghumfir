@@ -10,15 +10,15 @@ export async function createPlaces(req: Request, res: Response) {
     //first placesid come from client side get from params
     const { pId } = req.params;
     const tripDetails = req.body;
-
+    const userID = req.user._id;
     const { itineraryId, itiInfo, startDate, endDate } = tripDetails;
     const findUser = await PlacesModel.findOne({
-      user: "6599500b1f406337e260b6cb",
+      user: userID,
     });
 
     if (!findUser) {
       const createPlaces = await PlacesModel.create({
-        user: "6599500b1f406337e260b6cb",
+        user: userID,
         AllPlaces: [
           {
             places_Id: pId,
@@ -52,14 +52,14 @@ export async function createPlaces(req: Request, res: Response) {
       });
     } else {
       const findPlace = await PlacesModel.findOne({
-        user: "6599500b1f406337e260b6cb",
+        user: userID,
       });
       const findpId = findPlace.AllPlaces.find(
         (place: any) => place.places_Id === pId
       );
       if (!findpId) {
         const updateFindPlace = await PlacesModel.findOneAndUpdate(
-          { user: "6599500b1f406337e260b6cb" },
+          { user: userID },
           {
             $push: {
               AllPlaces: {
@@ -97,7 +97,7 @@ export async function createPlaces(req: Request, res: Response) {
       } else {
         const updateplacesArray = await PlacesModel.findOneAndUpdate(
           {
-            user: "6599500b1f406337e260b6cb",
+            user: userID,
             AllPlaces: { $elemMatch: { places_Id: pId } },
           },
           {
@@ -140,10 +140,10 @@ export async function createPlaces(req: Request, res: Response) {
 export async function getPlaces(req: Request, res: Response) {
   try {
     const { pId } = req.params;
-
+    const userID = req.user._id;
     const getPlacesRes = await PlacesModel.findOne(
       {
-        user: "6599500b1f406337e260b6cb",
+        user: userID,
         "AllPlaces.places_Id": pId,
       },
       { _id: 0, "AllPlaces.$": 1 }
@@ -168,9 +168,9 @@ export async function getPlaces(req: Request, res: Response) {
 export async function deletePlaces(req: Request, res: Response) {
   try {
     const { pId, itiId } = req.params;
-
+    const userID = req.user._id;
     const deletePlaces = await PlacesModel.findOneAndUpdate(
-      { user: "6599500b1f406337e260b6cb", "AllPlaces.places_Id": pId },
+      { user: userID, "AllPlaces.places_Id": pId },
       {
         $pull: {
           "AllPlaces.$.places": {
@@ -183,7 +183,7 @@ export async function deletePlaces(req: Request, res: Response) {
 
     if (deletePlaces.AllPlaces[0].places.length === 0) {
       const deletePla = await PlacesModel.findOneAndUpdate(
-        { user: "6599500b1f406337e260b6cb", "AllPlaces.places_Id": pId },
+        { user: userID, "AllPlaces.places_Id": pId },
         {
           $pull: {
             AllPlaces: {
