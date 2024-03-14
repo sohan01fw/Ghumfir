@@ -10,18 +10,34 @@ import {
   Flex,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useNavigate, redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Ghumfir_Logo from "../../Assets/Ghumfir_Logo.png";
 import "./Login.css";
+import { LoginForm } from "../../lib/Actions/ServerPostActions/LoginForm";
+import Cookies from "js-cookie";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const bgColor = useColorModeValue("gray.100", "gray.800");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     // Your login logic here
-    console.log("Logging in with:", email, password);
+    const loginValue = {
+      email,
+      password,
+    };
+    const resLoginData = await LoginForm(loginValue);
+    console.log(resLoginData);
+    if (resLoginData) {
+      localStorage.setItem("user", {
+        name: resLoginData.data.name,
+        email: resLoginData.data.email,
+      });
+      return redirect("/");
+    }
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import { useEffect, useId, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,11 +12,14 @@ import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
 import { Input, Button } from "@chakra-ui/react";
 const Trips = () => {
   const { state, dispatch } = useAppState();
-  const { itiInfo, placeValues } = state;
+  const { itiInfo, placeValues, token } = state;
 
   const navigate = useNavigate();
   const itiId = short.generate();
-
+  //if user doesn't exist;
+  if (!token) {
+    navigate(`/auth/login`, { replace: true });
+  }
   //state for form inputs
   const [destination, setDestination] = useState();
   const [startDate, setStartDate] = useState(null);
@@ -292,7 +295,7 @@ export default Trips;
 //       p="20px"
 //       boxShadow="0 0 10px rgba(0, 0, 0, 0.1)"
 //     >
- 
+
 //       <Heading as="h2" textAlign="center" mb="1rem">
 //         Plan a New Trip
 //       </Heading>

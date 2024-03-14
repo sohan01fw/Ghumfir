@@ -11,12 +11,24 @@ import TripPlaces from "./pages/TripPlaces/TripPlaces";
 import "./App.css";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
+import { Token } from "./lib/Token";
+import { useEffect } from "react";
+import { useAppState } from "./utils/Hooks/useAppState";
 
 function App() {
   const location = useLocation();
   const isTripDetailsPage = location.pathname.includes("/tripDetails");
   const displaySidebar = isTripDetailsPage;
-  console.log(displaySidebar);
+  const { state, dispatch } = useAppState();
+  useEffect(() => {
+    const token = Token();
+    const userToken = {
+      type: "set-token",
+      payload: token,
+    };
+    dispatch(userToken);
+  }, []);
+
   return (
     <div className="app-container">
       <div className="">

@@ -6,7 +6,7 @@ import { PlacesModel } from "../Db/Models/Places.model";
 export async function insertAllItiDetails(req: Request, res: Response) {
   try {
     const { place_itiid } = req.body;
-
+    const userID = req.user._id;
     const { itiId } = req.params;
     if (place_itiid) {
       // check the dupilcate of data.
@@ -16,7 +16,7 @@ export async function insertAllItiDetails(req: Request, res: Response) {
       if (!findItiDup) {
         // Save the mapped data to MongoDB
         const result = await allItiDetailsModel.create({
-          userId: "6599500b1f406337e260b6cb",
+          userId: userID,
           itineraryId: itiId,
           ItiDetails: [
             {
@@ -32,7 +32,7 @@ export async function insertAllItiDetails(req: Request, res: Response) {
         try {
           const pushplaceItiId = await allItiDetailsModel.findOneAndUpdate(
             {
-              userId: "6599500b1f406337e260b6cb",
+              userId: userID,
               itineraryId: itiId,
             },
             {
@@ -65,9 +65,9 @@ export async function insertAllItiDetails(req: Request, res: Response) {
 export async function getSelectedPlacesDetails(req: Request, res: Response) {
   try {
     const { itiId } = req.params;
-
+    const userID = req.user._id;
     const result = await allItiDetailsModel.findOne({
-      userId: "6599500b1f406337e260b6cb",
+      userId: userID,
       itineraryId: itiId,
     });
 

@@ -16,6 +16,7 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
 app.use(cookieParser());
+
 //Handeling packages
 app.use(
   cors({
