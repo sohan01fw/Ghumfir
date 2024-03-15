@@ -14,10 +14,11 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import NestedLink from "../../Components/ui/NestedLink";
 import Softbtn from "../../Components/ui/Softbtn";
 import { deletePlaces } from "../../lib/Actions/ServerDeleteActions/deletePlaces";
+import useToken from "../../lib/useToken";
 
 const TripPlaces = () => {
   const { state, dispatch } = useAppState();
-  const { itiInfo, placeValues } = state;
+  const { itiInfo, placeValues, user } = state;
   const { pId } = useParams();
   const navigate = useNavigate();
   const [PlaceData, setPlaceData] = useState();
@@ -26,6 +27,11 @@ const TripPlaces = () => {
   const [addPlaces, setaddPlaces] = useState();
   const [placesExists, setplacesExists] = useState(false);
   const [deletePla, setdeletePla] = useState();
+  //for authorization of user
+  useToken();
+  if (!user) {
+    navigate("/auth/login");
+  }
   //center for map
   const tripPlacesCenter = {
     lat: parseFloat("28.2095831"),
