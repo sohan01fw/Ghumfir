@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useAppState } from "../utils/Hooks/useAppState";
 
 const useToken = () => {
-  const [isUser, setisUser] = useState(null);
   const { state, dispatch } = useAppState();
 
   useEffect(() => {
@@ -15,7 +14,7 @@ const useToken = () => {
     dispatch(tt);
   }, []);
 
-  return isUser;
+  return;
 };
 
 export default useToken;

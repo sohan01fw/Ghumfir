@@ -21,13 +21,21 @@ import Notes from "../../Components/ShowTrips/Note/Notes";
 import { FaBed } from "react-icons/fa";
 import { FaCar } from "react-icons/fa";
 import { MdFlight } from "react-icons/md";
+import useToken from "../../lib/useToken";
 
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
-  const { itiDetails, geoLocations, placesData, filterPlaceValue } = state;
+  const { itiDetails, geoLocations, placesData, filterPlaceValue, user } =
+    state;
+
   const { itiId, pId } = useParams();
   const [toggleIcon, settoggleIcon] = useState(true);
   const [dataDetails, setdataDetails] = useState();
+  //for authorization of user
+  useToken();
+  if (!user) {
+    navigate("/auth/login");
+  }
   //center for map
   const itiDetailCenter = {
     lat: parseFloat(dataDetails?.itiInfo?.geolocation?.lat),

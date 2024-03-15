@@ -6,7 +6,7 @@ import "./InputLocation.css";
 import { useMemo } from "react";
 import { useAppState } from "../../../utils/Hooks/useAppState";
 
-const InputLocation = ({ destination }) => {
+const InputLocation = ({ destination, getPlacesData }) => {
   const { state, dispatch } = useAppState();
   const {
     value,
@@ -28,11 +28,13 @@ const InputLocation = ({ destination }) => {
     ({ description, place_id }) =>
     () => {
       setValue(description, false);
+
       const placeValueAction = {
-        type: "ADD_PLACE_VALUE",
+        type: "ADD_P_VALUE",
         payload: description,
       };
       dispatch(placeValueAction);
+      getPlacesData(description);
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
@@ -51,13 +53,13 @@ const InputLocation = ({ destination }) => {
 
   // renders bunch of suggestions based on the input
   const renderSuggestions = () =>
-    data.map((suggestion) => {
+    data.map((suggestion, index) => {
       const {
         place_id,
         structured_formatting: { main_text, secondary_text },
       } = suggestion;
       return (
-        <div className="displayplaces">
+        <div className="displayplaces" key={index}>
           <ul
             key={place_id}
             onClick={handleSelect(suggestion)}
