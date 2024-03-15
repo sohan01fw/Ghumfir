@@ -30,12 +30,8 @@ const Login = () => {
       password,
     };
     const resLoginData = await LoginForm(loginValue);
-    console.log(resLoginData);
     if (resLoginData) {
-      localStorage.setItem("user", {
-        name: resLoginData.data.name,
-        email: resLoginData.data.email,
-      });
+      localStorage.setItem("user", JSON.stringify(resLoginData));
       navigate("/");
     }
   };

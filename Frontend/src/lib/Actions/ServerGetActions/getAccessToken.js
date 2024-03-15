@@ -5,7 +5,7 @@ export const getAccessToken = async () => {
   try {
     const response = await axios.get(`${SERVER_URL}/api/user/new-accessToken`);
 
-    console.log(response);
+    return response;
   } catch (error) {
     console.error(error);
   }

@@ -10,17 +10,18 @@ import MainNavigation from "../../Components/Navigation/MainNavigation";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import { PostPlaces } from "../../lib/Actions/ServerPostActions/PostPlaces";
 import { Input, Button } from "@chakra-ui/react";
-import getToken from "../../lib/getToken";
+import useToken from "../../lib/useToken";
 const Trips = () => {
   const { state, dispatch } = useAppState();
   const { itiInfo, placeValues, user } = state;
   const navigate = useNavigate();
   const itiId = short.generate();
-  useEffect(() => {
-    if (!user) {
-      navigate("/auth/login");
-    }
-  }, [user]);
+  //for authorization of user
+  useToken();
+  if (!user) {
+    navigate("/auth/login");
+  }
+
   //state for form inputs
   const [destination, setDestination] = useState("");
   const [startDate, setStartDate] = useState(null);
