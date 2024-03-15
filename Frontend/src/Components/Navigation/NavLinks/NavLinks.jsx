@@ -4,12 +4,11 @@ import AuthModel from "../../ui/AuthModel";
 
 const NavLinks = () => {
   return (
-    <Flex as="ul" listStyleType="none" p={0} m={0} ml={8}>
-      <NavItem to="/">Trips</NavItem>
-      <NavItem to="/about">About</NavItem>
-      <NavItem to="/tripDetails">Trip Details</NavItem>
+    <Flex as="ul" listStyleType="none" p={0} m={0} ml={25} fontWeight={600}>
+      <NavItem to="/">Home</NavItem>
+      <NavItem to="/hotels">Accomodation</NavItem>
       <NavItem to="/Blog">Blog</NavItem>
-      <NavItem to="/auth/login">Login/Register</NavItem>
+      <NavItem to="/about">About</NavItem>
     </Flex>
   );
 };
