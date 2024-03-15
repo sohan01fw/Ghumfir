@@ -97,9 +97,9 @@ export async function LoginUser(req: Request, res: Response) {
         secure: true,
         sameSite: "none",
         path: "/",
-        expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + 120 * 60 * 60 * 1000),
       })
-      .json({ msg: "Successfully logged in", data: user });
+      .json({ msg: "Successfully logged in", data: user, token: AccessToken });
   } catch (error) {
     return res.status(500).json({ msg: "Error while logging in user" });
   }
@@ -139,7 +139,7 @@ export async function newAccessToken(req: Request, res: Response) {
     if (!refToken) {
       return res
         .status(403)
-        .json({ msg: "no refresh token found to generate new access token" });
+        .json({ msg: "no refresh token found user must logged to get it" });
     }
     const decodedToken = jwt.verify(
       refToken,
@@ -157,7 +157,7 @@ export async function newAccessToken(req: Request, res: Response) {
           secure: true,
           sameSite: "none",
           path: "/",
-          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+          expires: new Date(Date.now() + 120 * 60 * 60 * 1000),
         })
         .json({
           msg: "successfully created new session",

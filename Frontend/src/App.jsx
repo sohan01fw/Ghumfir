@@ -11,10 +11,6 @@ import TripPlaces from "./pages/TripPlaces/TripPlaces";
 import "./App.css";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
-import getToken from "./lib/getToken";
-import { useEffect } from "react";
-import { Token } from "./lib/Token";
-import { getAccessToken } from "./lib/Actions/ServerGetActions/getAccessToken";
 import { useAppState } from "./utils/Hooks/useAppState";
 
 function App() {
@@ -23,18 +19,6 @@ function App() {
   const displaySidebar = isTripDetailsPage;
   const { state, dispatch } = useAppState();
   const navigate = useNavigate(); // Get the navigate function
-  const { user } = state;
-  useEffect(() => {
-    const tokens = Token();
-    if (!tokens) {
-      getAccessToken();
-    }
-    const t = {
-      type: "set-token",
-      payload: tokens,
-    };
-    dispatch(t);
-  }, []);
 
   return (
     <div className="app-container">
