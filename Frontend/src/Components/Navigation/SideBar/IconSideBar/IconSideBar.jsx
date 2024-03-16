@@ -10,6 +10,7 @@ import "./IconSideBar.css";
 const IconSideBar = () => {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
+    console.log(element);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
@@ -19,30 +20,23 @@ const IconSideBar = () => {
     <div className="sidebar-container">
       <ul className="sidebar-list">
         <li>
-          <Link to="#Overview" onClick={() => scrollToSection("overview")}>
+          <Link onClick={() => scrollToSection("Overview")}>
             <SlBookOpen fontSize={20} />
           </Link>
         </li>
         <li>
-          <Link to="#Explore" onClick={() => scrollToSection("explore")}>
+          <Link onClick={() => scrollToSection("Explore")}>
             <MdExplore fontSize={20} />
           </Link>
         </li>
+
         <li>
-          <Link to="#Note" onClick={() => scrollToSection("notes")}>
-            <FaStickyNote fontSize={20} />
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="#Placet-to-visit"
-            onClick={() => scrollToSection("placesToVisit")}
-          >
+          <Link onClick={() => scrollToSection("PlacesToVisit")}>
             <GoGoal fontSize={20} />
           </Link>
         </li>
         <li>
-          <Link to="#Budget" onClick={() => scrollToSection("budget")}>
+          <Link onClick={() => scrollToSection("budget")}>
             <FaSackDollar fontSize={20} />
           </Link>
         </li>

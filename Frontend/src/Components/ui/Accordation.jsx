@@ -154,7 +154,6 @@ const Accordation = ({ title, dataDetails }) => {
         allowMultiple
         border="transparent"
         marginTop={5}
-        marginBottom={60}
       >
         <AccordionItem>
           <h2>

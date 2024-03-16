@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./TripDetails.css";
 import { useAppState } from "../../utils/Hooks/useAppState";
 import GoogleMaps from "../../Components/Map/GoogleMaps/GoogleMaps";
@@ -9,7 +9,7 @@ import {
   EmailIcon,
   Search2Icon,
 } from "@chakra-ui/icons";
-import { Avatar, WrapItem, Button } from "@chakra-ui/react";
+import { Avatar, WrapItem, Button, Box } from "@chakra-ui/react";
 import Accordation from "../../Components/ui/Accordation";
 import { getPlaces } from "../../lib/Actions/ServerGetActions/getPlaces";
 import SideBar from "../../Components/Navigation/SideBar/SideBar";
@@ -22,6 +22,7 @@ import { FaBed } from "react-icons/fa";
 import { FaCar } from "react-icons/fa";
 import { MdFlight } from "react-icons/md";
 import useToken from "../../lib/useToken";
+import { useNavigate } from "react-router-dom";
 
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
@@ -31,6 +32,7 @@ const TripDetails = ({ destination }) => {
   const { itiId, pId } = useParams();
   const [toggleIcon, settoggleIcon] = useState(true);
   const [dataDetails, setdataDetails] = useState();
+  const navigate = useNavigate();
   //for authorization of user
   useToken();
   if (!user) {
@@ -50,16 +52,22 @@ const TripDetails = ({ destination }) => {
   useEffect(() => {
     getdata();
   }, [pId]);
+
   return (
     <div className="main-container">
       <div className="sub-maincontainer">
         <div className="container-navbar">
-          <div className="cn-logo">
-            <img src={Ghumfir_Logo} alt="logo" />
-          </div>
-          <div className="nofityicon">
-            <IoIosNotifications />
-          </div>
+          <Box width="8%" paddingBottom={-3} cursor="pointer">
+            <Link to="/">
+              <img src={Ghumfir_Logo} alt="logo" className="cn-logo" />
+            </Link>
+          </Box>
+
+          <Box marginRight={3} paddingTop={2} cursor="pointer">
+            <div className="nofityicon">
+              <IoIosNotifications />
+            </div>
+          </Box>
         </div>
         <div className="middle-section">
           <div className={`${toggleIcon ? "c-sidebar" : "expanded-sidebar"}`}>
@@ -95,8 +103,8 @@ const TripDetails = ({ destination }) => {
               </>
             )}
           </div>
-          <div className="main-section" id="Overview">
-            <div className="cover-img">
+          <div className="main-section">
+            <div id="Overview" className="cover-img">
               <img
                 src="https://images.unsplash.com/photo-1562462181-b228e3cff9ad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cG9raGFyYXxlbnwwfHwwfHx8MA%3D%3D"
                 alt="img"
@@ -117,8 +125,12 @@ const TripDetails = ({ destination }) => {
                 </div>
               </div>
             </div>
+            {/* Explore container */}
             <div className="Explore-container">
-              <AccordionExplore />
+              <div id="Explore">
+                <AccordionExplore />
+              </div>
+
               <div className="browseall-btn">
                 <Button
                   leftIcon={<Search2Icon />}
@@ -173,9 +185,15 @@ const TripDetails = ({ destination }) => {
                 <p>View Details</p>
               </div>
             </div>
-            <div className="placetovisit-container">
+
+            {/* place to visit section */}
+            <div id="PlacesToVisit" className="placetovisit-container">
               <Accordation title="Places To Visit" dataDetails={dataDetails} />
             </div>
+            {/* For Budget */}
+            <Box marginLeft="10%" id="budget">
+              <div className="budget-container">Budgeting</div>
+            </Box>
           </div>
         </div>
       </div>
