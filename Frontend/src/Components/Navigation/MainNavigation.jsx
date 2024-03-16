@@ -29,13 +29,13 @@ const MainNavigation = () => {
       align="center"
       bg="white"
       boxShadow="0px 0.4px 0.1px gray"
-      p={2}
       position="sticky"
       top={0}
       zIndex={999}
       width="100%"
       justifyContent="space-around"
       px={4}
+      paddingBottom={-5}
     >
       <Box ml={4}></Box>
 
