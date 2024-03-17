@@ -31,7 +31,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { ChevronLeftIcon, ChevronRightIcon, StarIcon } from "@chakra-ui/icons";
+import { StarIcon } from "@chakra-ui/icons";
 import MainNavigation from "../../Components/Navigation/MainNavigation";
 import Footer from "../../Components/Footer/Footer";
 import travelingImage from "../../assets/traveling-image.jpg";
@@ -147,101 +147,88 @@ const reviewsData = [
     review:
       "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
   },
+  {
+    id: 4,
+    userImage: user4Image,
+    userName: "Emily Williams",
+    stars: 4,
+    review:
+      "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
+  },
+  {
+    id: 4,
+    userImage: user4Image,
+    userName: "Emily Williams",
+    stars: 4,
+    review:
+      "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
+  },
+  {
+    id: 4,
+    userImage: user4Image,
+    userName: "Emily Williams",
+    stars: 4,
+    review:
+      "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
+  }, 
+  {
+    id: 4,
+    userImage: user4Image,
+    userName: "Emily Williams",
+    stars: 4,
+    review:
+      "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
+  },
+  {
+    id: 4,
+    userImage: user4Image,
+    userName: "Emily Williams",
+    stars: 4,
+    review:
+      "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
+  }, 
 ];
 
 const Home = ({ isLoggedIn }) => {
-  const tripsPerPage = 3; // Number of trips to display per page
-  const [startIndex, setStartIndex] = useState(0);
 
-  const handlePrevTrips = () => {
-    setStartIndex(prevStartIndex => Math.max(0, prevStartIndex - tripsPerPage));
-  };
-
-  const handleNextTrips = () => {
-    setStartIndex(prevStartIndex => Math.min(tripsData.length - tripsPerPage, prevStartIndex + tripsPerPage));
-  };
-
+ 
   return (
     <Box>
       <MainNavigation />
 
       {isLoggedIn ? (
         <>
-          <Flex overflowX="auto" pb={4}>
-            {startIndex > 0 && (
-              <IconButton
-                aria-label="Previous trips"
-                icon={<ChevronLeftIcon />}
-                onClick={handlePrevTrips}
-                variant="ghost"
-                mr={2}
-              />
-            )}
-            {visibleTrips.map((trip) => (
-              <TripCard key={trip.id} {...trip} />
-            ))}
-            {startIndex + tripsPerPage < tripsData.length && (
-              <IconButton
-                aria-label="Next trips"
-                icon={<ChevronRightIcon />}
-                onClick={handleNextTrips}
-                variant="ghost"
-                ml={2}
-              />
-            )}
-          </Flex>
-
-          {/* Recently Viewed and Upcoming Trips */}
-          <Heading as="h2" size="lg" mt={8}>
-            Recently Viewed & Upcoming Trips
-          </Heading>
-          <Flex overflowX="auto" pb={4}>
-            {visibleTrips.map((trip) => (
-              <TripCard key={trip.id} {...trip} />
-            ))}
-          </Flex>
+        
         </>
       ) : (
      
         <>
-         <Box p={8}>
-      <Flex justify="space-between" align="center" mb={4}>
-        <Heading as="h2" size="lg">
-          Recently Viewed & Upcoming Trips
-        </Heading>
-        <Link to="/trips">
-          <Button colorScheme="green">Plan New Trip</Button>
-        </Link>
-      </Flex>
-      
-      <Box overflowX="hidden">
-        <Flex pb={4}>
-          {startIndex > 0 && (
-            <IconButton
-              aria-label="Previous trips"
-              icon={<ChevronLeftIcon />}
-              onClick={handlePrevTrips}
-              variant="ghost"
-              mr={2}
-            />
-          )}
-          <Flex width={`${tripsPerPage * 320}px`}>
-            {tripsData.slice(startIndex, startIndex + tripsPerPage).map(trip => (
-              <TripCard key={trip.id} {...trip} />
-            ))}
-          </Flex>
-          {startIndex + tripsPerPage < tripsData.length && (
-            <IconButton
-              aria-label="Next trips"
-              icon={<ChevronRightIcon />}
-              onClick={handleNextTrips}
-              variant="ghost"
-              ml={2}
-            />
-          )}
-        </Flex>
-      </Box>
-    </Box>
+ <Box p={8}>
+            <Flex justify="space-between" align="center" mb={4}>
+              <Heading as="h2" size="lg">
+                Recently Viewed & Upcoming Trips
+              </Heading>
+              <Link to="/trips">
+                <Button colorScheme="green">Plan New Trip</Button>
+              </Link>
+            </Flex>
+            <Flex
+              className="recent-upcoming-trips"
+              
+              overflowX="auto"
+              whiteSpace="nowrap"
+              css={{ scrollbarWidth: "none" }} // Hide scrollbar for Firefox
+              sx={{
+                "&::-webkit-scrollbar": {
+                  display: "none" // Hide scrollbar for WebKit browsers
+                }
+              }}
+            >
+              {tripsData.map((trip) => (
+                <TripCard key={trip.id} {...trip} />
+              ))}
+            </Flex>
+          </Box>
           {/* Text Section */}
           <Flex>
             <Box flex="1" bg="white" p={8} position="relative" zIndex="1">
@@ -286,16 +273,26 @@ const Home = ({ isLoggedIn }) => {
           </Flex>
 
           {/* Reviews Section */}
+    
           <Box bg="gray.100" py={8}>
-            <Heading as="h2" size="lg" textAlign="center" mb={6}>
-              What travelers can't stop talking about
-            </Heading>
-            <Flex overflowX="auto">
-              {reviewsData.map((review) => (
-                <ReviewCard key={review.id} {...review} />
-              ))}
-            </Flex>
-          </Box>
+        <Heading as="h2" size="lg" textAlign="center" mb={6}>
+          What travelers can't stop talking about
+        </Heading>
+        <Flex
+          overflowX="auto"
+          css={{
+            "&::-webkit-scrollbar": {
+              display: "none"
+            },
+            scrollSnapType: "x mandatory"
+          }}
+        >
+          {reviewsData.map((review) => (
+            <ReviewCard key={review.id} {...review} />
+          ))}
+        </Flex>
+      </Box>
+    
         </>
       )}
 
@@ -348,28 +345,34 @@ const TripCard = ({
   );
 };
 
-
 const ReviewCard = ({ userImage, userName, stars, review }) => {
   return (
-    <Box bg="white" p={4} mx={2} borderRadius="lg" boxShadow="md" maxW="320px">
-      <Flex align="center" mb={2}>
-        <Image
-          src={userImage}
-          alt="User"
-          boxSize="40px"
-          borderRadius="full"
-          mr={2}
-        />
-        <Text>{userName}</Text>
-      </Flex>
-      <Flex mb={2}>
-        {Array.from({ length: stars }, (_, index) => (
-          <StarIcon key={index} color="green.400" />
-        ))}
-      </Flex>
-      <Text mb={4}>{review}</Text>
-    </Box>
+    <Box
+    bg="white"
+    p={4}
+    mx={2}
+    borderRadius="lg"
+    boxShadow="md"
+    maxW="320px"
+    flex="0 0 auto"
+  >
+    <Flex align="center" mb={2}>
+      <Image
+        src={userImage}
+        alt="User"
+        boxSize="40px"
+        borderRadius="full"
+        mr={2}
+      />
+      <Text>{userName}</Text>
+    </Flex>
+    <Flex mb={2}>
+      {Array.from({ length: stars }, (_, index) => (
+        <StarIcon key={index} color="green.400" />
+      ))}
+    </Flex>
+    <Text mb={4}>{review}</Text>
+  </Box>
   );
 };
-
 export default Home;
