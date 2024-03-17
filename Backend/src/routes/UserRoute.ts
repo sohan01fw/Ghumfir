@@ -10,8 +10,6 @@ import { myMiddleware } from "../Middleware/userMiddleware";
 const app = express();
 export const UserRouter = express.Router();
 
-/* UserRouter.route("/").get(getUsers);
- */
 UserRouter.route("/register").post(RegisterUser);
 
 UserRouter.route("/login").post(LoginUser);

@@ -1,5 +1,5 @@
 //import express
-import express, { NextFunction } from "express";
+import express from "express";
 import { Request, Response } from "express";
 //cookie-parser
 import cookieParser from "cookie-parser";
@@ -12,6 +12,8 @@ import { UserRouter } from "./routes/UserRoute.ts";
 import { placeDetailsRoute } from "./routes/placeDetailsRoute.ts";
 import { myMiddleware } from "./Middleware/userMiddleware.ts";
 import { placesRoute } from "./routes/PlacesRoute.ts";
+import { BudgetRouter } from "./routes/BudgetRoute.ts";
+
 const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
@@ -42,16 +44,13 @@ require("./Db/dbConn.ts");
 app.use("/api/user", UserRouter);
 app.use("/api/places", placesRoute);
 app.use("/api/place-details", placeDetailsRoute);
+app.use("/api/budget", BudgetRouter);
 
 app.get("/", myMiddleware, (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send("hello world");
 });
 
-// Initialize Passport
-
-/* app.get("*", (req, res) => {
-  res.status(404).send("Not Found");
-}); */
+//port listening at..
 app.listen(port, () => {
   console.log(`app listening on port http://localhost:${port}`);
 });
