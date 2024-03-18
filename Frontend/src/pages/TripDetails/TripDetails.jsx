@@ -23,6 +23,7 @@ import { FaCar } from "react-icons/fa";
 import { MdFlight } from "react-icons/md";
 import useToken from "../../lib/useToken";
 import { useNavigate } from "react-router-dom";
+import Budget from "../../Components/TripDetails/Budget/Budget";
 
 const TripDetails = ({ destination }) => {
   const { state, dispatch } = useAppState();
@@ -192,7 +193,7 @@ const TripDetails = ({ destination }) => {
             </div>
             {/* For Budget */}
             <Box marginLeft="10%" id="budget">
-              <div className="budget-container">Budgeting</div>
+              <Budget />
             </Box>
           </div>
         </div>

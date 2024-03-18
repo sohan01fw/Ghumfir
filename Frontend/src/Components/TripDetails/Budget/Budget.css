@@ -1,0 +1,40 @@
+.budget-container {
+  margin-bottom: 10rem;
+  font-weight: 700;
+  font-size: 22px;
+  height: 50vh;
+}
+.display-budget-container {
+  width: 80%;
+  border-radius: 10px;
+  padding: 10px;
+  height: 18vh;
+  background-color: #edeef0;
+  margin-top: 17px;
+}
+
+.es-budget {
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 5px;
+}
+
+.expenses-list {
+  overflow: scroll;
+}
+.expenses-list::-webkit-scrollbar {
+  display: none;
+}
+
+.budget-value {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 3px;
+}
+.cost {
+  display: flex;
+}
+.cost > h1 {
+  padding-right: 4px;
+}
