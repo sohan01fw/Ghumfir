@@ -11,9 +11,10 @@ const BudgetSchema = new Schema({
     type: String,
     required: true,
   },
-  TotalBudget: {
+  Budget: {
     type: Number,
   },
+
   expenses: [
     {
       name: String,
