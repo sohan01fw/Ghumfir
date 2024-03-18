@@ -12,29 +12,47 @@ import {
   Button,
   Progress,
 } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 import EditModel from "../../ui/Budget/EditModel";
 import ExpensesModel from "../../ui/Budget/ExpensesModel";
+import { useAppState } from "../../../utils/Hooks/useAppState";
+import EditExpenseModel from "../../ui/Budget/EditExpenseModel";
+import { deleteExpenses } from "../../../lib/Actions/ServerPostActions/PostBudget";
 const Budget = () => {
+  const { state, dispatch } = useAppState();
+  const { Budget, expense } = state;
   const { itiId, pId } = useParams();
   const [budgetValue, setbudgetValue] = useState();
   const [progressValue, setprogressValue] = useState(0);
   const [estExpense, setestExpense] = useState(0);
+  const [delExp, setdelExp] = useState();
   const getBudgetdata = async () => {
     const fetchBudgetDetails = await getAllBudget(itiId);
     setbudgetValue(fetchBudgetDetails);
-    const sumcost = fetchBudgetDetails?.expenses?.reduce(
-      (accumulator, currenvalue) => {
-        return accumulator.cost + currenvalue.cost;
-      }
-    );
-    setestExpense(sumcost);
-    //caluculate expenses
-    const calculateExpense = (sumcost / budgetValue?.Budget) * 100;
-    setprogressValue(calculateExpense);
+    if (fetchBudgetDetails) {
+      const sumcost = fetchBudgetDetails?.expenses?.reduce(
+        (accumulator, currenvalue) => {
+          return accumulator + (currenvalue?.cost || 0);
+        },
+        0
+      );
+      setestExpense(sumcost);
+      const calculateExpense = (sumcost / fetchBudgetDetails?.Budget) * 100;
+      setprogressValue(calculateExpense);
+    }
   };
+
   useEffect(() => {
     getBudgetdata();
-  }, [itiId]);
+  }, [itiId, Budget, expense, delExp]);
+  //deleteExp
+  const handleDeleteExp = async (id) => {
+    const x = id?.expId;
+    const deleteExp = await deleteExpenses(itiId, x);
+    if (deleteExp) {
+      setdelExp(deleteExp);
+    }
+  };
   return (
     <div className="budget-container">
       <Box width="80%" display="flex" justifyContent="space-between">
@@ -52,7 +70,7 @@ const Budget = () => {
             display="flex"
             justifyContent="space-between"
           >
-            <Box fontSize="18px">NPR {estExpense}.00</Box>
+            <Box fontSize="18px">NPR {estExpense && estExpense}.00</Box>
 
             <Box
               display="flex"
@@ -109,34 +127,22 @@ const Budget = () => {
               <div className="expenses-list">
                 {budgetValue?.expenses?.map((data, index) => {
                   return (
-                    <Box
-                      key={index}
-                      margin={2}
-                      padding={1}
-                      cursor="pointer"
-                      _hover={{ color: "green" }}
-                    >
+                    <Box key={index} margin={2} padding={1}>
                       <div className="budget-value" key={index}>
+                        <EditExpenseModel data={data} />
                         <Box
-                          className="name"
-                          display="flex"
-                          flexDirection="column"
+                          cursor="pointer"
+                          _hover={{ color: "red" }}
+                          marginLeft={3}
                         >
-                          <Box fontSize="16px">
-                            <h3>{data?.name}</h3>
-                          </Box>
-                          <Box fontSize="12px" color="gray">
-                            <p>{data?.name}</p>
-                          </Box>
-                        </Box>
-                        <Box
-                          className="cost"
-                          fontSize="12px"
-                          fontWeight="700"
-                          paddingTop={3}
-                        >
-                          <h1>NPR</h1>
-                          <h4>{data?.cost}.00</h4>
+                          <DeleteIcon
+                            fontSize="22px"
+                            paddingLeft={1}
+                            paddingRight={1}
+                            onClick={() => {
+                              handleDeleteExp({ expId: data?._id });
+                            }}
+                          />
                         </Box>
                       </div>
                     </Box>
