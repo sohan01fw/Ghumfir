@@ -16,11 +16,21 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { postBudget } from "../../../lib/Actions/ServerPostActions/PostBudget";
+import { useAppState } from "../../../utils/Hooks/useAppState";
 const EditModel = ({ id }) => {
+  const { state, dispatch } = useAppState();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [inputBudget, setinputBudget] = useState(0);
   const handlePostBudget = async () => {
     const postBudet = await postBudget(id, inputBudget);
+    if (postBudet) {
+      onClose();
+      const x = {
+        type: "Budget-value",
+        payload: postBudet,
+      };
+      dispatch(x);
+    }
   };
 
   return (
@@ -61,9 +71,7 @@ const EditModel = ({ id }) => {
           <ModalFooter paddingRight="40%">
             <Button
               _hover={{ backgroundColor: "green", color: "white" }}
-              onClick={() => {
-                handlePostBudget(), onClose();
-              }}
+              onClick={handlePostBudget}
             >
               Save
             </Button>

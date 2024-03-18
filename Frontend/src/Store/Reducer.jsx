@@ -12,6 +12,9 @@ const initialState = {
   filterPlaceValue: null,
   triggerDeletePlace: null,
   user: null,
+  Budget: null,
+  expense: null,
+  delexpense: null,
 };
 
 const Reducer = (state = initialState, action) => {
@@ -70,6 +73,21 @@ const Reducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    case "Budget-value":
+      return {
+        ...state,
+        Budget: action.payload,
+      };
+    case "expense-value":
+      return {
+        ...state,
+        expense: action.payload,
+      };
+    case "del-expense-value":
+      return {
+        ...state,
+        delexpense: action.payload,
       };
     default:
       return state;

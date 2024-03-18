@@ -4,8 +4,10 @@ import { Request, Response } from "express";
 export const createBudgetandExpenses = async (req: Request, res: Response) => {
   const { itiId } = req.params;
   const userID = req.user._id;
-  const { Budget, name, cost } = req.body;
-
+  const { name, Budget, cost, expId } = req.body;
+  /*  if (!itiId || !name || !cost) {
+    res.status(400).json({ msg: "please provide all field" });
+  } */
   try {
     const findBudget = await Budgets.findOne({ itineraryId: itiId });
     if (!findBudget) {
@@ -42,20 +44,40 @@ export const createBudgetandExpenses = async (req: Request, res: Response) => {
           }
         }
         if (name || cost) {
-          const updateExpenses = await Budgets.findOneAndUpdate(
+          if (expId) {
+            try {
+              const updateExpenses = await Budgets.findOneAndUpdate(
+                { itineraryId: itiId, "expenses._id": expId },
+                { $set: { "expenses.$.name": name, "expenses.$.cost": cost } },
+                { upsert: true, new: true }
+              );
+
+              return res.status(200).json({
+                data: updateExpenses,
+                msg: "successfully updating expenses ",
+              });
+            } catch (error) {
+              console.log(error);
+              return res.status(500).json({
+                error: error,
+                msg: "error while updating expenses plan  ",
+              });
+            }
+          }
+          const saveExpenses = await Budgets.findOneAndUpdate(
             { itineraryId: itiId },
             { $push: { expenses: { name, cost } } },
-            { new: true }
+            { upsert: true, new: true }
           );
           return res.status(200).json({
-            data: updateExpenses,
-            msg: "successfully updating expenses ",
+            data: saveExpenses,
+            msg: "successfully saving expenses ",
           });
         }
       } catch (error) {
         return res.status(500).json({
           error: error,
-          msg: "error while updating expenses plan ",
+          msg: "error while adding expenses plan ",
         });
       }
     }
@@ -82,6 +104,30 @@ export const getAllExpenses = async (req: Request, res: Response) => {
     return res.status(500).json({
       error: error,
       msg: "error while fetching budget plan ",
+    });
+  }
+};
+
+export const deleteExpenses = async (req: Request, res: Response) => {
+  try {
+    const { itiId, expId } = req.params;
+    const deleteExpenses = await Budgets.findOneAndUpdate(
+      { itineraryId: itiId, "expenses._id": expId },
+      {
+        $pull: {
+          expenses: { _id: expId },
+        },
+      },
+      { new: true }
+    );
+    return res.status(200).json({
+      data: deleteExpenses,
+      msg: "successfully deleting budget expenses plan",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      error: err,
+      msg: "error while deleting budget expenses  ",
     });
   }
 };

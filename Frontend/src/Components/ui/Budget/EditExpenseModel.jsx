@@ -17,10 +17,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
@@ -28,14 +24,22 @@ import {
   postExpenses,
 } from "../../../lib/Actions/ServerPostActions/PostBudget";
 import { useAppState } from "../../../utils/Hooks/useAppState";
-const ExpensesModel = ({ id }) => {
+import { useParams } from "react-router-dom";
+const EditExpenseModel = ({ data }) => {
+  const { itiId, pId } = useParams();
   const { state, dispatch } = useAppState();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [modelText, setmodelText] = useState("select an item");
-  const [inputBudget, setinputBudget] = useState(0);
+  const [modelText, setmodelText] = useState("");
+  const [inputBudget, setinputBudget] = useState(`${data?.cost}`);
+  const expId = data?._id;
   const handlePostBudget = async () => {
-    const postExpensesRes = await postExpenses(id, inputBudget, modelText);
-    setmodelText("select an item");
+    const postExpensesRes = await postExpenses(
+      itiId,
+      inputBudget,
+      modelText,
+      expId
+    );
+    console.log(postExpensesRes);
     if (postExpensesRes) {
       onClose();
       const x = {
@@ -45,11 +49,53 @@ const ExpensesModel = ({ id }) => {
       dispatch(x);
     }
   };
-
+  const ClickedBtn = (data) => {
+    onOpen();
+    setmodelText(data?.name);
+    setinputBudget(data?.cost);
+  };
   return (
     <>
-      <Button onClick={onOpen} colorScheme="green" borderRadius="20px">
-        Add expense
+      <Button
+        onClick={() => ClickedBtn({ name: data?.name, cost: data?.cost })}
+        width="100%"
+        padding={5}
+        paddingTop={6}
+        paddingBottom={6}
+        background="transparent"
+        _hover={{ background: "transparent" }}
+        textAlign="left"
+      >
+        <Box
+          className="name"
+          display="flex"
+          justifyContent="space-between"
+          width="100%"
+          cursor="pointer"
+          _hover={{ color: "green" }}
+        >
+          <Box display="flex" flexDirection="column">
+            <Box>
+              <Box fontSize="16px">
+                <h3>{data?.name}</h3>
+              </Box>
+              <Box fontSize="12px" color="gray">
+                <p>{data?.name}</p>
+              </Box>
+            </Box>
+          </Box>
+
+          <Box
+            className="cost"
+            fontSize="12px"
+            fontWeight="700"
+            paddingTop={3}
+            width="20%"
+          >
+            <h1>NPR</h1>
+            <h4>{data?.cost}.00</h4>
+          </Box>
+        </Box>
       </Button>
       <Modal
         isCentered
@@ -59,7 +105,7 @@ const ExpensesModel = ({ id }) => {
       >
         <ModalOverlay />
         <ModalContent height="40vh">
-          <ModalHeader fontWeight={700}>Add expense</ModalHeader>
+          <ModalHeader fontWeight={700}>Edit expense</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Box margin={2}>
@@ -109,6 +155,7 @@ const ExpensesModel = ({ id }) => {
                 <Input
                   paddingLeft={14}
                   placeholder="Enter amount"
+                  value={inputBudget}
                   onChange={(e) => setinputBudget(e.target.value)}
                 />
               </InputGroup>
@@ -130,4 +177,4 @@ const ExpensesModel = ({ id }) => {
   );
 };
 
-export default ExpensesModel;
+export default EditExpenseModel;

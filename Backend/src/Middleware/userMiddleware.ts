@@ -48,6 +48,9 @@ export const myMiddleware = async (
   } catch (error) {
     return res
       .status(500)
-      .json({ msg: "Error on proccessing authenticate user middleware" });
+      .json({
+        data: error,
+        msg: "Error on proccessing authenticate user middleware",
+      });
   }
 };
