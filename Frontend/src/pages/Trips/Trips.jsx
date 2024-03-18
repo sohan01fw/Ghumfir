@@ -26,6 +26,7 @@ const Trips = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [errors, setErrors] = useState({});
+  const [getSelected, setgetSelected] = useState("");
 
   //validate function to validate form data
   const validateDestination = () => {
@@ -87,7 +88,17 @@ const Trips = () => {
       console.log("Form validation failed");
     }
   };
+  const handelSendValue = (data) => {
+    const d = {
+      type: "ADD_P_VALUE",
+      payload: data,
+    };
+    dispatch(d);
+  };
   console.log(pvalue);
+  const handleInputClick = () => {
+    setgetSelected("");
+  };
   return (
     <>
       <MainNavigation />
@@ -97,10 +108,13 @@ const Trips = () => {
           <div className="destination-input">
             <label className="destination-label">Destination:</label>
             <Input
+              variant="filled"
               type="text"
-              value={destination}
+              value={pvalue}
+              onMouseEnter={handleInputClick}
               onChange={(e) => {
                 setDestination(e.target.value);
+                handelSendValue(e.target.value);
                 setErrors((prevErrors) => ({ ...prevErrors, destination: "" }));
               }}
               onBlur={validateDestination}
@@ -110,11 +124,11 @@ const Trips = () => {
               <div className="error-message">{errors.destination}</div>
             )}
           </div>
-          {!pvalue && (
+          {!getSelected && pvalue && (
             <InputLocation
               apiKey={key}
-              destination={destination}
-              getPlacesData={(data) => setDestination(data)}
+              destination={pvalue}
+              getPlacesData={(data) => setgetSelected(data)}
             />
           )}
 
@@ -130,7 +144,6 @@ const Trips = () => {
               }}
               onBlur={validateDates}
               dateFormat="MM/dd/yyyy"
-              isClearable
               placeholderText="Select Start Date"
               showTimeInput={false}
             />
@@ -147,7 +160,6 @@ const Trips = () => {
               }}
               onBlur={validateDates}
               dateFormat="MM/dd/yyyy"
-              isClearable
               placeholderText="Select End Date"
             />
             {errors.endDate && (
@@ -159,7 +171,25 @@ const Trips = () => {
             <div className="error-message">{errors.dateRange}</div>
           )}
 
-          <Button colorScheme=" #45a049" className="trips-button" type="submit">
+          <Button
+            colorScheme="#45a049" // Preserved original color
+            className="trips-button"
+            type="submit"
+            borderRadius="20px"
+            marginTop="18px"
+            padding="16px"
+            paddingLeft="32px"
+            paddingRight="32px"
+            fontSize="18px"
+            fontWeight="bold"
+            transition="transform 0.3s ease-in-out"
+            _hover={{
+              transform: "translateY(-2px)",
+            }}
+            _active={{
+              transform: "translateY(0)",
+            }}
+          >
             Plan Trip
           </Button>
         </form>
