@@ -8,11 +8,14 @@ import { useAppState } from "../../../utils/Hooks/useAppState";
 
 const InputLocation = ({ destination, getPlacesData }) => {
   const { state, dispatch } = useAppState();
+  const { pvalue } = state;
   const {
     value,
     suggestions: { status, data },
     setValue,
   } = usePlacesAutocomplete();
+  const images = useGetImg(pvalue);
+
   //caching google map
   usePlacesAutocomplete({
     // Provide the cache time in seconds, the default is 24 hours
@@ -35,6 +38,11 @@ const InputLocation = ({ destination, getPlacesData }) => {
       };
       dispatch(placeValueAction);
       getPlacesData(description);
+      //for places images
+      const imageUrls = images.map((data) => {
+        return data?.urls?.small;
+      });
+
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
@@ -42,6 +50,7 @@ const InputLocation = ({ destination, getPlacesData }) => {
           place_Id: place_id,
           geolocation: { lat, lng },
           place: description,
+          images: imageUrls,
         };
         const itiInfoAction = {
           type: "ADD_ITI_INFO",
