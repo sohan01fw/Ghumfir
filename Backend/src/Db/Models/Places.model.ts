@@ -23,6 +23,7 @@ const PlacesSchema = new mongoose.Schema<Places>({
           itiInfo: {
             place_Id: String,
             place: String,
+            images: [String],
             geolocation: {
               lat: String,
               lng: String,

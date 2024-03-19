@@ -44,6 +44,7 @@ export type Places = {
         itiInfo: {
           place_Id: string;
           place: string;
+          images: Array<{}>;
           geolocation: {
             lat: string;
             lng: string;

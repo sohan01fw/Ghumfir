@@ -15,7 +15,7 @@ export async function createPlaces(req: Request, res: Response) {
     const findUser = await PlacesModel.findOne({
       user: userID,
     });
-
+    console.log(itiInfo?.images);
     if (!findUser) {
       const createPlaces = await PlacesModel.create({
         user: userID,
@@ -30,6 +30,7 @@ export async function createPlaces(req: Request, res: Response) {
                 itiInfo: {
                   place_Id: itiInfo?.place_Id || null,
                   place: itiInfo?.place || null,
+                  images: itiInfo?.images || null,
                   geolocation: {
                     lat: itiInfo?.geolocation?.lat || null,
                     lng: itiInfo?.geolocation?.lng || null,
@@ -72,6 +73,7 @@ export async function createPlaces(req: Request, res: Response) {
                     itiInfo: {
                       place_Id: itiInfo?.place_Id || null,
                       place: itiInfo?.place || null,
+                      images: itiInfo?.images || null,
                       geolocation: {
                         lat: itiInfo?.geolocation?.lat || null,
                         lng: itiInfo?.geolocation?.lng || null,
@@ -107,6 +109,7 @@ export async function createPlaces(req: Request, res: Response) {
                 itiInfo: {
                   place_Id: itiInfo?.place_Id || null,
                   place: itiInfo?.place || null,
+                  images: itiInfo?.images || null,
                   geolocation: {
                     lat: itiInfo?.geolocation?.lat || null,
                     lng: itiInfo?.geolocation?.lng || null,

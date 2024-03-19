@@ -15,6 +15,7 @@ import NestedLink from "../../Components/ui/NestedLink";
 import Softbtn from "../../Components/ui/Softbtn";
 import { deletePlaces } from "../../lib/Actions/ServerDeleteActions/deletePlaces";
 import useToken from "../../lib/useToken";
+import useGetImg from "../../utils/Hooks/placesHook/useGetImg";
 
 const TripPlaces = () => {
   const { state, dispatch } = useAppState();
@@ -39,6 +40,7 @@ const TripPlaces = () => {
   };
   //generate itinerary id
   const itiId = short.generate();
+  //get images
 
   //posting data to server for same place_Id
   const handlePostPlaces = async () => {
@@ -75,6 +77,7 @@ const TripPlaces = () => {
   useEffect(() => {
     getPla();
   }, [pId, addPlaces, deletePla]);
+  console.log(PlaceData);
   /*  console.log(PlaceData); */
   /* const AddedPlacesDetails = () => {
     const addPDetails = {
@@ -90,6 +93,7 @@ const TripPlaces = () => {
       setdeletePla(resDeletePlace);
     }
   };
+
   return (
     <div className="tripplaces-container">
       <div className="tripplaces-container2">
@@ -103,29 +107,27 @@ const TripPlaces = () => {
 
         <div className="linknewplaces">
           {PlaceData?.map((data, index) => (
-            <>
-              <div className="tripplaces-innerLink">
-                <Link
-                  key={index}
-                  to={`/tripDetails/${pId}/${data.itineraryId}`}
-                  className="innerlinkage"
-                >
-                  <NestedLink data={data} />
-                </Link>
-                <div
-                  className="delete-icon"
-                  onClick={() =>
-                    handleDeletePlace({
-                      id: data?.itineraryId,
-                    })
-                  }
-                >
-                  <p>
-                    <DeleteIcon />
-                  </p>
-                </div>
+            <div className="tripplaces-innerLink" key={index}>
+              <Link
+                key={index}
+                to={`/tripDetails/${pId}/${data.itineraryId}`}
+                className="innerlinkage"
+              >
+                <NestedLink data={data} />
+              </Link>
+              <div
+                className="delete-icon"
+                onClick={() =>
+                  handleDeletePlace({
+                    id: data?.itineraryId,
+                  })
+                }
+              >
+                <p>
+                  <DeleteIcon />
+                </p>
               </div>
-            </>
+            </div>
           ))}
           <div className="alltrip">
             <div className="tp-line"></div>
