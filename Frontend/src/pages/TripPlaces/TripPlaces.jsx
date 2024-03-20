@@ -93,7 +93,6 @@ const TripPlaces = () => {
       setdeletePla(resDeletePlace);
     }
   };
-
   return (
     <div className="tripplaces-container">
       <div className="tripplaces-container2">
@@ -156,7 +155,7 @@ const TripPlaces = () => {
                       variant="filled"
                       placeholder="Add a new place"
                       onChange={(e) => setinputPlace(e.target.value)}
-                      value={placeValues && placeValues}
+                      value={placeValues}
                       className="i-input"
                     />
                     <Button
