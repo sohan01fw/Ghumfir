@@ -8,20 +8,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useAppState } from "../../../../utils/Hooks/useAppState";
 import short from "short-uuid";
 import { useParams } from "react-router-dom";
-import { PostPlaces } from "../../../../lib/Actions/ServerPostActions/PostPlaces";
-import useGetImg from "../../../../utils/Hooks/placesHook/useGetImg";
 
 const PlacesInputLoc = ({ place }) => {
   const { pId } = useParams();
   const itiId = short.generate();
   const { state, dispatch } = useAppState();
   const { placeValues } = state;
-  const [PlaceName, setPlaceName] = useState("");
-  const images = useGetImg(PlaceName);
-  console.log(PlaceName);
-  console.log(images);
-  /*   const parts = placeValues?.split(",");
-  const placeName = parts[0]?.trim(); // Remove any leading/trailing spaces */
 
   //getting place info details..............
 
@@ -46,7 +38,6 @@ const PlacesInputLoc = ({ place }) => {
     ({ description, place_id }) =>
     () => {
       setValue(place, false);
-      setPlaceName(() => description);
       //add place value to global store
       const placeValueAction = {
         type: "ADD_PLACE_VALUE",
@@ -54,11 +45,6 @@ const PlacesInputLoc = ({ place }) => {
       };
 
       dispatch(placeValueAction);
-      //images urls
-      //for places images
-      /*  const imageUrls = images?.map((data) => {
-        return data?.urls?.small;
-      }); */
 
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then(async (results) => {
@@ -67,7 +53,6 @@ const PlacesInputLoc = ({ place }) => {
           place_Id: place_id,
           geolocation: { lat, lng },
           place: description,
-          /* images: imageUrls, */
         };
         const itiInfoAction = {
           type: "ADD_ITI_INFO",

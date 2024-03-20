@@ -7,6 +7,7 @@ const NavLinks = () => {
     <Flex as="ul" listStyleType="none" p={0} m={0} ml={25} fontWeight={600}>
       <NavItem to="/">Home</NavItem>
       <NavItem to="/hotels">Accomodation</NavItem>
+      <NavItem to="/airecommend">Ai recommendation</NavItem>
       <NavItem to="/Blog">Blog</NavItem>
       <NavItem to="/about">About</NavItem>
     </Flex>

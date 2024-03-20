@@ -14,7 +14,6 @@ const InputLocation = ({ destination, getPlacesData }) => {
     suggestions: { status, data },
     setValue,
   } = usePlacesAutocomplete();
-  const images = useGetImg(pvalue);
 
   //caching google map
   usePlacesAutocomplete({
@@ -38,10 +37,6 @@ const InputLocation = ({ destination, getPlacesData }) => {
       };
       dispatch(placeValueAction);
       getPlacesData(description);
-      //for places images
-      const imageUrls = images.map((data) => {
-        return data?.urls?.small;
-      });
 
       // Get latitude and longitude via utility functions
       getGeocode({ address: description }).then((results) => {
@@ -50,7 +45,6 @@ const InputLocation = ({ destination, getPlacesData }) => {
           place_Id: place_id,
           geolocation: { lat, lng },
           place: description,
-          images: imageUrls,
         };
         const itiInfoAction = {
           type: "ADD_ITI_INFO",

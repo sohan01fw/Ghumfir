@@ -6,8 +6,8 @@ import useGetImg from "../../utils/Hooks/placesHook/useGetImg";
 const NestedLink = ({ data }) => {
   const [placelinkDetails, setplacelinkDetails] = useState(null);
   const [description, setDescription] = useState("");
-  const images = useGetImg(placelinkDetails?.name);
-
+  //place name
+  let p_name = placelinkDetails?.name;
   //getting place info details..............
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const NestedLink = ({ data }) => {
     );
 
     service.getDetails(
-      { placeId: "ChIJ_3YDv3uTlTkRZCGAJTuCz_Y" },
+      { placeId: data?.itiInfo?.place_Id },
       (place, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           // Access place details here:
@@ -34,16 +34,12 @@ const NestedLink = ({ data }) => {
       }
     );
   }, [data]);
-  //getting images from .........
-  const imageUrls = images?.map((data) => {
-    return data?.urls?.small;
-  });
+
   //desc getting from wiki of places
-  /*  const location = "phewa lake"; // replace with your location
 
   useEffect(() => {
     const fetchDescription = async () => {
-      const url = `https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&origin=*&titles=${location}`;
+      const url = `https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&origin=*&titles=${p_name}`;
       const response = await fetch(url);
       const data = await response.json();
       const pages = data?.query?.pages;
@@ -54,25 +50,19 @@ const NestedLink = ({ data }) => {
     };
 
     fetchDescription();
-  }, []);
-  console.log(description); */
+  }, [p_name]);
+
   return (
-    <div className="mainlink-container">
-      <div className="link-container">
-        <div className="innerlink-container">
+    <Box className="mainlink-container">
+      <Box className="link-container">
+        <Box className="innerlink-container">
           <div className="title">
             <h2 className="t-head">{placelinkDetails?.name}</h2>
           </div>
 
-          <div className="description">
-            <p>
-              pokhara is beautiful contry of nepal. Lorem ipsum dolor sit amet
-              consectetur, adipisicing elit. Culpa odit sint animi ratione illo?
-              Autem voluptates numquam, voluptas, dolores blanditiis, quisquam
-              sapiente voluptatum magnam tempore eum fugit. Exercitationem,
-              minima officiis?
-            </p>
-          </div>
+          <Box className="description" border="1px solid black">
+            <p>{description}</p>
+          </Box>
           <Button
             className="right-arrow"
             backgroundColor="#4caf50"
@@ -81,22 +71,9 @@ const NestedLink = ({ data }) => {
             <h5>Details</h5>
             <ChevronRightIcon color={"white"} paddingTop={0.2} fontSize={23} />
           </Button>
-        </div>
-        {/*  <Box className="images" border="1px solid black">
-          {ImageUrl.map((image, index) => {
-            return (
-              <Box border="1px solid black">
-                <img
-                  key={index}
-                  src={image?.urls?.small}
-                  alt={image.alt_description}
-                />
-              </Box>
-            );
-          })}
-        </Box> */}
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
