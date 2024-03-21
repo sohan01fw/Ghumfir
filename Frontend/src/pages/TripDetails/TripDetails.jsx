@@ -39,6 +39,13 @@ const TripDetails = ({ destination }) => {
   if (!user) {
     navigate("/auth/login");
   }
+  const i = Math.floor(Math.random(0, 4));
+  const images = [
+    "https://th.bing.com/th?id=OIP.r-luFXabwDg73lIJGkhLqgHaEK&w=333&h=187&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
+    "https://th.bing.com/th?id=OIP.rT8niWKBw4Io0_gk9H5TPQHaD7&w=343&h=182&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
+    "https://th.bing.com/th?id=OIP.q1lpystVE8LWVE0p_gxvxAHaE0&w=309&h=201&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2",
+    "https://images.unsplash.com/photo-1562462181-b228e3cff9ad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cG9raGFyYXxlbnwwfHwwfHx8MA%3D%3D",
+  ];
   //center for map
   const itiDetailCenter = {
     lat: parseFloat(dataDetails?.itiInfo?.geolocation?.lat),
@@ -106,16 +113,12 @@ const TripDetails = ({ destination }) => {
           </div>
           <div className="main-section">
             <div id="Overview" className="cover-img">
-              <img
-                src="https://images.unsplash.com/photo-1562462181-b228e3cff9ad?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cG9raGFyYXxlbnwwfHwwfHx8MA%3D%3D"
-                alt="img"
-              />
+              <img src={images[i]} alt="img" />
             </div>
             <div className="cover-board">
               <h2>Trip to {dataDetails?.itiInfo?.place}</h2>
 
               <div className="dateandprofile">
-                <div className="for-date">2021-2022</div>
                 <div className="for-profile">
                   <WrapItem>
                     <Avatar

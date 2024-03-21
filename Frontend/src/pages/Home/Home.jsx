@@ -20,7 +20,7 @@
 //   console.log("checking reducer from homepage", itiDetails);
 //   return <div>Home</div>;
 // };
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -39,6 +39,7 @@ import user1Image from "../../assets/traveling-image.jpg";
 import user2Image from "../../assets/traveling-image.jpg";
 import user3Image from "../../assets/traveling-image.jpg";
 import user4Image from "../../assets/traveling-image.jpg";
+import { getAllPlaces } from "../../lib/Actions/ServerGetActions/getAllPlaces";
 const tripsData = [
   {
     id: 1,
@@ -58,60 +59,7 @@ const tripsData = [
     endDate: "2024-04-07",
     numberOfPlaces: 8,
   },
-  {
-    id: 1,
-    coverPage: travelingImage,
-    title: "Trip to Kathmandu",
-    userLogo: "../../assets/traveling-image.jpg",
-    startDate: "2024-03-10",
-    endDate: "2024-03-15",
-    numberOfPlaces: 10,
-  },
-  {
-    id: 2,
-    coverPage: travelingImage,
-    title: "Hiking in the Himalayas",
-    userLogo: "../../assets/traveling-image.jpg",
-    startDate: "2024-04-01",
-    endDate: "2024-04-07",
-    numberOfPlaces: 8,
-  },
-  {
-    id: 1,
-    coverPage: travelingImage,
-    title: "Trip to Kathmandu",
-    userLogo: "../../assets/traveling-image.jpg",
-    startDate: "2024-03-10",
-    endDate: "2024-03-15",
-    numberOfPlaces: 10,
-  },
-  {
-    id: 2,
-    coverPage: travelingImage,
-    title: "Hiking in the Himalayas",
-    userLogo: "../../assets/traveling-image.jpg",
-    startDate: "2024-04-01",
-    endDate: "2024-04-07",
-    numberOfPlaces: 8,
-  },
-  {
-    id: 1,
-    coverPage: travelingImage,
-    title: "Trip to Kathmandu",
-    userLogo: "../../assets/traveling-image.jpg",
-    startDate: "2024-03-10",
-    endDate: "2024-03-15",
-    numberOfPlaces: 10,
-  },
-  {
-    id: 2,
-    coverPage: travelingImage,
-    title: "Hiking in the Himalayas",
-    userLogo: "../../assets/traveling-image.jpg",
-    startDate: "2024-04-01",
-    endDate: "2024-04-07",
-    numberOfPlaces: 8,
-  },
+
   // Add more trips as needed
 ];
 const reviewsData = [
@@ -170,7 +118,7 @@ const reviewsData = [
     stars: 4,
     review:
       "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
-  }, 
+  },
   {
     id: 4,
     userImage: user4Image,
@@ -186,24 +134,30 @@ const reviewsData = [
     stars: 4,
     review:
       "Nam convallis sapien sit amet velit placerat, id hendrerit risus semper. Nulla posuere arcu et diam consequat convallis.",
-  }, 
+  },
 ];
 
 const Home = ({ isLoggedIn }) => {
+  const [resPlacesData, setresPlacesData] = useState(null);
+  const [placeId, setPlaceId] = useState(null);
 
- 
+  useEffect(() => {
+    const getPlaces = async () => {
+      const res = await getAllPlaces();
+      setresPlacesData(res);
+    };
+    getPlaces();
+  }, []);
+  console.log();
   return (
     <Box>
       <MainNavigation />
 
       {isLoggedIn ? (
-        <>
-        
-        </>
+        <></>
       ) : (
-     
         <>
- <Box p={8}>
+          <Box p={8}>
             <Flex justify="space-between" align="center" mb={4}>
               <Heading as="h2" size="lg">
                 Recently Viewed & Upcoming Trips
@@ -214,19 +168,52 @@ const Home = ({ isLoggedIn }) => {
             </Flex>
             <Flex
               className="recent-upcoming-trips"
-              
               overflowX="auto"
               whiteSpace="nowrap"
               css={{ scrollbarWidth: "none" }} // Hide scrollbar for Firefox
               sx={{
                 "&::-webkit-scrollbar": {
-                  display: "none" // Hide scrollbar for WebKit browsers
-                }
+                  display: "none", // Hide scrollbar for WebKit browsers
+                },
               }}
             >
-              {tripsData.map((trip) => (
-                <TripCard key={trip.id} {...trip} />
-              ))}
+              {resPlacesData &&
+                resPlacesData.map((trip, index) => {
+                  const parsedEndDate = new Date(trip?.dates?.endDate); // Use endDate instead of startDate
+                  const parsedDate = new Date(trip?.dates?.startDate);
+
+                  // Extract the date components for the start date
+                  const year = parsedDate.getUTCFullYear();
+                  const month = parsedDate.getUTCMonth() + 1; // Months are zero-based, so add 1
+                  const day = parsedDate.getUTCDate();
+
+                  // Extract the date components for the end date
+                  const years = parsedEndDate.getUTCFullYear();
+                  const months = parsedEndDate.getUTCMonth() + 1; // Months are zero-based, so add 1
+                  const days = parsedEndDate.getUTCDate();
+
+                  // Format the start date
+                  const formattedStartDate = `${year}-${month
+                    .toString()
+                    .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+                  // Format the end date
+                  const formattedEndDate = `${years}-${months
+                    .toString()
+                    .padStart(2, "0")}-${days.toString().padStart(2, "0")}`;
+
+                  console.log(`Formatted start date: ${formattedStartDate}`);
+                  console.log(`Formatted end date: ${formattedEndDate}`);
+
+                  return (
+                    <TripCard
+                      key={index}
+                      {...trip}
+                      startDate={formattedStartDate}
+                      endDate={formattedEndDate}
+                    />
+                  );
+                })}
             </Flex>
           </Box>
           {/* Text Section */}
@@ -273,26 +260,25 @@ const Home = ({ isLoggedIn }) => {
           </Flex>
 
           {/* Reviews Section */}
-    
+
           <Box bg="gray.100" py={8}>
-        <Heading as="h2" size="lg" textAlign="center" mb={6}>
-          What travelers can't stop talking about
-        </Heading>
-        <Flex
-          overflowX="auto"
-          css={{
-            "&::-webkit-scrollbar": {
-              display: "none"
-            },
-            scrollSnapType: "x mandatory"
-          }}
-        >
-          {reviewsData.map((review) => (
-            <ReviewCard key={review.id} {...review} />
-          ))}
-        </Flex>
-      </Box>
-    
+            <Heading as="h2" size="lg" textAlign="center" mb={6}>
+              What travelers can't stop talking about
+            </Heading>
+            <Flex
+              overflowX="auto"
+              css={{
+                "&::-webkit-scrollbar": {
+                  display: "none",
+                },
+                scrollSnapType: "x mandatory",
+              }}
+            >
+              {reviewsData.map((review) => (
+                <ReviewCard key={review.id} {...review} />
+              ))}
+            </Flex>
+          </Box>
         </>
       )}
 
@@ -301,78 +287,70 @@ const Home = ({ isLoggedIn }) => {
   );
 };
 
-const TripCard = ({
-  coverPage,
-  title,
-  userLogo,
-  startDate,
-  endDate,
-  numberOfPlaces,
-}) => {
+const TripCard = ({ coverPage, title, id, places, startDate, endDate }) => {
   return (
-    <Box
-      maxW="sm"
-      borderWidth="1px"
-      borderRadius="lg"
-      overflow="hidden"
-      flex="0 0 auto"
-      mr={4}
-      boxShadow="md"
-    >
-      <Image src={coverPage} alt={title} />
-      <Box p="4">
-        <Flex align="center" mb={2}>
-          <Image
-            src={userLogo}
-            alt="User Logo"
-            boxSize="30px"
-            borderRadius="full"
-            mr={2}
-          />
-          <Text fontSize="sm">Created by John Doe</Text>
-        </Flex>
-        <Heading as="h3" size="md" mb={2}>
-          {title}
-        </Heading>
-        <Text fontSize="sm" color="gray.500" mb={2}>
-          {startDate} - {endDate}
-        </Text>
-        <Text fontSize="sm" color="gray.500" mb={2}>
-          {numberOfPlaces} Places
-        </Text>
+    <Link to={`/tripPlaces/${id}`}>
+      <Box
+        maxW="sm"
+        borderWidth="1px"
+        borderRadius="lg"
+        overflow="hidden"
+        flex="0 0 auto"
+        mr={4}
+        boxShadow="md"
+      >
+        <Image src={coverPage} alt={title} />
+        <Box p="4">
+          <Flex align="center" mb={2}>
+            <Image
+              src="https://images.unsplash.com/photo-1618083840944-31cc42fcf250?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9raGFyYXxlbnwwfHwwfHx8MA%3D%3D"
+              alt="User Logo"
+              boxSize="30px"
+              borderRadius="10%"
+              mr={2}
+            />
+            <Text fontSize="sm">{places}</Text>
+          </Flex>
+          <Heading as="h3" size="md" mb={2}>
+            {title}
+          </Heading>
+          <Text fontSize="sm" color="gray.500" mb={2}>
+            {startDate} - {endDate}
+          </Text>
+        </Box>
       </Box>
-    </Box>
+    </Link>
   );
 };
 
 const ReviewCard = ({ userImage, userName, stars, review }) => {
   return (
     <Box
-    bg="white"
-    p={4}
-    mx={2}
-    borderRadius="lg"
-    boxShadow="md"
-    maxW="320px"
-    flex="0 0 auto"
-  >
-    <Flex align="center" mb={2}>
-      <Image
-        src={userImage}
-        alt="User"
-        boxSize="40px"
-        borderRadius="full"
-        mr={2}
-      />
-      <Text>{userName}</Text>
-    </Flex>
-    <Flex mb={2}>
-      {Array.from({ length: stars }, (_, index) => (
-        <StarIcon key={index} color="green.400" />
-      ))}
-    </Flex>
-    <Text mb={4}>{review}</Text>
-  </Box>
+      bg="white"
+      p={4}
+      mx={2}
+      borderRadius="lg"
+      boxShadow="md"
+      maxW="320px"
+      flex="0 0 auto"
+    >
+      <Flex align="center" mb={2}>
+        <Image
+          src={userImage}
+          alt="User"
+          boxSize="40px"
+          borderRadius="full"
+          mr={2}
+        />
+        <Text>{userName}</Text>
+      </Flex>
+      <Flex mb={2}>
+        {Array.from({ length: stars }, (_, index) => (
+          <StarIcon key={index} color="green.400" />
+        ))}
+      </Flex>
+      <Text mb={4}>{review}</Text>
+    </Box>
   );
 };
 export default Home;
