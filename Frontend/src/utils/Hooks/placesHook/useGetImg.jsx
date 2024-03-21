@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const useGetImg = (location) => {
+  console.log(location);
   const [ImageUrl, setImageUrl] = useState();
 
   const accessKey = "a-8CNHSyvKrgd6-rEuTZZuC7mvPILLS60Pauq07S9f0"; // replace with your Unsplash Access Key
@@ -12,11 +13,11 @@ const useGetImg = (location) => {
         `https://api.unsplash.com/search/photos?query=${location}&client_id=${accessKey}`
       );
       const data = await response.json();
-      setImageUrl(data?.results.slice(0, 4));
+      setImageUrl(data?.results.slice(0, 1));
     };
 
     fetchImages();
-  }, []);
+  }, [location]);
   return ImageUrl;
 };
 

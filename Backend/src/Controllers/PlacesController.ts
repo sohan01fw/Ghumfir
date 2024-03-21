@@ -167,7 +167,27 @@ export async function getPlaces(req: Request, res: Response) {
     return res.status(500).json({ error: "Internal server error" });
   }
 }
+//get all places at once using userId
+export async function getAllPlaces(req: Request, res: Response) {
+  try {
+    const userID = req.user._id;
 
+    const getAllPlacesRes = await PlacesModel.findOne({
+      user: userID,
+    });
+
+    if (!getAllPlacesRes) {
+      return res.status(404).json({ error: "Data not found" });
+    }
+
+    return res.status(200).json({
+      data: getAllPlacesRes,
+      msg: "successfully getting All Places data",
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
 export async function deletePlaces(req: Request, res: Response) {
   try {
     const { pId, itiId } = req.params;

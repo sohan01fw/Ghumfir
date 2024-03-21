@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./NestedLink.css";
 import { ChevronRightIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Button, ButtonGroup, Box } from "@chakra-ui/react";
+import { Button, ButtonGroup, Box, Image } from "@chakra-ui/react";
 import useGetImg from "../../utils/Hooks/placesHook/useGetImg";
+import { useParams } from "react-router-dom";
 const NestedLink = ({ data }) => {
   const [placelinkDetails, setplacelinkDetails] = useState(null);
   const [description, setDescription] = useState("");
+  const { pId } = useParams();
+
   //place name
   let p_name = placelinkDetails?.name;
+
   //getting place info details..............
 
   useEffect(() => {
@@ -33,7 +37,7 @@ const NestedLink = ({ data }) => {
         }
       }
     );
-  }, [data]);
+  }, []);
 
   //desc getting from wiki of places
 
@@ -56,13 +60,25 @@ const NestedLink = ({ data }) => {
     <Box className="mainlink-container">
       <Box className="link-container">
         <Box className="innerlink-container">
-          <div className="title">
-            <h2 className="t-head">{placelinkDetails?.name}</h2>
-          </div>
+          <Box display="flex" justifyContent="space-between">
+            <Box>
+              <Box className="title">
+                <h2 className="t-head">{placelinkDetails?.name}</h2>
+              </Box>
+              <Box className="description" width="80%">
+                <p>{description}</p>
+              </Box>
+            </Box>
 
-          <Box className="description" border="1px solid black">
-            <p>{description}</p>
+            <Box>
+              <Image
+                src="https://images.unsplash.com/photo-1618083840944-31cc42fcf250?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cG9raGFyYXxlbnwwfHwwfHx8MA%3D%3D"
+                alt="img"
+                height="60%"
+              />
+            </Box>
           </Box>
+
           <Button
             className="right-arrow"
             backgroundColor="#4caf50"
