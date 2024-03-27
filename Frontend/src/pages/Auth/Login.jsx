@@ -9,33 +9,53 @@ import {
   Text,
   Flex,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate, redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Ghumfir_Logo from "../../Assets/Ghumfir_Logo.png";
 import "./Login.css";
 import { LoginForm } from "../../lib/Actions/ServerPostActions/LoginForm";
-import Cookies from "js-cookie";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const bgColor = useColorModeValue("gray.100", "gray.800");
+  const [checkLogin, setcheckLogin] = useState(false);
+  const toast = useToast();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setcheckLogin(true);
     // Your login logic here
     const loginValue = {
       email,
       password,
     };
     const resLoginData = await LoginForm(loginValue);
-    if (resLoginData) {
-      localStorage.setItem("user", JSON.stringify(resLoginData));
-      navigate("/");
+    let xLoginErr = resLoginData?.errData?.msg;
+    if (resLoginData.errStatus === 400) {
+      disableLoading();
+      toast({
+        title: "An error occurred.",
+        description: xLoginErr,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+        containerStyle: {
+          backgroundColor: "red",
+        },
+      });
+    } else {
+      if (resLoginData.data) {
+        localStorage.setItem("user", JSON.stringify(resLoginData));
+        navigate("/");
+      }
     }
   };
-
+  const disableLoading = () => {
+    setcheckLogin(false);
+  };
   return (
     <div className="login">
       <Link to="/">
@@ -84,7 +104,14 @@ const Login = () => {
             />
           </FormControl>
 
-          <Button type="submit" colorScheme="green" mt="16px" width="100%">
+          <Button
+            type="submit"
+            colorScheme="green"
+            mt="16px"
+            width="100%"
+            isLoading={checkLogin}
+            loadingText="Logging"
+          >
             Login
           </Button>
           <div>
