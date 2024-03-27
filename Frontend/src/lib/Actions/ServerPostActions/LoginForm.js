@@ -12,6 +12,15 @@ export const LoginForm = async (data) => {
     };
     return returnLoginValue;
   } catch (error) {
-    console.log(error);
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+
+      const errorRes = {
+        errData: error.response.data,
+        errStatus: error.response.status,
+      };
+      return errorRes;
+    }
   }
 };
