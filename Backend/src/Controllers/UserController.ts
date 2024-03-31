@@ -170,3 +170,16 @@ export async function newAccessToken(req: Request, res: Response) {
       .json({ msg: "error while processing new accesstoken generator" });
   }
 }
+export async function getUser(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    return res.status(200).json({
+      msg: "successfully fetching user",
+      data: user,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ msg: "error while processing new accesstoken generator" });
+  }
+}
