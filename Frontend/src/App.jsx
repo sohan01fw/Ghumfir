@@ -13,6 +13,7 @@ import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
 import { useAppState } from "./utils/Hooks/useAppState";
 import AiRecommend from "./pages/AiRecommend/AiRecommend";
+import UserAccount from "./pages/UserAccount/UserAccount";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" exact element={<Home />} />
           <Route path="/trips" exact element={<Trips />} />
           <Route path="/about" exact element={<About />} />
+          <Route path="/userinfo" exact element={<UserAccount />} />
           <Route path="/airecommend" exact element={<AiRecommend />} />
           <Route path="/tripPlaces/:pId" exact element={<TripPlaces />} />
           <Route
