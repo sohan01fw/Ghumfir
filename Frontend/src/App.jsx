@@ -14,6 +14,7 @@ import SignUp from "./pages/Auth/SignUp";
 import { useAppState } from "./utils/Hooks/useAppState";
 import AiRecommend from "./pages/AiRecommend/AiRecommend";
 import UserAccount from "./pages/UserAccount/UserAccount";
+import HybridAi from "./pages/AiRecommend/hybridAi";
 
 function App() {
   const location = useLocation();

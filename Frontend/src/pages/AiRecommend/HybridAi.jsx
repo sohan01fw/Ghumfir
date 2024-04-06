@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Airecomend } from "../../lib/Actions/ServerPostActions/Airecomend";
+import { Airecommends } from "../../lib/Actions/ServerPostActions/Airecomend";
 import {
   Box,
   Input,
@@ -16,8 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import MainNavigation from "../../Components/Navigation/MainNavigation";
-import HybridAi from "./hybridAi";
-const AiRecommend = () => {
+const HybridAi = () => {
   const [getAiData, setgetAiData] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [cost, setCost] = useState("");
@@ -34,7 +33,7 @@ const AiRecommend = () => {
       Days: days,
       Difficulty: difficulty,
     };
-    const x = await Airecomend(data);
+    const x = await Airecommends(data);
     setgetAiData(x);
     onClose();
   };
@@ -42,7 +41,6 @@ const AiRecommend = () => {
 
   return (
     <div>
-      <MainNavigation />
       {getAiData ? (
         getAiData.map((data, index) => (
           <Box
@@ -69,10 +67,7 @@ const AiRecommend = () => {
         ))
       ) : (
         <Box fontSize="30px" fontWeight={600} margin={5}>
-          <h1>
-            To generate places using content based ai click on Generate ai
-            Button
-          </h1>
+          <h1>To generate places using hybrid ai</h1>
           {/* model got open  on click it */}
           <Box>
             <>
@@ -132,11 +127,8 @@ const AiRecommend = () => {
           </Box>
         </Box>
       )}
-      <div className="hybrid ai">
-        <HybridAi />
-      </div>
     </div>
   );
 };
 
-export default AiRecommend;
+export default HybridAi;

@@ -9,7 +9,7 @@ import {
   IconButton,
   Center,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
 import MainNavigation from "../../Components/Navigation/MainNavigation";
 import Footer from "../../Components/Footer/Footer";
@@ -23,6 +23,8 @@ import user4Image from "../../assets/traveling-image.jpg";
 import { getAllPlaces } from "../../lib/Actions/ServerGetActions/getAllPlaces";
 import About from "../About/About";
 import AboutComponent from "../About/AboutComponent";
+import useToken from "../../lib/useToken";
+import { useAppState } from "../../utils/Hooks/useAppState";
 const tripsData = [
   {
     id: 1,
@@ -123,6 +125,10 @@ const reviewsData = [
 const Home = () => {
   const [resPlacesData, setresPlacesData] = useState(null);
   const [placeId, setPlaceId] = useState(null);
+  const { state, dispatch } = useAppState();
+  const { itiInfo, placeValues, user, pvalue } = state;
+  const navigate = useNavigate();
+  useToken();
 
   useEffect(() => {
     const getPlaces = async () => {
@@ -212,44 +218,41 @@ const Home = () => {
               .toString()
               .padStart(2, "0")}-${days.toString().padStart(2, "0")}`;
 
-            console.log(`Formatted start date: ${formattedStartDate}`);
-            console.log(`Formatted end date: ${formattedEndDate}`);
-
             return (
               <>
-              <Box p="2rem" my="2rem" >
-                <Flex
-                  justify="space-between"
-                  align="center"
-                  mb={4}
-                  marginX="4rem"
-                >
-                  <Heading as="h2" size="lg">
-                    Recently Viewed & Upcoming Trips
-                  </Heading>
-                  <Link to="/trips">
-                    <Button colorScheme="green">Plan New Trip</Button>
-                  </Link>
-                </Flex>
-                <Flex
-                  className="recent-upcoming-trips"
-                  overflowX="auto"
-                  whiteSpace="nowrap"
-                  css={{ scrollbarWidth: "none" }} // Hide scrollbar for Firefox
-                  sx={{
-                    "&::-webkit-scrollbar": {
-                      display: "none", // Hide scrollbar for WebKit browsers
-                    },
-                  }}
-                  marginX="6rem"
-                >
-                <TripCard
-                  key={index}
-                  {...trip}
-                  startDate={formattedStartDate}
-                  endDate={formattedEndDate}
-                />
-                </Flex>
+                <Box p="2rem" my="2rem">
+                  <Flex
+                    justify="space-between"
+                    align="center"
+                    mb={4}
+                    marginX="4rem"
+                  >
+                    <Heading as="h2" size="lg">
+                      Recently Viewed & Upcoming Trips
+                    </Heading>
+                    <Link to="/trips">
+                      <Button colorScheme="green">Plan New Trip</Button>
+                    </Link>
+                  </Flex>
+                  <Flex
+                    className="recent-upcoming-trips"
+                    overflowX="auto"
+                    whiteSpace="nowrap"
+                    css={{ scrollbarWidth: "none" }} // Hide scrollbar for Firefox
+                    sx={{
+                      "&::-webkit-scrollbar": {
+                        display: "none", // Hide scrollbar for WebKit browsers
+                      },
+                    }}
+                    marginX="6rem"
+                  >
+                    <TripCard
+                      key={index}
+                      {...trip}
+                      startDate={formattedStartDate}
+                      endDate={formattedEndDate}
+                    />
+                  </Flex>
                 </Box>
               </>
             );

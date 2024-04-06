@@ -44,6 +44,10 @@ const SignUp = () => {
     // Validate email
     if (!email.trim()) {
       setEmailError("Email is required");
+    } else if (!/[a-zA-Z]/.test(email)) {
+      setEmailError("Email must contain letters");
+    } else if (!/\d/.test(email)) {
+      setEmailError("Email must contain numbers");
     }
 
     // Validate password
