@@ -46,9 +46,9 @@ app.use("/api/places", placesRoute);
 app.use("/api/place-details", placeDetailsRoute);
 app.use("/api/budget", BudgetRouter);
 
-app.get("/", myMiddleware, (req: Request, res: Response) => {
-  res.send("hello world");
-});
+app.get("/", (req: Request, res: Response) => {
+  res.send("Hello World!");
+})
 
 //port listening at..
 app.listen(port, () => {
